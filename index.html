@@ -1,0 +1,4481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Match Day Buddy - Mental Game Prep for Athletes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        /* THEME VARIABLES */
+        :root {
+            --color-0-bg: linear-gradient(135deg, #FFF6E5 0%, #FFF0F5 100%);
+            --color-0-accent: #FF69B4;
+            --color-0-light: #FFB6D9;
+            --color-1-bg: linear-gradient(135deg, #E3F2FD 0%, #E8EAF6 100%);
+            --color-1-accent: #42A5F5;
+            --color-1-light: #64B5F6;
+            --color-2-bg: linear-gradient(135deg, #0f172a 0%, #1a1a2e 100%);
+            --color-2-accent: #00FF88;
+            --color-2-light: #00FFCC;
+            --text-dark: #333;
+            --text-light: #f5f5f5;
+        }
+
+        /* ANIMATIONS */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @keyframes heartPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 105, 180, 0.5), 0 0 40px rgba(255, 105, 180, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(255, 105, 180, 0.8), 0 0 60px rgba(255, 105, 180, 0.5); }
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes confetti {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(400px) rotate(720deg); opacity: 0; }
+        }
+
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-3deg); }
+            75% { transform: rotate(3deg); }
+        }
+
+        @keyframes expand {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes particles {
+            0% { opacity: 1; transform: translate(0, 0) scale(1); }
+            100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0); }
+        }
+
+        /* SCREEN SYSTEM */
+        .screen {
+            display: none;
+            min-height: 100vh;
+            width: 100%;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        /* MODAL SYSTEM */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            max-width: 90%;
+            animation: slideUp 0.4s ease-out;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .theme-2 .modal-content {
+            background: #1e2a47;
+            color: #f5f5f5;
+        }
+
+        /* HOMEPAGE */
+        .home-title {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #FF69B4, #FFB6D9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .theme-1 .home-title {
+            background: linear-gradient(135deg, #42A5F5, #64B5F6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .theme-2 .home-title {
+            background: linear-gradient(135deg, #00FF88, #00FFCC);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .home-subtitle {
+            font-size: 16px;
+            margin-bottom: 50px;
+            opacity: 0.7;
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            width: 100%;
+            max-width: 350px;
+        }
+
+        @media (min-width: 600px) {
+            .button-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .btn {
+            padding: 16px 24px;
+            border-radius: 14px;
+            border: none;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            touch-action: manipulation;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary-0 {
+            background: linear-gradient(135deg, #FF69B4 0%, #FFB6D9 100%);
+            color: white;
+        }
+
+        .btn-primary-0:hover {
+            background: linear-gradient(135deg, #FF1493 0%, #FF69B4 100%);
+        }
+
+        .btn-primary-1 {
+            background: linear-gradient(135deg, #42A5F5 0%, #64B5F6 100%);
+            color: white;
+        }
+
+        .btn-primary-1:hover {
+            background: linear-gradient(135deg, #2196F3 0%, #42A5F5 100%);
+        }
+
+        .btn-primary-2 {
+            background: linear-gradient(135deg, #00FF88 0%, #00FFCC 100%);
+            color: #0f172a;
+            font-weight: 800;
+        }
+
+        .btn-primary-2:hover {
+            background: linear-gradient(135deg, #00DD77 0%, #00DDBB 100%);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--text-dark);
+            border: 2px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            border-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-small {
+            padding: 10px 20px;
+            font-size: 14px;
+            min-height: 40px;
+        }
+
+        /* FORMS */
+        .form-group {
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            font-size: 15px;
+            font-family: 'Nunito', sans-serif;
+            transition: all 0.3s;
+            background: white;
+            color: var(--text-dark);
+        }
+
+        .theme-2 .form-input, .theme-2 .form-textarea, .theme-2 .form-select {
+            background: #1e2a47;
+            color: #f5f5f5;
+            border-color: rgba(0, 255, 136, 0.3);
+        }
+
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--color-0-accent);
+            box-shadow: 0 0 0 3px rgba(255, 105, 180, 0.1);
+        }
+
+        .theme-2 .form-input:focus, .theme-2 .form-textarea:focus, .theme-2 .form-select:focus {
+            border-color: var(--color-2-accent);
+            box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .char-count {
+            font-size: 12px;
+            opacity: 0.6;
+            margin-top: 5px;
+        }
+
+        /* CARDS */
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .theme-2 .card {
+            background: #1e2a47;
+            color: #f5f5f5;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .card-subtitle {
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        /* CONTAINER */
+        .container {
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .container-sm {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        /* BREATHING GAME */
+        /* BREATHING FLOWER */
+        .breathing-flower-container {
+            width: 260px;
+            height: 260px;
+            position: relative;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .flower-petal {
+            position: absolute;
+            width: 50px;
+            height: 90px;
+            border-radius: 50%;
+            opacity: 0.7;
+            transform-origin: 50% 100%;
+            left: 50%;
+            top: 50%;
+            margin-left: -25px;
+            margin-top: -90px;
+            transition: transform 1.5s ease-in-out, opacity 0.5s;
+        }
+
+        .flower-center {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #FFD700 30%, #FFA500 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 700;
+            color: #8B4513;
+            z-index: 2;
+            position: relative;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+            transition: transform 1.5s ease-in-out;
+        }
+
+        .flower-inhale .flower-petal {
+            transform: rotate(var(--petal-rotation)) scaleY(1.2) scaleX(1.1);
+            opacity: 0.9;
+        }
+
+        .flower-inhale .flower-center {
+            transform: scale(1.2);
+        }
+
+        .flower-exhale .flower-petal {
+            transform: rotate(var(--petal-rotation)) scaleY(0.7) scaleX(0.8);
+            opacity: 0.45;
+        }
+
+        .flower-exhale .flower-center {
+            transform: scale(0.85);
+        }
+
+        .flower-hold .flower-petal {
+            transform: rotate(var(--petal-rotation)) scaleY(1.2) scaleX(1.1);
+            opacity: 0.8;
+        }
+
+        .flower-hold .flower-center {
+            transform: scale(1.2);
+        }
+
+        .theme-2 .flower-center {
+            color: #0f172a;
+        }
+
+        .breathing-phase {
+            font-size: 15px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .breathing-bg {
+            position: absolute;
+            width: 100%;
+            height: 300px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 50%, #fbcfe8 100%);
+            z-index: -1;
+            transition: background 3s ease;
+            overflow: hidden;
+        }
+
+        .theme-1 .breathing-bg {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 50%, #93c5fd 100%);
+        }
+
+        .theme-2 .breathing-bg {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+        }
+
+        .mode-selector {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        @media (min-width: 500px) {
+            .mode-selector {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .mode-card {
+            padding: 16px;
+            border-radius: 12px;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .mode-card.selected {
+            border-color: var(--color-0-accent);
+            background: rgba(255, 105, 180, 0.1);
+            font-weight: 600;
+        }
+
+        .theme-2 .mode-card {
+            background: #1e2a47;
+            border-color: rgba(0, 255, 136, 0.3);
+        }
+
+        .theme-2 .mode-card.selected {
+            background: rgba(0, 255, 136, 0.15);
+            border-color: var(--color-2-accent);
+        }
+
+        /* DURATION PILLS */
+        .duration-pills {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .pill {
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .pill.active {
+            background: var(--color-0-accent);
+            color: white;
+            border-color: var(--color-0-accent);
+        }
+
+        .theme-1 .pill.active {
+            background: var(--color-1-accent);
+            border-color: var(--color-1-accent);
+        }
+
+        .theme-2 .pill {
+            background: #1e2a47;
+            border-color: rgba(0, 255, 136, 0.3);
+            color: #f5f5f5;
+        }
+
+        .theme-2 .pill.active {
+            background: var(--color-2-accent);
+            color: #0f172a;
+            border-color: var(--color-2-accent);
+        }
+
+        /* PROGRESS BAR */
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FF69B4, #FFB6D9);
+            transition: width 0.3s ease;
+            border-radius: 3px;
+        }
+
+        .theme-1 .progress-fill {
+            background: linear-gradient(90deg, #42A5F5, #64B5F6);
+        }
+
+        .theme-2 .progress-fill {
+            background: linear-gradient(90deg, #00FF88, #00FFCC);
+        }
+
+        /* CLOUDS GAME */
+        .clouds-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(180deg, #87CEEB 0%, #b3e0f7 60%, #E0F6FF 100%);
+            border-radius: 16px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .sun-zone {
+            width: 90px;
+            height: 90px;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #FFD54F;
+            border-radius: 50%;
+            border: 3px dashed #FFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFF;
+            font-weight: 700;
+            font-size: 11px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            z-index: 5;
+            box-shadow: 0 0 30px rgba(255, 213, 79, 0.5), 0 0 60px rgba(255, 213, 79, 0.2);
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        .cloud-item {
+            position: absolute;
+            cursor: grab;
+            z-index: 10;
+            user-select: none;
+            transition: opacity 0.6s, transform 0.6s;
+        }
+
+        .cloud-item:active {
+            cursor: grabbing;
+        }
+
+        .cloud-shape {
+            background: #fff;
+            border-radius: 100px;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid rgba(255,255,255,0.8);
+            padding: 12px 22px;
+            color: #78716c;
+            font-weight: 700;
+            font-size: 13px;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cloud-shape:before, .cloud-shape:after {
+            content: '';
+            position: absolute;
+            background: #fff;
+            z-index: -1;
+            border-radius: 100px;
+        }
+
+        .cloud-shape:before {
+            width: 44px;
+            height: 44px;
+            top: -22px;
+            left: 16px;
+        }
+
+        .cloud-shape:after {
+            width: 34px;
+            height: 34px;
+            top: -16px;
+            right: 16px;
+        }
+
+        .cloud-item.fading {
+            opacity: 0.4;
+            transform: scale(0.9);
+        }
+
+        .cloud-reframe {
+            position: absolute;
+            width: 100%;
+            padding: 0 30px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 15px;
+            color: #D97706;
+            pointer-events: none;
+            z-index: 0;
+            bottom: 25%;
+            left: 0;
+            min-height: 40px;
+            transition: opacity 0.3s;
+        }
+
+        /* reframe handled inline */
+
+        /* STAR GAME */
+        .star-container {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            background: radial-gradient(ellipse at center, #1a1a2e 0%, #0f0f1e 100%);
+            border-radius: 16px;
+            overflow: visible;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .star-field {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .starfield-dot {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: float 10s infinite ease-in-out;
+        }
+
+        .big-star {
+            font-size: 120px;
+            cursor: pointer;
+            animation: heartPulse 2s ease-in-out infinite;
+            user-select: none;
+            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8));
+            transition: filter 0.3s;
+        }
+
+        .big-star:hover {
+            filter: drop-shadow(0 0 40px rgba(255, 215, 0, 1));
+        }
+
+        .big-star.spinning {
+            animation: spin 0.6s ease-out;
+        }
+
+        .quote-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            max-width: 350px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            animation: slideUp 0.5s ease-out;
+            transform: rotateY(0deg);
+        }
+
+        .theme-2 .quote-card {
+            background: #1e2a47;
+            color: #f5f5f5;
+        }
+
+        .quote-text {
+            font-size: 18px;
+            font-style: italic;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .quote-from {
+            font-size: 14px;
+            opacity: 0.7;
+            font-weight: 600;
+        }
+
+        /* STAR CATCHER - CANVAS GAME */
+        #starCatcherCanvas {
+            border-radius: 16px;
+            display: block;
+            margin: 20px auto;
+            background: linear-gradient(180deg, #1a1a2e 0%, #0f0f1e 100%);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .game-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+        }
+
+        .theme-2 .game-stats {
+            background: #1e2a47;
+            color: #f5f5f5;
+        }
+
+        .stat-item {
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        /* HEART GAME */
+        .heart-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .heart-button {
+            font-size: 120px;
+            cursor: pointer;
+            animation: heartPulse 1.5s ease-in-out infinite;
+            user-select: none;
+            filter: drop-shadow(0 0 15px rgba(255, 105, 180, 0.4));
+            transition: all 0.3s;
+        }
+
+        .heart-button:active {
+            animation: none;
+        }
+
+        .charge-bar {
+            width: 100%;
+            max-width: 250px;
+            height: 20px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .charge-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #42A5F5, #FF69B4);
+            width: 0%;
+            transition: width 0.1s linear;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 105, 180, 0.6);
+        }
+
+        .charge-text {
+            font-size: 14px;
+            font-weight: 700;
+            text-align: center;
+            min-height: 20px;
+        }
+
+        /* RUNNER GAME */
+        #runnerCanvas {
+            border-radius: 16px;
+            display: block;
+            margin: 20px auto;
+            background: linear-gradient(180deg, #87CEEB 0%, #E0F6FF 100%);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 500px;
+            height: 300px;
+        }
+
+        .run-score {
+            font-size: 24px;
+            font-weight: 800;
+            margin: 15px 0;
+        }
+
+        /* RHYTHM TAP GAME */
+        .rhythm-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .rhythm-circles {
+            display: grid;
+            grid-template-columns: repeat(4, 60px);
+            gap: 12px;
+            margin: 15px 0;
+            position: relative;
+        }
+
+        @media (max-width: 450px) {
+            .rhythm-circles {
+                grid-template-columns: repeat(4, 55px);
+                gap: 10px;
+            }
+        }
+
+        .rhythm-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.8);
+            border: 3px solid #ccc;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        @media (max-width: 450px) {
+            .rhythm-circle {
+                width: 55px;
+                height: 55px;
+            }
+        }
+
+        .rhythm-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 3px solid #FF69B4;
+            pointer-events: none;
+            animation: rhythmShrink 1.2s linear forwards;
+        }
+
+        @keyframes rhythmShrink {
+            0% { width: 120px; height: 120px; opacity: 1; }
+            80% { opacity: 1; }
+            100% { width: 30px; height: 30px; opacity: 0.3; }
+        }
+
+        .theme-2 .rhythm-circle {
+            background: #1e2a47;
+            border-color: rgba(0, 255, 136, 0.3);
+        }
+
+        .rhythm-circle.perfect {
+            background: #4CAF50;
+            border-color: #45a049;
+        }
+
+        .rhythm-circle.good {
+            background: #FFD700;
+            border-color: #FFC700;
+        }
+
+        .rhythm-circle.miss {
+            background: #ff6b6b;
+            border-color: #ff5252;
+        }
+
+        .combo-display {
+            font-size: 36px;
+            font-weight: 800;
+            text-align: center;
+            min-height: 45px;
+            animation: bounce 0.5s ease;
+        }
+
+        .rhythm-message {
+            font-size: 14px;
+            opacity: 0.7;
+            text-align: center;
+        }
+
+        /* BALLOON GAME */
+        .balloon-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            margin: 20px 0;
+            position: relative;
+            height: 350px;
+        }
+
+        .balloon {
+            font-size: 100px;
+            cursor: pointer;
+            user-select: none;
+            filter: drop-shadow(0 0 15px rgba(255, 105, 180, 0.4));
+            transition: all 0.1s;
+        }
+
+        .balloon.growing {
+            animation: wiggle 0.2s ease;
+        }
+
+        .pressure-gauge {
+            width: 250px;
+            position: relative;
+        }
+
+        .gauge-label {
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .gauge-bar {
+            width: 100%;
+            height: 30px;
+            background: linear-gradient(90deg, #4CAF50, #FFD700, #FF6B6B);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .gauge-fill {
+            height: 100%;
+            width: 0%;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            transition: width 0.1s linear;
+        }
+
+        .target-zone {
+            position: absolute;
+            height: 100%;
+            left: 80%;
+            right: 0;
+            background: rgba(76, 175, 80, 0.3);
+            border-radius: 15px;
+            border: 2px dashed #4CAF50;
+        }
+
+        /* GAME HUB */
+        .game-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        @media (min-width: 500px) {
+            .game-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .game-card {
+            background: white;
+            border-radius: 14px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .game-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .game-card:active {
+            transform: scale(0.98);
+        }
+
+        .theme-2 .game-card {
+            background: #1e2a47;
+            color: #f5f5f5;
+        }
+
+        .preview-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #FF69B4, #FFD700);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 16px;
+            font-size: 13px;
+            font-weight: 700;
+            z-index: 9999;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        .preview-banner button {
+            background: rgba(255,255,255,0.3);
+            border: none;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        .preview-btn {
+            background: none;
+            border: 1px solid rgba(0,0,0,0.15);
+            border-radius: 20px;
+            font-size: 11px;
+            padding: 4px 10px;
+            cursor: pointer;
+            opacity: 0.6;
+            margin-top: 6px;
+            transition: opacity 0.2s;
+        }
+        .preview-btn:hover { opacity: 1; }
+        .theme-2 .preview-btn { border-color: rgba(255,255,255,0.3); color: #ccc; }
+
+        .game-emoji {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .game-name {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .game-desc {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        /* THEME SELECTOR */
+        .theme-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        @media (max-width: 450px) {
+            .theme-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .theme-preview {
+            padding: 20px;
+            border-radius: 12px;
+            border: 3px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .theme-preview.selected {
+            border-color: #333;
+            transform: scale(1.05);
+        }
+
+        .theme-preview-0 {
+            background: linear-gradient(135deg, #FFF6E5 0%, #FFF0F5 100%);
+            color: #333;
+        }
+
+        .theme-preview-1 {
+            background: linear-gradient(135deg, #E3F2FD 0%, #E8EAF6 100%);
+            color: #333;
+        }
+
+        .theme-preview-2 {
+            background: linear-gradient(135deg, #0f172a 0%, #1a1a2e 100%);
+            color: #00FF88;
+        }
+
+        /* GIFT BOX */
+        .gift-box {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FFD93D 100%);
+            border-radius: 16px;
+            position: relative;
+            margin: 30px auto;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        .gift-box:active {
+            animation: none;
+        }
+
+        .gift-ribbon {
+            position: absolute;
+            width: 100%;
+            height: 20px;
+            background: #FF1493;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .gift-ribbon::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: #FF1493;
+            border-radius: 50%;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 40px 0 0 #FF1493;
+        }
+
+        .gift-bow {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 40px;
+            z-index: 2;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+
+        .gift-box-opening {
+            animation: giftOpen 0.8s ease-out forwards;
+        }
+
+        @keyframes giftOpen {
+            0% { transform: scale(1) rotate(0deg); }
+            30% { transform: scale(1.1) rotate(-5deg); }
+            60% { transform: scale(1.2) rotate(5deg); }
+            100% { transform: scale(0) rotate(15deg); opacity: 0; }
+        }
+
+        /* UTILITY */
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-20 {
+            margin-top: 20px;
+        }
+
+        .mb-20 {
+            margin-bottom: 20px;
+        }
+
+        .gap-20 {
+            gap: 20px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 20px 0 15px 0;
+        }
+
+        .section-subtitle {
+            font-size: 14px;
+            opacity: 0.7;
+            margin-bottom: 15px;
+        }
+
+        /* THEME APPLICATION */
+        .theme-0 {
+            background: var(--color-0-bg);
+            color: var(--text-dark);
+        }
+
+        .theme-1 {
+            background: var(--color-1-bg);
+            color: var(--text-dark);
+        }
+
+        .theme-2 {
+            background: var(--color-2-bg);
+            color: var(--text-light);
+        }
+
+        .theme-2 .section-title,
+        .theme-2 .section-subtitle,
+        .theme-2 .form-label,
+        .theme-2 .char-count,
+        .theme-2 .run-score,
+        .theme-2 .combo-display,
+        .theme-2 .rhythm-message,
+        .theme-2 .charge-text,
+        .theme-2 .gauge-label,
+        .theme-2 p {
+            color: var(--text-light);
+        }
+
+        .theme-2 .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* SHARE LINK */
+        .share-box {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 15px 0;
+            display: flex;
+            gap: 10px;
+            align-items: stretch;
+        }
+
+        .theme-2 .share-box {
+            background: #1e2a47;
+        }
+
+        .share-input {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            font-size: 13px;
+            word-break: break-all;
+            background: white;
+            color: #333;
+            font-family: monospace;
+        }
+
+        .theme-2 .share-input {
+            background: #0f172a;
+            color: #f5f5f5;
+            border-color: rgba(0, 255, 136, 0.3);
+        }
+
+        .share-button {
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 13px;
+            white-space: nowrap;
+            transition: all 0.3s;
+        }
+
+        .share-button.copy {
+            background: var(--color-0-accent);
+            color: white;
+        }
+
+        .theme-1 .share-button.copy {
+            background: var(--color-1-accent);
+        }
+
+        .theme-2 .share-button.copy {
+            background: var(--color-2-accent);
+            color: #0f172a;
+        }
+
+        /* SPORT SELECTOR */
+        .sport-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 15px 0;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        @media (min-width: 500px) {
+            .sport-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .sport-button {
+            padding: 12px;
+            border-radius: 12px;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sport-button.selected {
+            border-color: var(--color-0-accent);
+            background: rgba(255, 105, 180, 0.1);
+        }
+
+        .theme-1 .sport-button.selected {
+            border-color: var(--color-1-accent);
+            background: rgba(66, 165, 245, 0.1);
+        }
+
+        .theme-2 .sport-button {
+            background: #1e2a47;
+            border-color: rgba(0, 255, 136, 0.3);
+        }
+
+        .theme-2 .sport-button.selected {
+            border-color: var(--color-2-accent);
+            background: rgba(0, 255, 136, 0.15);
+        }
+
+        .sport-label {
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 600px) {
+            .home-title {
+                font-size: 36px;
+            }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+    <button id="soundToggle" onclick="toggleSound()" style="position:fixed;top:12px;right:12px;z-index:9999;background:rgba(255,255,255,0.2);border:none;border-radius:50%;width:40px;height:40px;font-size:20px;cursor:pointer;backdrop-filter:blur(10px);">🔊</button>
+    <!-- HOME SCREEN -->
+    <div id="homeScreen" class="screen active theme-0">
+        <div class="container-sm text-center" style="display: flex; flex-direction: column; min-height: 100vh; justify-content: space-between; padding: 40px 20px 30px;">
+            <div>
+                <div class="home-title">Match Day Buddy</div>
+                <div class="home-subtitle">Create a personalized game-day gift for your athlete</div>
+                <div class="button-grid">
+                    <button class="btn btn-primary-0" onclick="createGift('quick')">
+                        ⚡ Quick Gift (3 steps)
+                    </button>
+                    <button class="btn btn-primary-0" onclick="createGift('detailed')">
+                        🎨 Custom Gift (choose everything)
+                    </button>
+                    <button class="btn btn-secondary" onclick="goToScreen('quizCreateScreen')" style="grid-column: 1 / -1;">
+                        🏆 I'm the Athlete — Quiz My Friends
+                    </button>
+                </div>
+            </div>
+            <div style="margin-top: 40px;">
+                <!-- Tian's Edition Gift Box -->
+                <div onclick="showOriginStory()" style="cursor: pointer; display: inline-block; margin-bottom: 20px; transition: transform 0.2s;" onmouseenter="this.style.transform='scale(1.08)'" onmouseleave="this.style.transform='scale(1)'" ontouchstart="this.style.transform='scale(1.08)'" ontouchend="this.style.transform='scale(1)'">
+                    <div style="position: relative; width: 50px; height: 50px; margin: 0 auto;">
+                        <!-- Box body -->
+                        <div style="position: absolute; bottom: 0; width: 50px; height: 32px; background: linear-gradient(135deg, #FFD700, #FF69B4); border-radius: 4px;"></div>
+                        <!-- Box lid -->
+                        <div style="position: absolute; bottom: 30px; width: 54px; left: -2px; height: 14px; background: linear-gradient(135deg, #FFE44D, #FF85A8); border-radius: 4px 4px 0 0;"></div>
+                        <!-- Vertical ribbon -->
+                        <div style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 8px; height: 44px; background: rgba(255,255,255,0.4); border-radius: 2px;"></div>
+                        <!-- Bow left -->
+                        <div style="position: absolute; bottom: 40px; left: 8px; width: 14px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.5); transform: rotate(-20deg);"></div>
+                        <!-- Bow right -->
+                        <div style="position: absolute; bottom: 40px; right: 8px; width: 14px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.5); transform: rotate(20deg);"></div>
+                    </div>
+                </div>
+                <!-- Thanks List -->
+                <p style="font-size: 12px; opacity: 0.5; margin: 0; line-height: 1.6;">Built with love for the athletes who inspired it all</p>
+                <p style="font-size: 11px; opacity: 0.35; margin: 4px 0 0;">Tian Fangran · Maggie Li · Yingzhi (Jenny) Zhu</p>
+                <!-- Early Access + IG -->
+                <div style="margin-top: 16px; display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 11px; opacity: 0.4;">
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSceWBy8bndeal3pZMnjcySJOfhhHBfD1tZQIrTDJTBz6cLA2g/viewform" target="_blank" style="color: inherit; text-decoration: underline;">App coming soon — get early access</a>
+                    <span>·</span>
+                    <a href="https://instagram.com/matchdaybuddy" target="_blank" style="color: inherit; text-decoration: none;">Follow us on IG</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- QUICK MODE: NAMES -->
+    <div id="quickNamesScreen" class="screen theme-0">
+        <div class="container">
+            <h2 class="section-title text-center">📝 Who are we?</h2>
+            <div class="form-group">
+                <label class="form-label">Your name (sender)</label>
+                <input type="text" id="quickSenderName" class="form-input" placeholder="e.g., Judy" maxlength="20">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Recipient's name</label>
+                <input type="text" id="quickReceiverName" class="form-input" placeholder="e.g., Tian" maxlength="20">
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 30px;">
+                <button class="btn btn-secondary flex-1" onclick="goToScreen('homeScreen')">Back</button>
+                <button class="btn btn-primary-0 flex-1" onclick="quickModeGames()">Next</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- QUICK MODE: GAMES -->
+    <div id="quickGamesScreen" class="screen theme-0">
+        <div class="container">
+            <h2 class="section-title text-center">🎮 Pick 3 Games</h2>
+            <div class="game-grid" id="quickGameSelector">
+                <!-- Populated by JS -->
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 30px;">
+                <button class="btn btn-secondary flex-1" onclick="goToScreen('quickNamesScreen')">Back</button>
+                <button class="btn btn-primary-0 flex-1" onclick="quickModeGenerate()">Generate Link</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DETAILED MODE: WHO & WHAT -->
+    <div id="detailedNamesScreen" class="screen theme-0">
+        <div class="container">
+            <h2 class="section-title text-center">📝 Who & What</h2>
+            <div class="form-group">
+                <label class="form-label">Your name (sender)</label>
+                <input type="text" id="detailedSenderName" class="form-input" placeholder="e.g., Judy" maxlength="20">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Recipient's name</label>
+                <input type="text" id="detailedReceiverName" class="form-input" placeholder="e.g., Tian" maxlength="20">
+            </div>
+            <div class="form-group" style="margin-top: 10px;">
+                <label class="form-label">Their sport</label>
+                <div class="sport-grid" id="sportSelector">
+                    <button class="sport-button" onclick="selectSport(this, 'soccer')" data-sport="soccer">⚽<div class="sport-label">Soccer</div></button>
+                    <button class="sport-button" onclick="selectSport(this, 'basketball')" data-sport="basketball">🏀<div class="sport-label">Basketball</div></button>
+                    <button class="sport-button" onclick="selectSport(this, 'tennis')" data-sport="tennis">🎾<div class="sport-label">Tennis</div></button>
+                    <button class="sport-button" onclick="selectSport(this, 'football')" data-sport="football">🏈<div class="sport-label">Football</div></button>
+                    <button class="sport-button" onclick="selectSport(this, 'volleyball')" data-sport="volleyball">🏐<div class="sport-label">Volleyball</div></button>
+                    <button class="sport-button" onclick="selectSport(this, 'swimming')" data-sport="swimming">🏊<div class="sport-label">Swimming</div></button>
+                    <button class="sport-button" onclick="selectSport(this, 'baseball')" data-sport="baseball">⚾<div class="sport-label">Baseball</div></button>
+                    <button class="sport-button" onclick="selectSport(this, 'softball')" data-sport="softball">🥎<div class="sport-label">Softball</div></button>
+                    <button class="sport-button" onclick="selectSport(this, 'track')" data-sport="track">🏃<div class="sport-label">Track</div></button>
+                    <button class="sport-button" onclick="selectSport(this, 'cross country')" data-sport="cross country">🏔️<div class="sport-label">XC</div></button>
+                    <button class="sport-button" onclick="selectSport(this, 'lacrosse')" data-sport="lacrosse">🥍<div class="sport-label">Lacrosse</div></button>
+                    <button class="sport-button" onclick="selectSport(this, 'wrestling')" data-sport="wrestling">🤼<div class="sport-label">Wrestling</div></button>
+                    <button class="sport-button" onclick="selectSport(this, 'golf')" data-sport="golf">⛳<div class="sport-label">Golf</div></button>
+                    <button class="sport-button" onclick="selectSport(this, 'gymnastics')" data-sport="gymnastics">🤸<div class="sport-label">Gymnastics</div></button>
+                    <button class="sport-button" onclick="selectSport(this, 'rowing')" data-sport="rowing">🚣<div class="sport-label">Rowing</div></button>
+                    <button class="sport-button" onclick="selectSport(this, 'field hockey')" data-sport="field hockey">🏑<div class="sport-label">Field Hockey</div></button>
+                    <button class="sport-button" onclick="selectSport(this, 'ice hockey')" data-sport="ice hockey">🏒<div class="sport-label">Ice Hockey</div></button>
+                    <button class="sport-button" onclick="selectSport(this, 'water polo')" data-sport="water polo">🤽<div class="sport-label">Water Polo</div></button>
+                    <button class="sport-button" onclick="selectSport(this, 'diving')" data-sport="diving">🤿<div class="sport-label">Diving</div></button>
+                    <button class="sport-button" onclick="selectSport(this, 'fencing')" data-sport="fencing">🤺<div class="sport-label">Fencing</div></button>
+                    <button class="sport-button" onclick="selectSport(this, 'skiing')" data-sport="skiing">⛷️<div class="sport-label">Skiing</div></button>
+                    <button class="sport-button" onclick="selectSport(this, 'beach volleyball')" data-sport="beach volleyball">🏖️<div class="sport-label">Beach VB</div></button>
+                    <button class="sport-button" onclick="selectSport(this, 'bowling')" data-sport="bowling">🎳<div class="sport-label">Bowling</div></button>
+                    <button class="sport-button" onclick="selectSport(this, 'badminton')" data-sport="badminton">🏸<div class="sport-label">Badminton</div></button>
+                </div>
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button class="btn btn-secondary flex-1" onclick="goToScreen('homeScreen')">Back</button>
+                <button class="btn btn-primary-0 flex-1" onclick="goToScreen('detailedGamesScreen')">Next</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DETAILED MODE: GAMES -->
+    <div id="detailedGamesScreen" class="screen theme-0">
+        <div class="container">
+            <h2 class="section-title text-center">🎮 Pick 3-5 Games</h2>
+            <div class="game-grid" id="detailedGameSelector">
+                <!-- Populated by JS -->
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 30px;">
+                <button class="btn btn-secondary flex-1" onclick="goToScreen('detailedNamesScreen')">Back</button>
+                <button class="btn btn-primary-0 flex-1" onclick="goToScreen('detailedMessageScreen')">Next</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DETAILED MODE: THEME, MESSAGE & GENERATE -->
+    <div id="detailedMessageScreen" class="screen theme-0">
+        <div class="container">
+            <h2 class="section-title text-center">🎨 Finish & Share</h2>
+            <div class="form-group">
+                <label class="form-label">Pick a theme</label>
+                <div class="theme-grid">
+                    <div class="theme-preview theme-preview-0 selected" onclick="selectTheme(0, this)">
+                        Warm Pink
+                    </div>
+                    <div class="theme-preview theme-preview-1" onclick="selectTheme(1, this)">
+                        Ocean Blue
+                    </div>
+                    <div class="theme-preview theme-preview-2" onclick="selectTheme(2, this)">
+                        Neon Sport
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" style="margin-top: 15px;">
+                <label class="form-label">Personal message (optional)</label>
+                <textarea id="personalMessage" class="form-textarea" placeholder="Write something motivating..." maxlength="200" style="min-height: 80px;"></textarea>
+                <div class="char-count"><span id="charCount">0</span>/200</div>
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button class="btn btn-secondary flex-1" onclick="goToScreen('detailedGamesScreen')">Back</button>
+                <button class="btn btn-primary-0 flex-1" onclick="detailedModeGenerate()">Generate Link 🎁</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- GENERATE LINK SCREEN -->
+    <div id="generateLinkScreen" class="screen theme-0">
+        <div class="container">
+            <h2 class="section-title text-center">🎁 Share Your Gift</h2>
+            <p style="text-align: center; margin: 15px 0; opacity: 0.8;">
+                Your gift link is ready! Copy it and share with your athlete.
+            </p>
+            <div class="share-box">
+                <input type="text" id="giftLink" class="share-input" readonly>
+                <button class="share-button copy" onclick="copyGiftLink()">📋 Copy</button>
+            </div>
+            <button class="btn btn-secondary" style="width: 100%; margin-top: 15px;" onclick="shareGiftLink()">
+                📤 Share
+            </button>
+            <button class="btn btn-secondary" style="width: 100%; margin-top: 10px; margin-bottom: 20px;" onclick="goToScreen('homeScreen')">
+                ← Home
+            </button>
+        </div>
+    </div>
+
+    <!-- Tian's Edition removed - now opens tian.html directly -->
+
+    <!-- RECEIVER: GIFT UNWRAP -->
+    <div id="giftUnwrapScreen" class="screen theme-0">
+        <div class="container-sm text-center">
+            <h2 style="margin-bottom: 30px; font-size: 22px; font-weight: 800;">You have a gift! 🎉</h2>
+            <div class="gift-box" id="giftBox" onclick="unwrapGift()">
+                <div class="gift-ribbon"></div>
+                <div class="gift-bow">🎀</div>
+            </div>
+            <p style="margin-top: 20px; opacity: 0.7; font-size: 14px;">Tap the gift to open it</p>
+        </div>
+    </div>
+
+    <!-- RECEIVER: GIFT REVEAL (new two-step) -->
+    <div id="giftRevealScreen" class="screen theme-0">
+        <div class="container-sm text-center">
+            <div style="font-size: 60px; margin-bottom: 20px; animation: bounce 1.5s ease-in-out infinite;">🎊</div>
+            <h2 style="font-size: 24px; font-weight: 800; margin-bottom: 15px;" id="revealTitle">A gift for you!</h2>
+            <div id="revealMessage" style="background: rgba(255,255,255,0.9); border-radius: 16px; padding: 24px; margin: 20px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.08); font-size: 16px; line-height: 1.7; min-height: 80px; display: flex; align-items: center; justify-content: center;"></div>
+            <button class="btn btn-primary-0" style="width: 100%; margin-top: 20px; font-size: 18px; padding: 18px;" onclick="loadGameHub()">
+                Let's Go! 🚀
+            </button>
+        </div>
+    </div>
+
+    <!-- RECEIVER: GAME HUB -->
+    <div id="gameHubScreen" class="screen theme-0">
+        <div class="container">
+            <h2 class="section-title text-center" id="hubTitle">🎮 Match Day Games</h2>
+            <p class="section-subtitle text-center" id="hubSubtitle"></p>
+            <div id="hubProgress"></div>
+            <div class="game-grid" id="gameHubGrid">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- GAMES: BREATHING STUDIO -->
+    <div id="breathingGameScreen" class="screen theme-0">
+        <div class="container">
+            <h2 class="section-title text-center">🫁 Breathing Studio</h2>
+
+            <div id="breathingModeSelect" style="display: flex; flex-direction: column; gap: 20px;">
+                <p class="section-subtitle text-center">Choose a breathing technique</p>
+                <div class="mode-selector">
+                    <div class="mode-card" onclick="selectBreathingMode(this, '4-4-4-4')">
+                        📦 Box Breathing
+                        <div style="font-size: 12px; margin-top: 5px; opacity: 0.7;">Balanced focus</div>
+                    </div>
+                    <div class="mode-card" onclick="selectBreathingMode(this, '4-7-8')">
+                        😌 4-7-8 Calm
+                        <div style="font-size: 12px; margin-top: 5px; opacity: 0.7;">Deep relaxation</div>
+                    </div>
+                    <div class="mode-card" onclick="selectBreathingMode(this, '2-2')">
+                        ⚡ Quick Focus
+                        <div style="font-size: 12px; margin-top: 5px; opacity: 0.7;">Fast energy</div>
+                    </div>
+                </div>
+
+                <p class="section-subtitle text-center" style="margin-top: 20px;">Choose duration</p>
+                <div class="duration-pills">
+                    <button class="pill active" onclick="selectBreathingDuration(this, 1)">1 min</button>
+                    <button class="pill" onclick="selectBreathingDuration(this, 3)">3 min</button>
+                    <button class="pill" onclick="selectBreathingDuration(this, 5)">5 min</button>
+                </div>
+
+                <button class="btn btn-primary-0" style="width: 100%; margin-top: 20px;" onclick="startBreathingSession()">
+                    Start Breathing
+                </button>
+            </div>
+
+            <div id="breathingSession" style="display: none; position: relative;">
+                <div class="breathing-bg"></div>
+                <div class="breathing-flower-container" id="flowerContainer">
+                    <div class="flower-petal" style="--petal-rotation: 0deg; background: linear-gradient(to top, #FF69B4, #FFB6D9);"></div>
+                    <div class="flower-petal" style="--petal-rotation: 45deg; background: linear-gradient(to top, #FF85C8, #FFC8E0);"></div>
+                    <div class="flower-petal" style="--petal-rotation: 90deg; background: linear-gradient(to top, #FF69B4, #FFB6D9);"></div>
+                    <div class="flower-petal" style="--petal-rotation: 135deg; background: linear-gradient(to top, #FF85C8, #FFC8E0);"></div>
+                    <div class="flower-petal" style="--petal-rotation: 180deg; background: linear-gradient(to top, #FF69B4, #FFB6D9);"></div>
+                    <div class="flower-petal" style="--petal-rotation: 225deg; background: linear-gradient(to top, #FF85C8, #FFC8E0);"></div>
+                    <div class="flower-petal" style="--petal-rotation: 270deg; background: linear-gradient(to top, #FF69B4, #FFB6D9);"></div>
+                    <div class="flower-petal" style="--petal-rotation: 315deg; background: linear-gradient(to top, #FF85C8, #FFC8E0);"></div>
+                    <div class="flower-center" id="breathingPhase">Inhale</div>
+                </div>
+                <div class="progress-bar" style="margin-top: 20px;">
+                    <div class="progress-fill" id="breathingProgress" style="width: 0%;"></div>
+                </div>
+                <p class="section-subtitle text-center" id="breathingQuote" style="margin-top: 15px; font-style: italic;">Stay focused and calm</p>
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-top: 30px;">
+                <button class="btn btn-secondary flex-1" onclick="goToScreen('gameHubScreen')">Back</button>
+                <button class="btn btn-primary-0 flex-1" id="completeBreathingBtn" style="display: none;" onclick="completeBreathing()">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- GAMES: CLEAR THE NOISE -->
+    <div id="cloudsGameScreen" class="screen theme-0">
+        <div class="container">
+            <h2 class="section-title text-center">☁️ Clear the Noise</h2>
+            <p class="section-subtitle text-center" id="cloudInstruction">Drag worries into the sun to burn them away</p>
+            <div class="clouds-container" id="cloudsContainer">
+                <div class="sun-zone" id="sunZone">Drop<br>Here</div>
+                <!-- Clouds generated by JS -->
+            </div>
+            <p id="cloudReframe" class="cloud-reframe">If it's in your head, throw it in the sun.</p>
+            <p id="cloudProgress" class="section-subtitle text-center" style="margin-top: 10px;"></p>
+            <button class="btn btn-secondary" style="width: 100%; margin-top: 15px;" onclick="goToScreen('gameHubScreen')">Back</button>
+        </div>
+    </div>
+
+    <!-- GAMES: LUCKY STAR -->
+    <div id="starGameScreen" class="screen theme-0">
+        <div class="container">
+            <h2 class="section-title text-center">⭐ Lucky Star</h2>
+            <div class="star-container">
+                <div class="star-field" id="starField"></div>
+                <div class="big-star" id="bigStar" onclick="tappedStar()">⭐</div>
+                <div id="quoteCardContainer" style="display: none; position: absolute; bottom: 20px; left: 5%; right: 5%; z-index: 10;">
+                    <div class="quote-card" style="margin: 0 auto; max-width: 320px;">
+                        <div class="quote-text" id="quoteText"></div>
+                        <div class="quote-from" id="quoteFrom"></div>
+                    </div>
+                </div>
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button class="btn btn-secondary flex-1" onclick="goToScreen('gameHubScreen')">Back</button>
+                <button class="btn btn-primary-0 flex-1" id="nextQuoteBtn" style="display: none;" onclick="nextStarQuote()">Next ⭐</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- GAMES: STAR CATCHER -->
+    <div id="starCatcherScreen" class="screen theme-0">
+        <div class="container">
+            <h2 class="section-title text-center">✨ Star Catcher</h2>
+            <canvas id="starCatcherCanvas" width="500" height="400"></canvas>
+            <div class="game-stats">
+                <div class="stat-item">⭐ <span id="starCatchCount">0</span>/5 caught</div>
+                <div class="stat-item" id="catchAffirm"></div>
+            </div>
+            <button class="btn btn-secondary" style="width: 100%; margin-top: 20px;" onclick="goToScreen('gameHubScreen')">Back</button>
+        </div>
+    </div>
+
+    <!-- GAMES: RECHARGE HEART -->
+    <div id="heartGameScreen" class="screen theme-0">
+        <div class="container">
+            <h2 class="section-title text-center">💝 Recharge Heart</h2>
+            <p class="section-subtitle text-center">Hold to charge your energy</p>
+            <div class="heart-container">
+                <div class="heart-button" id="heartButton" onmousedown="startHeartCharge()" ontouchstart="startHeartCharge()" onmouseup="stopHeartCharge()" ontouchend="stopHeartCharge()">
+                    ❤️
+                </div>
+                <div class="charge-bar">
+                    <div class="charge-fill" id="chargeFill"></div>
+                </div>
+                <div class="charge-text" id="chargeMessage"></div>
+            </div>
+            <button class="btn btn-secondary" style="width: 100%; margin-top: 30px;" onclick="goToScreen('gameHubScreen')">Back</button>
+        </div>
+    </div>
+
+    <!-- GAMES: MENTAL RUN -->
+    <div id="runnerGameScreen" class="screen theme-0">
+        <div class="container text-center">
+            <h2 class="section-title">🏃 Mental Run</h2>
+            <canvas id="runnerCanvas" style="border-radius: 16px; display: block; margin: 10px auto; background: #87CEEB; box-shadow: 0 8px 25px rgba(0,0,0,0.2); width: 100%; max-width: 500px; touch-action: none;"></canvas>
+            <div class="run-score" id="runScore">🏆 0/8 Doubts Smashed</div>
+            <p class="section-subtitle" id="runInstruction">Tap or Space to JUMP! Smash through doubts, collect trophies!</p>
+            <button class="btn btn-secondary" style="width: 100%; margin-top: 15px;" onclick="stopRunner(); goToScreen('gameHubScreen')">Back</button>
+        </div>
+    </div>
+
+    <!-- GAMES: RHYTHM TAP -->
+    <div id="rhythmGameScreen" class="screen theme-0">
+        <div class="container text-center">
+            <h2 class="section-title">🎵 Rhythm Tap</h2>
+            <p class="section-subtitle">Tap each circle when the ring shrinks to fit!</p>
+            <div class="rhythm-container">
+                <div class="combo-display" id="comboDisplay">Ready...</div>
+                <div class="rhythm-circles" id="rhythmCircles">
+                    <!-- Generated by JS -->
+                </div>
+                <div class="rhythm-message" id="rhythmMessage" style="font-size: 16px; font-weight: 700; min-height: 25px;"></div>
+                <div class="rhythm-message" id="sentenceDisplay" style="font-size: 15px; font-weight: 600; min-height: 25px; margin-top: 5px;"></div>
+            </div>
+            <button class="btn btn-secondary" style="width: 100%; margin-top: 20px;" onclick="goToScreen('gameHubScreen')">Back</button>
+        </div>
+    </div>
+
+    <!-- GAMES: PRESSURE BALLOON -->
+    <div id="balloonGameScreen" class="screen theme-0">
+        <div class="container text-center">
+            <h2 class="section-title">🎈 Pressure Control</h2>
+            <p class="section-subtitle" id="balloonHint">How far can you push it?</p>
+            <div class="balloon-container">
+                <div class="balloon" id="balloon" style="transition: font-size 0.15s, filter 0.3s;">🎈</div>
+                <p id="balloonFeedback" style="font-weight: 700; font-size: 14px; min-height: 25px; opacity: 0.7;"></p>
+            </div>
+            <div style="display: flex; gap: 12px; width: 100%; max-width: 300px; margin: 0 auto;">
+                <button class="btn btn-primary-0 flex-1" id="pumpBtn" onclick="pumpBalloon()" style="font-size: 18px; padding: 18px;">💨 Pump!</button>
+                <button class="btn btn-secondary flex-1" id="lockBtn" onclick="lockPressure()" style="font-size: 18px; padding: 18px;">🔒 Lock it!</button>
+            </div>
+            <button class="btn btn-secondary" style="width: 100%; margin-top: 20px;" onclick="goToScreen('gameHubScreen')">Back</button>
+        </div>
+    </div>
+
+    <!-- QUIZ: ATHLETE CREATES QUIZ -->
+    <div id="quizCreateScreen" class="screen theme-0">
+        <div class="container">
+            <h2 class="section-title text-center">🏆 Create Your Quiz</h2>
+            <p class="section-subtitle text-center">Pick 8 questions for your friends to answer!</p>
+            <div class="form-group">
+                <label class="form-label">Your name</label>
+                <input type="text" id="quizAthleteName" class="form-input" placeholder="e.g., Tian" maxlength="20">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Your sport</label>
+                <div class="sport-grid" id="quizSportSelector">
+                    <button class="sport-button" onclick="selectQuizSport(this, '⚽')" data-sport="⚽">⚽<div class="sport-label">Soccer</div></button>
+                    <button class="sport-button" onclick="selectQuizSport(this, '🏀')" data-sport="🏀">🏀<div class="sport-label">Basketball</div></button>
+                    <button class="sport-button" onclick="selectQuizSport(this, '🎾')" data-sport="🎾">🎾<div class="sport-label">Tennis</div></button>
+                    <button class="sport-button" onclick="selectQuizSport(this, '🏈')" data-sport="🏈">🏈<div class="sport-label">Football</div></button>
+                    <button class="sport-button" onclick="selectQuizSport(this, '🏐')" data-sport="🏐">🏐<div class="sport-label">Volleyball</div></button>
+                    <button class="sport-button" onclick="selectQuizSport(this, '🏊')" data-sport="🏊">🏊<div class="sport-label">Swimming</div></button>
+                    <button class="sport-button" onclick="selectQuizSport(this, '⚾')" data-sport="⚾">⚾<div class="sport-label">Baseball</div></button>
+                    <button class="sport-button" onclick="selectQuizSport(this, '🥎')" data-sport="🥎">🥎<div class="sport-label">Softball</div></button>
+                    <button class="sport-button" onclick="selectQuizSport(this, '🏃')" data-sport="🏃">🏃<div class="sport-label">Track</div></button>
+                    <button class="sport-button" onclick="selectQuizSport(this, '🏔️')" data-sport="🏔️">🏔️<div class="sport-label">XC</div></button>
+                    <button class="sport-button" onclick="selectQuizSport(this, '🥍')" data-sport="🥍">🥍<div class="sport-label">Lacrosse</div></button>
+                    <button class="sport-button" onclick="selectQuizSport(this, '🤼')" data-sport="🤼">🤼<div class="sport-label">Wrestling</div></button>
+                    <button class="sport-button" onclick="selectQuizSport(this, '⛳')" data-sport="⛳">⛳<div class="sport-label">Golf</div></button>
+                    <button class="sport-button" onclick="selectQuizSport(this, '🤸')" data-sport="🤸">🤸<div class="sport-label">Gymnastics</div></button>
+                    <button class="sport-button" onclick="selectQuizSport(this, '🚣')" data-sport="🚣">🚣<div class="sport-label">Rowing</div></button>
+                    <button class="sport-button" onclick="selectQuizSport(this, '🏑')" data-sport="🏑">🏑<div class="sport-label">Field Hockey</div></button>
+                    <button class="sport-button" onclick="selectQuizSport(this, '🏒')" data-sport="🏒">🏒<div class="sport-label">Ice Hockey</div></button>
+                    <button class="sport-button" onclick="selectQuizSport(this, '🤽')" data-sport="🤽">🤽<div class="sport-label">Water Polo</div></button>
+                    <button class="sport-button" onclick="selectQuizSport(this, '🤿')" data-sport="🤿">🤿<div class="sport-label">Diving</div></button>
+                    <button class="sport-button" onclick="selectQuizSport(this, '🤺')" data-sport="🤺">🤺<div class="sport-label">Fencing</div></button>
+                    <button class="sport-button" onclick="selectQuizSport(this, '⛷️')" data-sport="⛷️">⛷️<div class="sport-label">Skiing</div></button>
+                    <button class="sport-button" onclick="selectQuizSport(this, '🏖️')" data-sport="🏖️">🏖️<div class="sport-label">Beach VB</div></button>
+                    <button class="sport-button" onclick="selectQuizSport(this, '🎳')" data-sport="🎳">🎳<div class="sport-label">Bowling</div></button>
+                    <button class="sport-button" onclick="selectQuizSport(this, '🏸')" data-sport="🏸">🏸<div class="sport-label">Badminton</div></button>
+                </div>
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button class="btn btn-secondary flex-1" onclick="goToScreen('homeScreen')">Back</button>
+                <button class="btn btn-primary-0 flex-1" onclick="goToQuizQuestions()">Pick Questions →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- QUIZ: PICK QUESTIONS -->
+    <div id="quizQuestionsScreen" class="screen theme-0">
+        <div class="container">
+            <h2 class="section-title text-center">📋 Pick 8 Questions</h2>
+            <p class="section-subtitle text-center" id="quizPickCount">0/8 selected</p>
+            <div id="quizQuestionList" style="display: flex; flex-direction: column; gap: 10px; margin: 15px 0;"></div>
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button class="btn btn-secondary flex-1" onclick="goToScreen('quizCreateScreen')">Back</button>
+                <button class="btn btn-primary-0 flex-1" onclick="goToQuizAnswers()">Set Answers →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- QUIZ: SET ANSWERS -->
+    <div id="quizAnswersScreen" class="screen theme-0">
+        <div class="container">
+            <h2 class="section-title text-center">✅ Set Your Answers</h2>
+            <p class="section-subtitle text-center">Tap the correct answer for each question</p>
+            <div id="quizAnswerList" style="display: flex; flex-direction: column; gap: 20px; margin: 15px 0;"></div>
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button class="btn btn-secondary flex-1" onclick="goToScreen('quizQuestionsScreen')">Back</button>
+                <button class="btn btn-primary-0 flex-1" onclick="generateQuizLink()">Generate Quiz Link 🔗</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- QUIZ: SHARE LINK -->
+    <div id="quizShareScreen" class="screen theme-0">
+        <div class="container">
+            <h2 class="section-title text-center">📤 Share Your Quiz!</h2>
+            <p style="text-align: center; margin: 15px 0; opacity: 0.8;">Share this link and see who knows you best!</p>
+            <div class="share-box">
+                <input type="text" id="quizLink" class="share-input" readonly>
+                <button class="share-button copy" onclick="copyQuizLink()">📋 Copy</button>
+            </div>
+            <button class="btn btn-primary-0" style="width: 100%; margin-top: 10px;" onclick="shareQuizLink()">📤 Share</button>
+            <button class="btn btn-primary-0" style="width: 100%; margin-top: 10px; background: linear-gradient(135deg, #9C27B0, #E040FB);" onclick="generateAthleteStoryImage()">📸 Save IG Story with QR Code</button>
+            <button class="btn btn-secondary" style="width: 100%; margin-top: 10px;" onclick="goToScreen('homeScreen')">← Home</button>
+            <!-- Early Access Invitation -->
+            <div style="margin-top: 28px; background: #FFFDF7; border: 2px solid #E8D5B7; border-radius: 16px; padding: 28px 24px; text-align: center; position: relative; box-shadow: 0 4px 20px rgba(0,0,0,0.06);">
+                <!-- Decorative corner flourishes -->
+                <div style="position: absolute; top: 8px; left: 10px; font-size: 16px; opacity: 0.15;">✦</div>
+                <div style="position: absolute; top: 8px; right: 10px; font-size: 16px; opacity: 0.15;">✦</div>
+                <div style="position: absolute; bottom: 8px; left: 10px; font-size: 16px; opacity: 0.15;">✦</div>
+                <div style="position: absolute; bottom: 8px; right: 10px; font-size: 16px; opacity: 0.15;">✦</div>
+                <p style="font-size: 10px; text-transform: uppercase; letter-spacing: 3px; color: #C4A265; margin: 0 0 12px; font-weight: 700;">You're Invited</p>
+                <p style="font-size: 17px; font-weight: 800; color: #333; margin: 0 0 10px; line-height: 1.3;">Be one of the first 100 athletes<br>to try the Match Day Buddy app</p>
+                <div style="width: 40px; height: 1px; background: #E8D5B7; margin: 14px auto;"></div>
+                <p style="font-size: 12px; color: #888; margin: 0 0 18px; line-height: 1.6;">We're building something special for athletes like you — mental game-day tools, personalized support, and more. Your feedback will shape it.</p>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSceWBy8bndeal3pZMnjcySJOfhhHBfD1tZQIrTDJTBz6cLA2g/viewform" target="_blank" style="display: inline-block; background: linear-gradient(135deg, #C4A265, #E8D5B7); color: white; padding: 10px 28px; border-radius: 25px; font-size: 13px; font-weight: 700; text-decoration: none; letter-spacing: 0.5px; box-shadow: 0 2px 10px rgba(196,162,101,0.3);">Claim Your Spot</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- QUIZ: FAN TAKES QUIZ -->
+    <div id="quizTakeScreen" class="screen theme-0">
+        <div class="container text-center">
+            <h2 class="section-title" id="quizTakeTitle">How well do you know...?</h2>
+            <div id="quizProgress" style="font-size: 13px; opacity: 0.6; margin-bottom: 15px;"></div>
+            <div id="quizQuestionDisplay" style="background: rgba(255,255,255,0.9); border-radius: 16px; padding: 24px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
+                <p id="quizCurrentQ" style="font-size: 18px; font-weight: 700; margin-bottom: 20px;"></p>
+                <div id="quizOptions" style="display: flex; flex-direction: column; gap: 10px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- QUIZ: RESULTS -->
+    <div id="quizResultScreen" class="screen theme-0">
+        <div class="container text-center">
+            <div style="font-size: 60px; margin-bottom: 15px;" id="quizResultEmoji">🏆</div>
+            <h2 style="font-size: 28px; font-weight: 800; margin-bottom: 8px;" id="quizResultTitle"></h2>
+            <p style="font-size: 16px; opacity: 0.7; margin-bottom: 25px;" id="quizResultSubtitle"></p>
+            <div id="quizResultScore" style="font-size: 48px; font-weight: 800; margin: 20px 0; background: linear-gradient(135deg, #FF69B4, #FFD700); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></div>
+            <div class="form-group" style="margin: 20px 0;">
+                <label class="form-label text-center">I am a...</label>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;">
+                    <button class="pill" onclick="selectQuizRole(this, 'Fan')" style="flex: none;">Fan</button>
+                    <button class="pill" onclick="selectQuizRole(this, 'Friend')" style="flex: none;">Friend</button>
+                    <button class="pill" onclick="selectQuizRole(this, 'Family')" style="flex: none;">Family</button>
+                    <button class="pill" onclick="selectQuizRole(this, 'Teammate')" style="flex: none;">Teammate</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="text" id="quizFanName" class="form-input" placeholder="Your name (for the share card)" maxlength="20">
+            </div>
+            <button class="btn btn-primary-0" style="width: 100%; margin-top: 10px;" onclick="generateQuizShareImage()">📸 Save IG Story Card</button>
+            <button class="btn btn-secondary" style="width: 100%; margin-top: 10px;" onclick="goToScreen('homeScreen')">Send them a Match Day Buddy Gift →</button>
+            <!-- Early Access CTA -->
+            <div style="margin-top: 24px; background: linear-gradient(135deg, rgba(255,105,180,0.08), rgba(255,215,0,0.08)); border-radius: 14px; padding: 16px; border: 1px solid rgba(255,105,180,0.15);">
+                <p style="font-size: 13px; font-weight: 700; margin: 0 0 6px;">Are you an athlete?</p>
+                <p style="font-size: 12px; opacity: 0.6; margin: 0 0 12px;">We're building the Match Day Buddy app. Be one of the first 100 to try it.</p>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSceWBy8bndeal3pZMnjcySJOfhhHBfD1tZQIrTDJTBz6cLA2g/viewform" target="_blank" style="display: inline-block; background: linear-gradient(135deg, #FF69B4, #FFD700); color: white; padding: 8px 20px; border-radius: 20px; font-size: 12px; font-weight: 700; text-decoration: none;">Get Early Access</a>
+            </div>
+            <canvas id="shareCanvas" width="1080" height="1920" style="display: none;"></canvas>
+            <div id="qrTemp" style="position: absolute; left: -9999px; top: -9999px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        // DATA & STATE
+        const GAMES = [
+            { id: 0, emoji: '🌸', name: 'Breathing Studio', desc: 'Guided breathing with a blooming flower', screen: 'breathingGameScreen' },
+            { id: 1, emoji: '☁️', name: 'Clear the Noise', desc: 'Drag worries into the sun to burn them away', screen: 'cloudsGameScreen' },
+            { id: 2, emoji: '⭐', name: 'Lucky Star', desc: 'Tap for motivational quotes from the sender', screen: 'starGameScreen' },
+            { id: 3, emoji: '✨', name: 'Star Catcher', desc: 'Catch falling stars with your paddle', screen: 'starCatcherScreen' },
+            { id: 4, emoji: '💝', name: 'Recharge Heart', desc: 'Hold to charge energy — ride the confidence wave', screen: 'heartGameScreen' },
+            { id: 5, emoji: '🏃', name: 'Mental Run', desc: 'Side-scrolling runner — smash doubts, collect trophies', screen: 'runnerGameScreen' },
+            { id: 6, emoji: '🎵', name: 'Rhythm Tap', desc: 'Tap circles to the beat — test your timing', screen: 'rhythmGameScreen' },
+            { id: 7, emoji: '🎈', name: 'Pressure Control', desc: 'Pump a balloon without popping it — test your nerve', screen: 'balloonGameScreen' },
+        ];
+
+        let state = {
+            theme: 0,
+            senderName: '',
+            receiverName: '',
+            selectedGames: [],
+            selectedSport: null,
+            personalMessage: '',
+            mode: 'quick',
+            fromTian: false,
+            tiansQuotes: [
+                "You've got this!",
+                "Judy is always cheering for you!",
+                "Trust your training",
+                "Judy's Lucky Star is rooting for you!",
+                "You're stronger than you think",
+                "Focus on what you can control",
+                "Leave it all on the field"
+            ]
+        };
+
+        // QUOTES FOR STAR GAME (default)
+        const defaultQuotes = [
+            "You are capable of amazing things",
+            "Believe in yourself",
+            "Champions are made in moments like this",
+            "You've trained hard for this",
+            "Trust your instincts",
+            "Stay present, stay focused",
+            "You belong here"
+        ];
+
+        // ============================================================
+        // AUDIO SYSTEM (Web Audio API)
+        // ============================================================
+        let audioCtx = null;
+        let soundEnabled = true;
+
+        function getAudioCtx() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            return audioCtx;
+        }
+
+        function playSound(type) {
+            if (!soundEnabled) return;
+            try {
+                const ctx = getAudioCtx();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                switch(type) {
+                    case 'tap': // Light button tap
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(800, ctx.currentTime);
+                        gain.gain.setValueAtTime(0.08, ctx.currentTime);
+                        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+                        osc.start(); osc.stop(ctx.currentTime + 0.08);
+                        break;
+
+                    case 'coin': // Collect star / coin
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(600, ctx.currentTime);
+                        osc.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime + 0.12);
+                        gain.gain.setValueAtTime(0.12, ctx.currentTime);
+                        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
+                        osc.start(); osc.stop(ctx.currentTime + 0.15);
+                        break;
+
+                    case 'chime': // Lucky star / celebration
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(523, ctx.currentTime);
+                        osc.frequency.setValueAtTime(659, ctx.currentTime + 0.15);
+                        osc.frequency.setValueAtTime(784, ctx.currentTime + 0.3);
+                        gain.gain.setValueAtTime(0.15, ctx.currentTime);
+                        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.6);
+                        osc.start(); osc.stop(ctx.currentTime + 0.6);
+                        break;
+
+                    case 'whoosh': // Cloud burn / drag
+                        osc.type = 'sawtooth';
+                        osc.frequency.setValueAtTime(400, ctx.currentTime);
+                        osc.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + 0.3);
+                        gain.gain.setValueAtTime(0.06, ctx.currentTime);
+                        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+                        osc.start(); osc.stop(ctx.currentTime + 0.3);
+                        break;
+
+                    case 'pop': // Balloon pop
+                        osc.type = 'square';
+                        osc.frequency.setValueAtTime(300, ctx.currentTime);
+                        osc.frequency.exponentialRampToValueAtTime(50, ctx.currentTime + 0.15);
+                        gain.gain.setValueAtTime(0.2, ctx.currentTime);
+                        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
+                        osc.start(); osc.stop(ctx.currentTime + 0.15);
+                        break;
+
+                    case 'jump': // Mental run jump
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(300, ctx.currentTime);
+                        osc.frequency.exponentialRampToValueAtTime(600, ctx.currentTime + 0.1);
+                        gain.gain.setValueAtTime(0.1, ctx.currentTime);
+                        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.12);
+                        osc.start(); osc.stop(ctx.currentTime + 0.12);
+                        break;
+
+                    case 'hit': // Collision / miss
+                        osc.type = 'sawtooth';
+                        osc.frequency.setValueAtTime(200, ctx.currentTime);
+                        osc.frequency.exponentialRampToValueAtTime(80, ctx.currentTime + 0.2);
+                        gain.gain.setValueAtTime(0.1, ctx.currentTime);
+                        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
+                        osc.start(); osc.stop(ctx.currentTime + 0.2);
+                        break;
+
+                    case 'breathIn': // Breathing inhale tone
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(220, ctx.currentTime);
+                        osc.frequency.linearRampToValueAtTime(330, ctx.currentTime + 0.5);
+                        gain.gain.setValueAtTime(0, ctx.currentTime);
+                        gain.gain.linearRampToValueAtTime(0.06, ctx.currentTime + 0.3);
+                        gain.gain.linearRampToValueAtTime(0.04, ctx.currentTime + 0.5);
+                        osc.start(); osc.stop(ctx.currentTime + 0.5);
+                        break;
+
+                    case 'breathOut': // Breathing exhale tone
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(330, ctx.currentTime);
+                        osc.frequency.linearRampToValueAtTime(220, ctx.currentTime + 0.5);
+                        gain.gain.setValueAtTime(0.06, ctx.currentTime);
+                        gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.5);
+                        osc.start(); osc.stop(ctx.currentTime + 0.5);
+                        break;
+
+                    case 'rhythmHit': // Rhythm tap correct
+                        osc.type = 'triangle';
+                        osc.frequency.setValueAtTime(440, ctx.currentTime);
+                        gain.gain.setValueAtTime(0.15, ctx.currentTime);
+                        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
+                        osc.start(); osc.stop(ctx.currentTime + 0.1);
+                        break;
+
+                    case 'rhythmPerfect': // Rhythm tap perfect
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(880, ctx.currentTime);
+                        osc.frequency.setValueAtTime(1100, ctx.currentTime + 0.05);
+                        gain.gain.setValueAtTime(0.12, ctx.currentTime);
+                        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
+                        osc.start(); osc.stop(ctx.currentTime + 0.15);
+                        break;
+
+                    case 'pump': // Balloon pump
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(150, ctx.currentTime);
+                        osc.frequency.exponentialRampToValueAtTime(250, ctx.currentTime + 0.08);
+                        gain.gain.setValueAtTime(0.1, ctx.currentTime);
+                        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
+                        osc.start(); osc.stop(ctx.currentTime + 0.1);
+                        break;
+
+                    case 'charge': // Recharge tick
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(300 + Math.random() * 200, ctx.currentTime);
+                        gain.gain.setValueAtTime(0.04, ctx.currentTime);
+                        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
+                        osc.start(); osc.stop(ctx.currentTime + 0.05);
+                        break;
+
+                    case 'victory': // Game complete / celebration
+                        gain.gain.setValueAtTime(0.15, ctx.currentTime);
+                        gain.gain.linearRampToValueAtTime(0.12, ctx.currentTime + 0.8);
+                        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.2);
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(523, ctx.currentTime);       // C5
+                        osc.frequency.setValueAtTime(659, ctx.currentTime + 0.15); // E5
+                        osc.frequency.setValueAtTime(784, ctx.currentTime + 0.3);  // G5
+                        osc.frequency.setValueAtTime(1047, ctx.currentTime + 0.5); // C6
+                        osc.start(); osc.stop(ctx.currentTime + 1.2);
+                        break;
+
+                    case 'unwrap': // Gift unwrap
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(400, ctx.currentTime);
+                        osc.frequency.exponentialRampToValueAtTime(1600, ctx.currentTime + 0.4);
+                        gain.gain.setValueAtTime(0.1, ctx.currentTime);
+                        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
+                        osc.start(); osc.stop(ctx.currentTime + 0.5);
+                        // Second sparkle
+                        const osc2 = ctx.createOscillator();
+                        const gain2 = ctx.createGain();
+                        osc2.connect(gain2); gain2.connect(ctx.destination);
+                        osc2.type = 'sine';
+                        osc2.frequency.setValueAtTime(800, ctx.currentTime + 0.3);
+                        osc2.frequency.setValueAtTime(1200, ctx.currentTime + 0.5);
+                        osc2.frequency.setValueAtTime(1600, ctx.currentTime + 0.7);
+                        gain2.gain.setValueAtTime(0, ctx.currentTime + 0.3);
+                        gain2.gain.linearRampToValueAtTime(0.12, ctx.currentTime + 0.5);
+                        gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.0);
+                        osc2.start(ctx.currentTime + 0.3); osc2.stop(ctx.currentTime + 1.0);
+                        break;
+                }
+            } catch(e) { /* Audio not supported, fail silently */ }
+        }
+
+        // Vibration helper - only on completion/celebration
+        function vibrate(pattern) {
+            if (navigator.vibrate) {
+                navigator.vibrate(pattern);
+            }
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            const btn = document.getElementById('soundToggle');
+            if (btn) btn.textContent = soundEnabled ? '🔊' : '🔇';
+        }
+
+        // ============================================================
+        // SCREEN NAVIGATION
+        // ============================================================
+        function goToScreen(screenId) {
+            // Stop any running games/timers
+            breathingState.running = false;
+            if (typeof stopRunner === 'function') stopRunner();
+
+            // If in preview mode and navigating to gameHub, exit preview instead
+            if (previewReturnScreen && screenId === 'gameHubScreen') {
+                exitPreview();
+                return;
+            }
+
+            // Remove all modals
+            document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
+            // Remove preview banner if leaving preview context
+            if (!previewReturnScreen) {
+                document.querySelectorAll('.preview-banner').forEach(b => b.remove());
+            }
+
+            // Hide all screens
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+
+            // Show target screen
+            const screen = document.getElementById(screenId);
+            if (screen) {
+                screen.classList.add('active');
+                // Apply theme class
+                screen.className = `screen active theme-${state.theme}`;
+            }
+
+            window.scrollTo(0, 0);
+        }
+
+        // ============================================================
+        // THEME SYSTEM
+        // ============================================================
+        function applyTheme(themeId) {
+            state.theme = themeId;
+            document.querySelectorAll('.screen.active').forEach(s => {
+                s.className = `screen active theme-${themeId}`;
+            });
+        }
+
+        function selectTheme(themeId, element) {
+            applyTheme(themeId);
+            document.querySelectorAll('.theme-preview').forEach(e => e.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+
+        // ============================================================
+        // HOME FLOW: QUICK MODE
+        // ============================================================
+        function createGift(mode) {
+            state.mode = mode;
+            state.fromTian = false;
+            if (mode === 'quick') {
+                goToScreen('quickNamesScreen');
+            } else {
+                goToScreen('detailedNamesScreen');
+            }
+        }
+
+        function quickModeGames() {
+            const sender = document.getElementById('quickSenderName').value.trim();
+            const receiver = document.getElementById('quickReceiverName').value.trim();
+
+            if (!sender || !receiver) {
+                alert('Please enter both names');
+                return;
+            }
+
+            state.senderName = sender;
+            state.receiverName = receiver;
+
+            // Populate game selector
+            const container = document.getElementById('quickGameSelector');
+            container.innerHTML = '';
+            GAMES.forEach(game => {
+                const card = document.createElement('div');
+                card.className = 'card game-card';
+                card.onclick = () => toggleGameSelection(game.id, card);
+                card.innerHTML = `
+                    <div class="game-emoji">${game.emoji}</div>
+                    <div class="game-name">${game.name}</div>
+                    <div class="game-desc">${game.desc}</div>
+                    <button class="preview-btn" onclick="event.stopPropagation(); previewGame(${game.id}, 'quickGamesScreen')">👁 Preview</button>
+                    <div style="margin-top: 6px; opacity: 0.5;">✓</div>
+                `;
+                card.dataset.gameId = game.id;
+                container.appendChild(card);
+            });
+
+            goToScreen('quickGamesScreen');
+        }
+
+        function toggleGameSelection(gameId, element) {
+            if (state.selectedGames.includes(gameId)) {
+                state.selectedGames = state.selectedGames.filter(g => g !== gameId);
+                element.style.opacity = '1';
+                element.style.borderColor = 'transparent';
+            } else {
+                if (state.selectedGames.length >= 5) {
+                    state.selectedGames.shift();
+                    document.querySelectorAll('[data-gameId]').forEach(e => {
+                        if (parseInt(e.dataset.gameId) === state.selectedGames[0]) {
+                            e.style.borderColor = 'transparent';
+                        }
+                    });
+                }
+                state.selectedGames.push(gameId);
+                element.style.borderColor = '#FF69B4';
+                element.style.borderWidth = '3px';
+            }
+        }
+
+        let previewReturnScreen = null;
+        function previewGame(gameId, returnScreen) {
+            previewReturnScreen = returnScreen;
+            const game = GAMES[gameId];
+
+            // Set temporary names for preview
+            if (!state.senderName) state.senderName = 'You';
+            if (!state.receiverName) state.receiverName = 'Athlete';
+
+            // Remove existing preview banner if any
+            document.querySelectorAll('.preview-banner').forEach(b => b.remove());
+
+            // Navigate to the game screen
+            goToScreen(game.screen);
+
+            // Add preview banner on top
+            const banner = document.createElement('div');
+            banner.className = 'preview-banner';
+            banner.innerHTML = `<span>Preview: ${game.name}</span><button onclick="exitPreview()">✕ Back</button>`;
+            document.body.appendChild(banner);
+
+            // Run init hook if needed
+            if (gameInitHooks[game.screen]) {
+                gameInitHooks[game.screen]();
+            }
+        }
+
+        function exitPreview() {
+            document.querySelectorAll('.preview-banner').forEach(b => b.remove());
+            goToScreen(previewReturnScreen || 'homeScreen');
+            previewReturnScreen = null;
+        }
+
+        function quickModeGenerate() {
+            if (state.selectedGames.length < 3) {
+                alert('Please select at least 3 games');
+                return;
+            }
+            generateGiftLink();
+        }
+
+        // ============================================================
+        // HOME FLOW: DETAILED MODE
+        // ============================================================
+        function selectSport(element, sport) {
+            document.querySelectorAll('.sport-button').forEach(b => b.classList.remove('selected'));
+            element.classList.add('selected');
+            state.selectedSport = sport;
+        }
+
+        function detailedModeGenerate() {
+            const sender = document.getElementById('detailedSenderName').value.trim();
+            const receiver = document.getElementById('detailedReceiverName').value.trim();
+
+            if (!sender || !receiver) {
+                alert('Please enter both names');
+                return;
+            }
+
+            state.senderName = sender;
+            state.receiverName = receiver;
+            state.personalMessage = document.getElementById('personalMessage').value;
+
+            if (state.selectedGames.length < 3) {
+                alert('Please select at least 3 games');
+                return;
+            }
+
+            generateGiftLink();
+        }
+
+        document.getElementById('personalMessage')?.addEventListener('input', function() {
+            document.getElementById('charCount').textContent = this.value.length;
+        });
+
+        // ============================================================
+        // GENERATE & SHARE LINK
+        // ============================================================
+        function generateGiftLink() {
+            const giftData = {
+                from: state.senderName,
+                to: state.receiverName,
+                games: state.selectedGames,
+                theme: state.theme,
+                message: state.personalMessage || '',
+                sport: state.selectedSport || ''
+            };
+
+            const json = JSON.stringify(giftData);
+            const encoded = btoa(unescape(encodeURIComponent(json)));
+            const baseUrl = window.location.href.split('#')[0].split('?')[0];
+            state.giftUrl = baseUrl + '#gift=' + encoded;
+
+            document.getElementById('giftLink').value = state.giftUrl;
+            goToScreen('generateLinkScreen');
+        }
+
+        function copyGiftLink() {
+            const link = document.getElementById('giftLink');
+            link.select();
+            document.execCommand('copy');
+
+            const btn = event.target;
+            const original = btn.textContent;
+            btn.textContent = '✓ Copied!';
+            setTimeout(() => {
+                btn.textContent = original;
+            }, 2000);
+        }
+
+        function shareGiftLink() {
+            const link = state.giftUrl;
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Match Day Buddy Gift',
+                    text: `${state.senderName} sent you a gift!`,
+                    url: link
+                }).catch(err => console.log('Share failed:', err));
+            } else {
+                copyGiftLink();
+                alert('Link copied! Share it however you like.');
+            }
+        }
+
+        // ============================================================
+        // TIAN'S EDITION DEMO
+        // ============================================================
+        function showOriginStory() {
+            const overlay = document.createElement('div');
+            overlay.className = 'modal-overlay';
+            overlay.style.cssText = 'position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(4px);';
+            overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
+
+            const card = document.createElement('div');
+            card.style.cssText = 'background: white; border-radius: 20px; padding: 32px 24px; max-width: 360px; width: 100%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.2); animation: slideUp 0.3s ease;';
+            card.innerHTML = `
+                <div style="font-size: 40px; margin-bottom: 16px;">💝</div>
+                <h3 style="font-size: 20px; font-weight: 800; margin: 0 0 16px; color: #333;">Where it all started</h3>
+                <p style="font-size: 14px; line-height: 1.7; color: #555; margin: 0 0 20px;">Match Day Buddy began as a small gift I made for my close friend Tian Fangran before her tennis matches — a way to be in her corner even when I couldn't be there courtside. It made me realize that every athlete deserves to feel supported in their biggest moments. So I turned it into something anyone can create for their athlete.</p>
+                <p style="font-size: 13px; font-weight: 700; color: #999; margin: 0 0 24px;">— Judy Jiang</p>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <button onclick="window.open('tian.html','_blank')" style="background: linear-gradient(135deg, #FFD700, #FF69B4); color: white; border: none; padding: 12px; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer;">See the Original</button>
+                    <button onclick="this.closest('.modal-overlay').remove()" style="background: none; border: 1px solid #ddd; padding: 10px; border-radius: 12px; font-size: 13px; cursor: pointer; color: #888;">Close</button>
+                </div>
+                <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid #eee; display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 11px; color: #aaa;">
+                    <a href="https://instagram.com/matchdaybuddy" target="_blank" style="color: #aaa; text-decoration: none;">Follow us on IG</a>
+                    <span>·</span>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSceWBy8bndeal3pZMnjcySJOfhhHBfD1tZQIrTDJTBz6cLA2g/viewform" target="_blank" style="color: #aaa; text-decoration: none;">App coming soon</a>
+                </div>
+            `;
+            overlay.appendChild(card);
+            document.body.appendChild(overlay);
+        }
+
+        // ============================================================
+        // RECEIVER FLOW
+        // ============================================================
+        function loadGiftFromUrl() {
+            const hash = window.location.hash;
+            if (hash.includes('quiz=')) {
+                loadQuizFromUrl();
+                return;
+            }
+            if (!hash.includes('gift=')) {
+                return;
+            }
+
+            try {
+                const encoded = hash.split('gift=')[1];
+                const json = decodeURIComponent(escape(atob(encoded)));
+                const gift = JSON.parse(json);
+
+                state.senderName = gift.from;
+                state.receiverName = gift.to;
+                state.selectedGames = gift.games;
+                state.theme = gift.theme || 0;
+                state.personalMessage = gift.message || '';
+                state.selectedSport = gift.sport || '';
+
+                loadGiftReceiver();
+            } catch (err) {
+                console.error('Failed to load gift:', err);
+            }
+        }
+
+        function loadGiftReceiver() {
+            applyTheme(state.theme);
+            goToScreen('giftUnwrapScreen');
+        }
+
+        function unwrapGift() {
+            playSound('unwrap');
+            const box = document.getElementById('giftBox');
+            box.classList.add('gift-box-opening');
+            createConfetti();
+            setTimeout(() => {
+                // Show reveal screen with sender info
+                document.getElementById('revealTitle').innerHTML = `From <strong>${state.senderName}</strong> with love 💕`;
+                const msgEl = document.getElementById('revealMessage');
+                if (state.personalMessage) {
+                    msgEl.innerHTML = `<div><p style="font-style: italic; font-size: 18px; margin-bottom: 10px;">"${state.personalMessage}"</p><p style="opacity: 0.6; font-size: 13px;">— ${state.senderName}</p></div>`;
+                } else {
+                    msgEl.innerHTML = `<p style="font-size: 18px;">${state.senderName} made this Match Day Buddy just for you! 🌟</p>`;
+                }
+                applyTheme(state.theme);
+                goToScreen('giftRevealScreen');
+            }, 800);
+        }
+
+        function loadGameHub() {
+            // Update hub title
+            document.getElementById('hubTitle').innerHTML = `${state.receiverName}'s Games`;
+
+            // Show sender message if exists
+            let subtitleHtml = `${state.senderName} picked these for you 🎁`;
+            if (state.personalMessage) {
+                subtitleHtml = `<div style="background: rgba(255,255,255,0.8); border-radius: 12px; padding: 12px 16px; margin-bottom: 10px; font-style: italic; font-size: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">"${state.personalMessage}" — ${state.senderName}</div>`;
+            }
+            document.getElementById('hubSubtitle').innerHTML = subtitleHtml;
+
+            // Initialize completion tracking
+            if (!state.completedGames) state.completedGames = [];
+
+            // Progress bar
+            const completed = state.completedGames.length;
+            const total = state.selectedGames.length;
+            let progressHtml = `<div style="margin: 10px 0 15px 0; text-align: center;"><div style="font-size: 13px; font-weight: 600; margin-bottom: 6px;">${completed}/${total} completed</div><div style="width: 100%; height: 6px; background: rgba(0,0,0,0.1); border-radius: 3px; overflow: hidden;"><div style="height: 100%; width: ${(completed/total)*100}%; background: linear-gradient(90deg, #FF69B4, #FFB6D9); border-radius: 3px; transition: width 0.5s;"></div></div></div>`;
+            document.getElementById('hubProgress').innerHTML = progressHtml;
+
+            // Populate games
+            const grid = document.getElementById('gameHubGrid');
+            grid.innerHTML = '';
+
+            state.selectedGames.forEach(gameId => {
+                const game = GAMES[gameId];
+                const isDone = state.completedGames.includes(gameId);
+                const card = document.createElement('div');
+                card.className = 'card game-card';
+                card.style.position = 'relative';
+                if (isDone) {
+                    card.style.opacity = '0.7';
+                    card.style.borderColor = '#4CAF50';
+                    card.style.borderWidth = '2px';
+                }
+                card.onclick = () => goToScreen(game.screen);
+                card.innerHTML = `
+                    ${isDone ? '<div style="position: absolute; top: 8px; right: 8px; background: #4CAF50; color: white; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 12px;">✓</div>' : ''}
+                    <div class="game-emoji">${game.emoji}</div>
+                    <div class="game-name">${game.name}</div>
+                    <div class="game-desc">${game.desc}</div>
+                `;
+                grid.appendChild(card);
+            });
+
+            goToScreen('gameHubScreen');
+
+            // Check if all completed
+            if (completed > 0 && completed === total) {
+                setTimeout(() => showAllComplete(), 500);
+            }
+        }
+
+        function showAllComplete() {
+            createConfetti();
+            playSound('victory');
+            vibrate([200, 100, 200, 100, 200]);
+            const overlay = document.createElement('div');
+            overlay.className = 'modal-overlay';
+            overlay.innerHTML = `
+                <div class="modal-content">
+                    <div style="font-size: 60px; margin-bottom: 15px;">🏆</div>
+                    <h2 style="font-size: 24px; margin-bottom: 10px;">You're Match-Day Ready!</h2>
+                    <p style="font-size: 15px; opacity: 0.8; margin-bottom: 20px;">${state.receiverName}, you've completed all your games. Go show them what you're made of!</p>
+                    <p style="font-size: 13px; opacity: 0.5; margin-bottom: 20px;">— Made with love by ${state.senderName}</p>
+                    <button class="btn btn-primary-0" style="width: 100%;" onclick="this.closest('.modal-overlay').remove();">
+                        Let's Go! 💪
+                    </button>
+                </div>
+            `;
+            overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
+            document.body.appendChild(overlay);
+        }
+
+        // ============================================================
+        // GAME 0: BREATHING STUDIO
+        // ============================================================
+        let breathingState = {
+            mode: '4-4-4-4',
+            duration: 1,
+            running: false,
+            timeLeft: 60,
+            cycles: [],
+            currentCycleIndex: 0
+        };
+
+        function selectBreathingMode(element, mode) {
+            document.querySelectorAll('.mode-card').forEach(e => e.classList.remove('selected'));
+            element.classList.add('selected');
+            breathingState.mode = mode;
+        }
+
+        function selectBreathingDuration(element, minutes) {
+            document.querySelectorAll('.duration-pills').forEach(e => e.classList.remove('active'));
+            element.classList.add('active');
+            breathingState.duration = minutes;
+        }
+
+        function startBreathingSession() {
+            const modeSelect = document.getElementById('breathingModeSelect');
+            const session = document.getElementById('breathingSession');
+
+            modeSelect.style.display = 'none';
+            session.style.display = 'block';
+
+            const modes = {
+                '4-4-4-4': [4, 4, 4, 4],
+                '4-7-8': [4, 7, 8],
+                '2-2': [2, 2]
+            };
+
+            const cycle = modes[breathingState.mode];
+            const phaseCount = breathingState.duration * (60 / cycle.reduce((a, b) => a + b));
+            breathingState.cycles = [];
+
+            for (let i = 0; i < phaseCount; i++) {
+                breathingState.cycles.push('Inhale', 'Hold', 'Exhale');
+            }
+
+            breathingState.running = true;
+            breathingState.currentCycleIndex = 0;
+            breathingState.timeLeft = breathingState.duration * 60;
+
+            document.getElementById('completeBreathingBtn').style.display = 'none';
+            runBreathingCycle();
+        }
+
+        function runBreathingCycle() {
+            if (!breathingState.running) return;
+
+            const modes = {
+                '4-4-4-4': { phases: ['Inhale', 'Hold', 'Exhale', 'Hold'], durations: [4, 4, 4, 4] },
+                '4-7-8': { phases: ['Inhale', 'Hold', 'Exhale'], durations: [4, 7, 8] },
+                '2-2': { phases: ['Inhale', 'Exhale'], durations: [2, 2] }
+            };
+
+            const modeConfig = modes[breathingState.mode];
+            const phaseIdx = breathingState.currentCycleIndex % modeConfig.phases.length;
+            const phase = modeConfig.phases[phaseIdx];
+            const duration = modeConfig.durations[phaseIdx] * 1000;
+
+            const phaseEl = document.getElementById('breathingPhase');
+            phaseEl.textContent = phase;
+
+            // Flower animation
+            const flower = document.getElementById('flowerContainer');
+            flower.className = 'breathing-flower-container';
+            if (phase === 'Inhale') {
+                flower.classList.add('flower-inhale');
+                playSound('breathIn');
+            } else if (phase === 'Exhale') {
+                flower.classList.add('flower-exhale');
+                playSound('breathOut');
+            } else {
+                flower.classList.add('flower-hold');
+            }
+
+            const quoteEl = document.getElementById('breathingQuote');
+            const quotes = [
+                'Pressure is a privilege',
+                'Be where your feet are',
+                'Your training is in your body',
+                'Clear mind, full heart',
+                'One point at a time',
+                'Control the controllables'
+            ];
+            if (breathingState.currentCycleIndex % modeConfig.phases.length === 0) {
+                quoteEl.textContent = quotes[Math.floor(Math.random() * quotes.length)];
+            }
+
+            breathingState.timeLeft -= modeConfig.durations[phaseIdx];
+            const totalTime = breathingState.duration * 60;
+            const progress = ((totalTime - breathingState.timeLeft) / totalTime) * 100;
+            document.getElementById('breathingProgress').style.width = Math.min(progress, 100) + '%';
+
+            breathingState.currentCycleIndex++;
+
+            if (breathingState.timeLeft > 0) {
+                setTimeout(runBreathingCycle, duration);
+            } else {
+                breathingState.running = false;
+                document.getElementById('completeBreathingBtn').style.display = 'block';
+                phaseEl.textContent = '✓';
+                flower.className = 'breathing-flower-container flower-inhale';
+            }
+        }
+
+        function completeBreathing() {
+            const modeSelect = document.getElementById('breathingModeSelect');
+            const session = document.getElementById('breathingSession');
+            modeSelect.style.display = 'flex';
+            session.style.display = 'none';
+            breathingState.running = false;
+            playSound('victory');
+            showGameCompletion('Breathing complete!', 'You\'re calm and focused.');
+        }
+
+        // ============================================================
+        // GAME 1: CLEAR THE NOISE (Clouds)
+        // ============================================================
+        let cloudState = {
+            clouds: [],
+            cleared: 0,
+            totalClouds: 5,
+            activeDrag: null,
+            offset: { x: 0, y: 0 }
+        };
+
+        const defaultWorries = [
+            { text: "Self-doubt", reply: "I play to win, not to avoid losing." },
+            { text: "Pressure", reply: "Pressure is a privilege." },
+            { text: "Fear", reply: "I love a good challenge." },
+            { text: "Distraction", reply: "I am in my bubble." },
+            { text: "Fatigue", reply: "My body is strong today." }
+        ];
+
+        function initCloudsGame() {
+            const container = document.getElementById('cloudsContainer');
+            // Keep only the sun zone
+            const sunEl = document.getElementById('sunZone');
+            container.innerHTML = '';
+            container.appendChild(sunEl);
+
+            cloudState.clouds = [];
+            cloudState.cleared = 0;
+            cloudState.activeDrag = null;
+
+            const worries = defaultWorries;
+            cloudState.totalClouds = worries.length;
+
+            document.getElementById('cloudReframe').textContent = "If it's in your head, throw it in the sun.";
+
+            worries.forEach((worry, idx) => {
+                const cloud = document.createElement('div');
+                cloud.className = 'cloud-item';
+                cloud.dataset.idx = idx;
+                cloud.dataset.reply = worry.reply;
+
+                const shape = document.createElement('div');
+                shape.className = 'cloud-shape';
+                shape.textContent = worry.text;
+                cloud.appendChild(shape);
+
+                // Position clouds in safe area (avoid sun in top-right)
+                const w = container.offsetWidth;
+                const h = container.offsetHeight;
+                let x, y, safe = false, tries = 0;
+                while (!safe && tries < 20) {
+                    tries++;
+                    x = 15 + Math.random() * (w - 150);
+                    y = 80 + Math.random() * (h * 0.5);
+                    if (x > w - 160 && y < 140) {
+                        safe = false;
+                    } else {
+                        safe = true;
+                    }
+                }
+
+                cloud.style.left = x + 'px';
+                cloud.style.top = y + 'px';
+
+                cloud.addEventListener('mousedown', cloudDragStart);
+                cloud.addEventListener('touchstart', cloudDragStart, { passive: false });
+
+                container.appendChild(cloud);
+                cloudState.clouds.push(cloud);
+            });
+
+            document.addEventListener('mousemove', cloudDragMove);
+            document.addEventListener('mouseup', cloudDragEnd);
+            document.addEventListener('touchmove', cloudDragMove, { passive: false });
+            document.addEventListener('touchend', cloudDragEnd);
+
+            updateCloudProgress();
+        }
+
+        function cloudDragStart(e) {
+            cloudState.activeDrag = e.currentTarget;
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            const rect = cloudState.activeDrag.getBoundingClientRect();
+            cloudState.offset.x = clientX - rect.left;
+            cloudState.offset.y = clientY - rect.top;
+            cloudState.activeDrag.style.zIndex = 100;
+            cloudState.activeDrag.style.transition = 'none';
+        }
+
+        function cloudDragMove(e) {
+            if (!cloudState.activeDrag) return;
+            e.preventDefault();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            const container = document.getElementById('cloudsContainer');
+            const containerRect = container.getBoundingClientRect();
+            let x = clientX - containerRect.left - cloudState.offset.x;
+            let y = clientY - containerRect.top - cloudState.offset.y;
+            cloudState.activeDrag.style.left = x + 'px';
+            cloudState.activeDrag.style.top = y + 'px';
+
+            // Check proximity to sun
+            const sun = document.getElementById('sunZone').getBoundingClientRect();
+            const cloudRect = cloudState.activeDrag.getBoundingClientRect();
+            const cx = cloudRect.left + cloudRect.width / 2;
+            const cy = cloudRect.top + cloudRect.height / 2;
+            const sunCx = sun.left + sun.width / 2;
+            const sunCy = sun.top + sun.height / 2;
+            const dist = Math.sqrt((cx - sunCx) ** 2 + (cy - sunCy) ** 2);
+
+            if (dist < 100) {
+                cloudState.activeDrag.classList.add('fading');
+            } else {
+                cloudState.activeDrag.classList.remove('fading');
+            }
+        }
+
+        function cloudDragEnd(e) {
+            if (!cloudState.activeDrag) return;
+            const cloud = cloudState.activeDrag;
+            const sun = document.getElementById('sunZone').getBoundingClientRect();
+            const cloudRect = cloud.getBoundingClientRect();
+            const cx = cloudRect.left + cloudRect.width / 2;
+            const cy = cloudRect.top + cloudRect.height / 2;
+            const sunCx = sun.left + sun.width / 2;
+            const sunCy = sun.top + sun.height / 2;
+            const dist = Math.sqrt((cx - sunCx) ** 2 + (cy - sunCy) ** 2);
+
+            if (dist < 80) {
+                recycleCloud(cloud);
+            } else {
+                cloud.style.zIndex = 10;
+                cloud.classList.remove('fading');
+            }
+            cloudState.activeDrag = null;
+        }
+
+        function recycleCloud(el) {
+            playSound('whoosh');
+            el.style.transition = 'all 0.6s ease-in';
+            el.style.transform = 'scale(0.1) rotate(360deg)';
+            el.style.opacity = '0';
+
+            // Show reframe reply
+            const reply = el.dataset.reply;
+            document.getElementById('cloudReframe').textContent = reply;
+
+            setTimeout(() => {
+                el.remove();
+                cloudState.cleared++;
+                updateCloudProgress();
+
+                if (cloudState.cleared >= cloudState.totalClouds) {
+                    playSound('victory');
+                    document.getElementById('cloudReframe').textContent = "All clear. You're ready. ✨";
+                    document.getElementById('cloudInstruction').textContent = "Mind clear!";
+                    setTimeout(() => {
+                        showGameCompletion('Mind Clear!', 'All worries burned away. You\'re ready! ✨');
+                    }, 800);
+                }
+            }, 600);
+        }
+
+        function updateCloudProgress() {
+            document.getElementById('cloudProgress').textContent = `${cloudState.cleared}/${cloudState.totalClouds} worries cleared`;
+        }
+
+        // ============================================================
+        // GAME 2: LUCKY STAR
+        // ============================================================
+        let starState = {
+            quoteIndex: 0,
+            quotes: defaultQuotes,
+            starSpinning: false
+        };
+
+        function initStarGame() {
+            // Generate starfield
+            const field = document.getElementById('starField');
+            field.innerHTML = '';
+
+            for (let i = 0; i < 50; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'starfield-dot';
+                dot.style.left = Math.random() * 100 + '%';
+                dot.style.top = Math.random() * 100 + '%';
+                dot.style.animationDelay = Math.random() * 10 + 's';
+                dot.style.animationDuration = (8 + Math.random() * 4) + 's';
+                field.appendChild(dot);
+            }
+
+            // Set quotes
+            if (state.fromTian) {
+                starState.quotes = state.tiansQuotes;
+            } else {
+                starState.quotes = defaultQuotes;
+                if (state.personalMessage) {
+                    starState.quotes.unshift(state.personalMessage);
+                }
+            }
+
+            starState.quoteIndex = 0;
+            document.getElementById('quoteCardContainer').style.display = 'none';
+        }
+
+        function tappedStar() {
+            if (starState.starSpinning) return;
+            playSound('chime');
+
+            starState.starSpinning = true;
+            const star = document.getElementById('bigStar');
+            star.classList.add('spinning');
+
+            setTimeout(() => {
+                star.classList.remove('spinning');
+                showStarQuote();
+                starState.starSpinning = false;
+            }, 600);
+        }
+
+        function showStarQuote() {
+            if (starState.quoteIndex >= starState.quotes.length) {
+                starState.quoteIndex = 0;
+            }
+
+            const quote = starState.quotes[starState.quoteIndex];
+            document.getElementById('quoteText').textContent = `"${quote}"`;
+            document.getElementById('quoteFrom').textContent = `from ${state.senderName}`;
+
+            const container = document.getElementById('quoteCardContainer');
+            container.style.display = 'block';
+
+            document.getElementById('nextQuoteBtn').style.display = 'block';
+        }
+
+        function nextStarQuote() {
+            starState.quoteIndex++;
+            tappedStar();
+        }
+
+        // ============================================================
+        // GAME 3: STAR CATCHER
+        // ============================================================
+        let catcherState = {
+            score: 0,
+            stars: [],
+            paddleX: 225,
+            gameRunning: true
+        };
+
+        function initStarCatcher() {
+            const canvas = document.getElementById('starCatcherCanvas');
+            const ctx = canvas.getContext('2d');
+
+            // Responsive canvas
+            canvas.width = Math.min(500, window.innerWidth - 40);
+            canvas.height = 350;
+
+            catcherState.score = 0;
+            catcherState.stars = [];
+            catcherState.gameRunning = true;
+
+            // Mouse/Touch tracking
+            document.addEventListener('mousemove', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                catcherState.paddleX = e.clientX - rect.left - 30;
+            });
+
+            document.addEventListener('touchmove', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                catcherState.paddleX = e.touches[0].clientX - rect.left - 30;
+            });
+
+            function gameLoop() {
+                ctx.fillStyle = 'rgba(24, 26, 46, 1)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Draw gradient background
+                const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                gradient.addColorStop(0, '#1a1a2e');
+                gradient.addColorStop(1, '#0f0f1e');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Draw stars
+                for (let i = 0; i < 30; i++) {
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+                    ctx.fillRect(Math.random() * canvas.width, Math.random() * canvas.height, 1, 1);
+                }
+
+                // Update and draw falling stars
+                if (Math.random() < 0.03) {
+                    catcherState.stars.push({
+                        x: Math.random() * (canvas.width - 30),
+                        y: -30,
+                        vx: Math.random() * 2 - 1,
+                        vy: 3
+                    });
+                }
+
+                for (let i = catcherState.stars.length - 1; i >= 0; i--) {
+                    const star = catcherState.stars[i];
+                    star.y += star.vy;
+                    star.x += star.vx;
+
+                    ctx.fillStyle = 'rgba(255, 215, 0, 0.8)';
+                    ctx.font = '24px Arial';
+                    ctx.fillText('⭐', star.x, star.y);
+
+                    // Glow
+                    ctx.shadowColor = 'rgba(255, 215, 0, 0.6)';
+                    ctx.shadowBlur = 10;
+
+                    // Check collision with paddle
+                    if (star.y > canvas.height - 50 && star.x > catcherState.paddleX && star.x < catcherState.paddleX + 60) {
+                        playSound('coin');
+                        catcherState.score++;
+                        catcherState.stars.splice(i, 1);
+
+                        // Flash
+                        ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                        // Float text
+                        const msg = document.createElement('div');
+                        msg.style.position = 'fixed';
+                        msg.style.color = '#FFD700';
+                        msg.style.fontWeight = '700';
+                        msg.textContent = '+1';
+                        msg.style.pointerEvents = 'none';
+                        document.body.appendChild(msg);
+                        setTimeout(() => msg.remove(), 1000);
+
+                        if (catcherState.score >= 5) {
+                            catcherState.gameRunning = false;
+                            playSound('victory');
+                            showGameCompletion('Star Catcher Complete!', `You caught ${catcherState.score} stars! ⭐`);
+                            return;
+                        }
+                    }
+
+                    if (star.y > canvas.height) {
+                        catcherState.stars.splice(i, 1);
+                    }
+                }
+
+                // Draw paddle
+                const paddleGrad = ctx.createLinearGradient(catcherState.paddleX, 0, catcherState.paddleX + 60, 0);
+                paddleGrad.addColorStop(0, '#FF69B4');
+                paddleGrad.addColorStop(1, '#FFB6D9');
+                ctx.fillStyle = paddleGrad;
+                ctx.fillRect(catcherState.paddleX, canvas.height - 20, 60, 15);
+                ctx.shadowColor = 'transparent';
+                ctx.shadowBlur = 0;
+
+                // Draw score
+                document.getElementById('starCatchCount').textContent = catcherState.score;
+
+                ctx.resetTransform();
+
+                if (catcherState.gameRunning) {
+                    requestAnimationFrame(gameLoop);
+                }
+            }
+
+            gameLoop();
+        }
+
+        // ============================================================
+        // GAME 4: RECHARGE HEART
+        // ============================================================
+        let heartState = {
+            charging: false,
+            chargeLevel: 0,
+            chargeStartTime: 0,
+            messages: [
+                'You\'re building momentum...',
+                'Energy flowing...',
+                'Getting stronger...',
+                'Almost there...',
+                'Perfect energy! ✨'
+            ]
+        };
+
+        function startHeartCharge() {
+            heartState.charging = true;
+            heartState.chargeStartTime = Date.now();
+            heartState.chargeLevel = 0;
+
+            const heart = document.getElementById('heartButton');
+
+            const updateCharge = () => {
+                if (!heartState.charging) return;
+
+                const elapsed = Date.now() - heartState.chargeStartTime;
+                // Base progress
+                const baseLevel = Math.min(100, (elapsed / 4000) * 100);
+
+                // Add wave fluctuation (simulates confidence wobble)
+                const wave = Math.sin(elapsed / 300) * 8;
+                heartState.chargeLevel = Math.max(0, Math.min(100, baseLevel + wave));
+
+                document.getElementById('chargeFill').style.width = heartState.chargeLevel + '%';
+
+                // Heart beat speed increases with charge
+                const beatSpeed = 1.5 - (heartState.chargeLevel / 100) * 1;
+                heart.style.animation = `heartPulse ${beatSpeed}s ease-in-out infinite`;
+
+                const messageIdx = Math.min(4, Math.floor(baseLevel / 25));
+                document.getElementById('chargeMessage').textContent = heartState.messages[messageIdx];
+
+                if (baseLevel >= 100) {
+                    heartState.charging = false;
+                    playSound('charge');
+                    heart.style.animation = 'heartPulse 0.3s ease-in-out infinite';
+                    setTimeout(() => {
+                        completeHeartCharge();
+                    }, 500);
+                    return;
+                }
+
+                if (Math.floor(baseLevel) % 25 === 0 && Math.floor(baseLevel) > 0) {
+                    playSound('charge');
+                }
+
+                requestAnimationFrame(updateCharge);
+            };
+
+            updateCharge();
+        }
+
+        function stopHeartCharge() {
+            if (heartState.chargeLevel > 0 && heartState.chargeLevel < 100) {
+                document.getElementById('chargeFill').style.width = '0%';
+                document.getElementById('chargeMessage').textContent = '';
+                heartState.chargeLevel = 0;
+            }
+            heartState.charging = false;
+        }
+
+        function completeHeartCharge() {
+            createConfetti();
+            playSound('victory');
+            showGameCompletion('Energy Charged!', 'You\'re ready to go! 💪');
+        }
+
+        // ============================================================
+        // GAME 5: MENTAL RUN (Doubt Smasher)
+        // ============================================================
+        let runnerState = {
+            y: 0,
+            vy: 0,
+            isJumping: false,
+            scrollX: 0,
+            obstacles: [],
+            collectibles: [],
+            smashed: 0,
+            trophies: 0,
+            gameRunning: false,
+            speed: 3,
+            groundY: 0,
+            canvasW: 0,
+            canvasH: 0,
+            animId: null,
+            jumpHandler: null,
+            keyHandler: null
+        };
+
+        const doubtWords = ['Doubt', 'Fear', 'Worry', 'Pressure', 'Fatigue', 'Nerves', 'Panic', 'Stress'];
+        const smashReplies = ['Believe!', 'Strong!', 'Brave!', 'Focused!', 'Calm!', 'Ready!', 'Power!', 'Yes!'];
+        let smashParticles = [];
+
+        function stopRunner() {
+            runnerState.gameRunning = false;
+            if (runnerState.animId) cancelAnimationFrame(runnerState.animId);
+            if (runnerState.jumpHandler) {
+                document.getElementById('runnerCanvas').removeEventListener('click', runnerState.jumpHandler);
+                document.getElementById('runnerCanvas').removeEventListener('touchstart', runnerState.jumpHandler);
+            }
+            if (runnerState.keyHandler) document.removeEventListener('keydown', runnerState.keyHandler);
+        }
+
+        function initRunnerGame() {
+            stopRunner();
+            const canvas = document.getElementById('runnerCanvas');
+            const ctx = canvas.getContext('2d');
+
+            // Responsive canvas
+            canvas.width = Math.min(500, window.innerWidth - 40);
+            canvas.height = 280;
+            runnerState.canvasW = canvas.width;
+            runnerState.canvasH = canvas.height;
+            runnerState.groundY = canvas.height - 50;
+            runnerState.y = runnerState.groundY;
+            runnerState.vy = 0;
+            runnerState.isJumping = false;
+            runnerState.scrollX = 0;
+            runnerState.obstacles = [];
+            runnerState.collectibles = [];
+            runnerState.smashed = 0;
+            runnerState.trophies = 0;
+            runnerState.gameRunning = true;
+            runnerState.speed = 3;
+            smashParticles = [];
+
+            function doJump() {
+                if (runnerState.gameRunning && !runnerState.isJumping) {
+                    runnerState.vy = -11;
+                    runnerState.isJumping = true;
+                    playSound('jump');
+                }
+            }
+
+            runnerState.jumpHandler = function(e) {
+                e.preventDefault();
+                doJump();
+            };
+            runnerState.keyHandler = function(e) {
+                if (e.code === 'Space') { e.preventDefault(); doJump(); }
+            };
+
+            canvas.addEventListener('click', runnerState.jumpHandler);
+            canvas.addEventListener('touchstart', runnerState.jumpHandler, { passive: false });
+            document.addEventListener('keydown', runnerState.keyHandler);
+
+            let frameCount = 0;
+            let nextObstacle = 120;
+            let nextCollectible = 200;
+
+            function gameLoop() {
+                if (!runnerState.gameRunning) return;
+
+                frameCount++;
+                runnerState.speed = 3 + Math.floor(runnerState.smashed / 3); // Speed up
+
+                // Sky gradient
+                const sky = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                sky.addColorStop(0, '#87CEEB');
+                sky.addColorStop(1, '#E0F7FA');
+                ctx.fillStyle = sky;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Ground
+                ctx.fillStyle = '#4CAF50';
+                ctx.fillRect(0, runnerState.groundY + 20, canvas.width, canvas.height - runnerState.groundY);
+                ctx.fillStyle = '#66BB6A';
+                ctx.fillRect(0, runnerState.groundY + 18, canvas.width, 6);
+
+                // Physics
+                runnerState.vy += 0.65;
+                runnerState.y += runnerState.vy;
+                if (runnerState.y >= runnerState.groundY) {
+                    runnerState.y = runnerState.groundY;
+                    runnerState.vy = 0;
+                    runnerState.isJumping = false;
+                }
+
+                runnerState.scrollX += runnerState.speed;
+
+                // Spawn obstacles
+                nextObstacle--;
+                if (nextObstacle <= 0) {
+                    const word = doubtWords[runnerState.obstacles.length % doubtWords.length];
+                    runnerState.obstacles.push({
+                        x: canvas.width + 20,
+                        word: word,
+                        smashed: false
+                    });
+                    nextObstacle = 80 + Math.floor(Math.random() * 80);
+                }
+
+                // Spawn collectibles
+                nextCollectible--;
+                if (nextCollectible <= 0) {
+                    runnerState.collectibles.push({
+                        x: canvas.width + 20,
+                        y: runnerState.groundY - 50 - Math.random() * 40,
+                        collected: false
+                    });
+                    nextCollectible = 100 + Math.floor(Math.random() * 100);
+                }
+
+                // Draw & update obstacles
+                for (let i = runnerState.obstacles.length - 1; i >= 0; i--) {
+                    const obs = runnerState.obstacles[i];
+                    obs.x -= runnerState.speed;
+
+                    if (!obs.smashed) {
+                        // Red block with text
+                        ctx.fillStyle = '#EF5350';
+                        ctx.fillRect(obs.x, runnerState.groundY - 20, 50, 40);
+                        ctx.fillStyle = '#fff';
+                        ctx.font = 'bold 10px Nunito';
+                        ctx.textAlign = 'center';
+                        ctx.fillText(obs.word, obs.x + 25, runnerState.groundY + 5);
+
+                        // Collision
+                        const charX = 60;
+                        if (charX + 10 > obs.x && charX - 10 < obs.x + 50 && runnerState.y > runnerState.groundY - 35) {
+                            obs.smashed = true;
+                            runnerState.smashed++;
+                            playSound('hit');
+
+                            // Spawn smash particles
+                            const reply = smashReplies[runnerState.smashed % smashReplies.length];
+                            for (let p = 0; p < 6; p++) {
+                                smashParticles.push({
+                                    x: obs.x + 25, y: runnerState.groundY - 10,
+                                    vx: (Math.random() - 0.5) * 6,
+                                    vy: -Math.random() * 5 - 2,
+                                    text: p === 0 ? reply : '✦',
+                                    life: 40,
+                                    color: p === 0 ? '#4CAF50' : '#FFD700'
+                                });
+                            }
+
+                            document.getElementById('runScore').textContent = `🏆 ${runnerState.smashed}/8 Doubts Smashed`;
+
+                            if (runnerState.smashed >= 8) {
+                                runnerState.gameRunning = false;
+                                playSound('victory');
+                                showGameCompletion('Mental Run Complete!', `You smashed ${runnerState.smashed} doubts and collected ${runnerState.trophies} trophies! 🏃‍♂️`);
+                                return;
+                            }
+                        }
+                    }
+
+                    if (obs.x < -60) runnerState.obstacles.splice(i, 1);
+                }
+
+                // Draw & update collectibles
+                for (let i = runnerState.collectibles.length - 1; i >= 0; i--) {
+                    const col = runnerState.collectibles[i];
+                    col.x -= runnerState.speed;
+
+                    if (!col.collected) {
+                        ctx.font = '22px Arial';
+                        ctx.textAlign = 'center';
+                        ctx.fillText('🏆', col.x, col.y);
+
+                        const charX = 60;
+                        if (Math.abs(charX - col.x) < 25 && Math.abs(runnerState.y - col.y) < 30) {
+                            col.collected = true;
+                            runnerState.trophies++;
+                            playSound('coin');
+                        }
+                    }
+
+                    if (col.x < -30) runnerState.collectibles.splice(i, 1);
+                }
+
+                // Draw smash particles
+                for (let i = smashParticles.length - 1; i >= 0; i--) {
+                    const p = smashParticles[i];
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.vy += 0.15;
+                    p.life--;
+
+                    ctx.globalAlpha = p.life / 40;
+                    ctx.fillStyle = p.color;
+                    ctx.font = p.text.length > 2 ? 'bold 14px Nunito' : '12px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(p.text, p.x, p.y);
+                    ctx.globalAlpha = 1;
+
+                    if (p.life <= 0) smashParticles.splice(i, 1);
+                }
+
+                // Draw character (stick figure)
+                const cx = 60;
+                const cy = runnerState.y;
+                const legPhase = Math.sin(frameCount * 0.3) * 8;
+
+                // Body
+                ctx.strokeStyle = '#333';
+                ctx.lineWidth = 3;
+                ctx.lineCap = 'round';
+
+                // Torso
+                ctx.beginPath();
+                ctx.moveTo(cx, cy - 5);
+                ctx.lineTo(cx, cy + 15);
+                ctx.stroke();
+
+                // Head
+                ctx.fillStyle = '#FFD54F';
+                ctx.beginPath();
+                ctx.arc(cx, cy - 12, 8, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+
+                // Arms
+                ctx.beginPath();
+                ctx.moveTo(cx, cy + 2);
+                ctx.lineTo(cx - 10 + legPhase, cy - 5);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(cx, cy + 2);
+                ctx.lineTo(cx + 10 - legPhase, cy - 5);
+                ctx.stroke();
+
+                // Legs
+                ctx.beginPath();
+                ctx.moveTo(cx, cy + 15);
+                ctx.lineTo(cx - 6 + legPhase, cy + 28);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(cx, cy + 15);
+                ctx.lineTo(cx + 6 - legPhase, cy + 28);
+                ctx.stroke();
+
+                ctx.textAlign = 'start';
+                ctx.resetTransform();
+
+                runnerState.animId = requestAnimationFrame(gameLoop);
+            }
+
+            gameLoop();
+        }
+
+        // ============================================================
+        // GAME 6: RHYTHM TAP
+        // ============================================================
+        let rhythmState = {
+            combo: 0,
+            maxCombo: 0,
+            currentIdx: 0,
+            sequence: [],
+            totalCircles: 16,
+            activeCircle: -1,
+            canTap: false,
+            ringStartTime: 0,
+            score: 0,
+            perfectWindow: 200
+        };
+
+        const rhythmAffirmations = [
+            'I am focused and ready to compete today',
+            'My mind is clear and my body is strong',
+            'I trust my training and believe in myself',
+            'I am calm under pressure and play with joy'
+        ];
+
+        function initRhythmGame() {
+            rhythmState.combo = 0;
+            rhythmState.currentIdx = 0;
+            rhythmState.score = 0;
+            rhythmState.canTap = false;
+
+            // Generate random sequence of 8 taps from 16 circles
+            const allIndices = [...Array(rhythmState.totalCircles).keys()];
+            rhythmState.sequence = [];
+            const shuffled = allIndices.sort(() => Math.random() - 0.5);
+            rhythmState.sequence = shuffled.slice(0, 8);
+
+            const container = document.getElementById('rhythmCircles');
+            container.innerHTML = '';
+
+            for (let i = 0; i < rhythmState.totalCircles; i++) {
+                const circle = document.createElement('div');
+                circle.className = 'rhythm-circle';
+                circle.id = `circle-${i}`;
+                circle.onclick = () => tapRhythm(i);
+                container.appendChild(circle);
+            }
+
+            document.getElementById('comboDisplay').textContent = 'Watch...';
+            document.getElementById('rhythmMessage').textContent = '';
+            document.getElementById('sentenceDisplay').textContent = '';
+
+            setTimeout(() => startRhythmSequence(), 800);
+        }
+
+        function startRhythmSequence() {
+            activateNextCircle();
+        }
+
+        function activateNextCircle() {
+            if (rhythmState.currentIdx >= rhythmState.sequence.length) {
+                // All done
+                const affirmation = rhythmAffirmations[Math.floor(Math.random() * rhythmAffirmations.length)];
+                document.getElementById('sentenceDisplay').innerHTML = `<strong>"${affirmation}"</strong>`;
+                playSound('victory');
+                setTimeout(() => {
+                    showGameCompletion('Rhythm Complete!', `Score: ${rhythmState.score}/8 | Max combo: ${rhythmState.combo}x 🎵`);
+                }, 600);
+                return;
+            }
+
+            const circleIdx = rhythmState.sequence[rhythmState.currentIdx];
+            const circle = document.getElementById(`circle-${circleIdx}`);
+            circle.style.background = 'rgba(255, 105, 180, 0.3)';
+
+            // Add shrinking ring
+            const ring = document.createElement('div');
+            ring.className = 'rhythm-ring';
+            circle.appendChild(ring);
+
+            rhythmState.activeCircle = circleIdx;
+            rhythmState.canTap = true;
+            rhythmState.ringStartTime = Date.now();
+
+            // Auto-miss after ring animation ends
+            setTimeout(() => {
+                if (rhythmState.canTap && rhythmState.activeCircle === circleIdx) {
+                    missRhythm(circleIdx);
+                }
+            }, 1300);
+        }
+
+        function tapRhythm(circleIdx) {
+            if (!rhythmState.canTap) return;
+            if (circleIdx !== rhythmState.activeCircle) return;
+
+            rhythmState.canTap = false;
+            const circle = document.getElementById(`circle-${circleIdx}`);
+
+            // Remove ring
+            const ring = circle.querySelector('.rhythm-ring');
+            if (ring) ring.remove();
+
+            // Timing judgment
+            const elapsed = Date.now() - rhythmState.ringStartTime;
+            const idealTime = 1000; // ring shrinks over 1.2s, ideal tap around 1s
+            const diff = Math.abs(elapsed - idealTime);
+
+            if (diff < rhythmState.perfectWindow) {
+                circle.classList.add('perfect');
+                circle.textContent = '✓';
+                rhythmState.combo++;
+                rhythmState.score++;
+                playSound('rhythmPerfect');
+                document.getElementById('rhythmMessage').textContent = '✨ Perfect!';
+                document.getElementById('comboDisplay').textContent = `${rhythmState.combo}x Combo!`;
+            } else if (diff < 400) {
+                circle.classList.add('good');
+                circle.textContent = '~';
+                rhythmState.combo++;
+                rhythmState.score++;
+                playSound('rhythmHit');
+                document.getElementById('rhythmMessage').textContent = 'Good!';
+                document.getElementById('comboDisplay').textContent = `${rhythmState.combo}x Combo!`;
+            } else {
+                circle.classList.add('miss');
+                circle.textContent = '✗';
+                rhythmState.combo = 0;
+                playSound('hit');
+                document.getElementById('rhythmMessage').textContent = 'Too early!';
+                document.getElementById('comboDisplay').textContent = 'Combo broken';
+            }
+
+            rhythmState.maxCombo = Math.max(rhythmState.maxCombo, rhythmState.combo);
+            rhythmState.currentIdx++;
+
+            setTimeout(() => activateNextCircle(), 600);
+        }
+
+        function missRhythm(circleIdx) {
+            rhythmState.canTap = false;
+            const circle = document.getElementById(`circle-${circleIdx}`);
+            const ring = circle.querySelector('.rhythm-ring');
+            if (ring) ring.remove();
+
+            circle.classList.add('miss');
+            circle.textContent = '✗';
+            rhythmState.combo = 0;
+            playSound('hit');
+            document.getElementById('rhythmMessage').textContent = 'Miss!';
+            document.getElementById('comboDisplay').textContent = 'Combo broken';
+
+            rhythmState.currentIdx++;
+            setTimeout(() => activateNextCircle(), 600);
+        }
+
+        // ============================================================
+        // GAME 7: PRESSURE BALLOON
+        // ============================================================
+        let balloonState = {
+            pressure: 0,
+            locked: false,
+            popThreshold: 0,
+            pumps: 0
+        };
+
+        function initBalloonGame() {
+            balloonState.pressure = 0;
+            balloonState.locked = false;
+            balloonState.pumps = 0;
+            // Random pop point between 70 and 95
+            balloonState.popThreshold = 70 + Math.floor(Math.random() * 26);
+
+            const balloon = document.getElementById('balloon');
+            balloon.textContent = '🎈';
+            balloon.style.fontSize = '100px';
+            balloon.style.filter = 'none';
+            balloon.style.animation = '';
+            document.getElementById('balloonFeedback').textContent = '';
+            document.getElementById('balloonHint').textContent = 'How far can you push it?';
+            document.getElementById('pumpBtn').disabled = false;
+            document.getElementById('lockBtn').disabled = false;
+        }
+
+        function pumpBalloon() {
+            if (balloonState.locked) return;
+
+            // Random increment between 4 and 14
+            const increment = 4 + Math.floor(Math.random() * 11);
+            balloonState.pressure = Math.min(balloonState.pressure + increment, 100);
+            balloonState.pumps++;
+
+            playSound('pump');
+
+            const balloon = document.getElementById('balloon');
+            const baseSize = 80;
+            const newSize = baseSize + (balloonState.pressure / 100) * 100;
+            balloon.style.fontSize = newSize + 'px';
+
+            // Color shift: green → yellow → red via hue
+            const hue = 120 - (balloonState.pressure / 100) * 120; // 120=green, 0=red
+            balloon.style.filter = `hue-rotate(${hue - 0}deg)`;
+
+            // Trembling at high pressure
+            if (balloonState.pressure > 50) {
+                const intensity = ((balloonState.pressure - 50) / 50) * 4;
+                balloon.style.animation = `wiggle ${0.3 - intensity * 0.03}s ease infinite`;
+            }
+
+            // Feedback text (no numbers shown!)
+            const feedback = document.getElementById('balloonFeedback');
+            if (balloonState.pressure < 30) {
+                feedback.textContent = 'Warming up...';
+            } else if (balloonState.pressure < 50) {
+                feedback.textContent = 'Building pressure...';
+            } else if (balloonState.pressure < 70) {
+                feedback.textContent = 'Getting tense...';
+            } else if (balloonState.pressure < 85) {
+                feedback.textContent = '⚠️ Careful now...';
+            } else {
+                feedback.textContent = '🔥 DANGER ZONE!';
+            }
+
+            // Check pop
+            if (balloonState.pressure >= balloonState.popThreshold) {
+                popBalloon();
+            }
+        }
+
+        function popBalloon() {
+            playSound('pop');
+            balloonState.locked = true;
+            const balloon = document.getElementById('balloon');
+            balloon.textContent = '💨';
+            balloon.style.animation = '';
+            document.getElementById('pumpBtn').disabled = true;
+            document.getElementById('lockBtn').disabled = true;
+            document.getElementById('balloonFeedback').textContent = '';
+
+            createConfetti();
+            setTimeout(() => {
+                showGameCompletion(
+                    'Boom! 💥',
+                    `You pushed ${balloonState.pumps} times! The balloon popped at ${balloonState.popThreshold}%. Brave, but risky! 🎈`
+                );
+            }, 400);
+        }
+
+        function lockPressure() {
+            if (balloonState.locked || balloonState.pressure === 0) return;
+            balloonState.locked = true;
+            playSound('victory');
+            document.getElementById('pumpBtn').disabled = true;
+            document.getElementById('lockBtn').disabled = true;
+
+            const balloon = document.getElementById('balloon');
+            balloon.style.animation = '';
+
+            // Courage score: how close to pop threshold without popping
+            const closeness = balloonState.pressure / balloonState.popThreshold;
+            let title, message;
+            if (closeness > 0.9) {
+                title = 'Ice Cold Nerves! 🧊';
+                message = `Locked at ${balloonState.pressure}% — only ${balloonState.popThreshold - balloonState.pressure}% from the edge! Courage: 100/100`;
+            } else if (closeness > 0.7) {
+                title = 'Calculated Risk! 🎯';
+                message = `Locked at ${balloonState.pressure}% (pop was at ${balloonState.popThreshold}%). Courage: ${Math.round(closeness * 100)}/100`;
+            } else if (closeness > 0.4) {
+                title = 'Playing it Safe 🛡️';
+                message = `Locked at ${balloonState.pressure}% (pop was at ${balloonState.popThreshold}%). Plenty of room left!`;
+            } else {
+                title = 'Just Getting Started 😅';
+                message = `Locked at ${balloonState.pressure}% — the balloon had way more room! (pop: ${balloonState.popThreshold}%)`;
+            }
+
+            createConfetti();
+            setTimeout(() => {
+                showGameCompletion(title, message);
+            }, 400);
+        }
+
+        // ============================================================
+        // UTILITIES & EFFECTS
+        // ============================================================
+        function createConfetti() {
+            for (let i = 0; i < 30; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'fixed';
+                confetti.style.left = Math.random() * window.innerWidth + 'px';
+                confetti.style.top = '-10px';
+                confetti.style.width = '10px';
+                confetti.style.height = '10px';
+                confetti.style.background = ['#FF69B4', '#FFB6D9', '#FFD700', '#42A5F5'][Math.floor(Math.random() * 4)];
+                confetti.style.borderRadius = '50%';
+                confetti.style.pointerEvents = 'none';
+                confetti.style.animation = `confetti ${2 + Math.random() * 1}s ease-out forwards`;
+                document.body.appendChild(confetti);
+
+                setTimeout(() => confetti.remove(), 3000);
+            }
+        }
+
+        function showGameCompletion(title, message) {
+            // Track which game was completed
+            const currentScreen = document.querySelector('.screen[style*="display: flex"]');
+            if (currentScreen) {
+                const screenId = currentScreen.id;
+                const game = GAMES.find(g => g.screen === screenId);
+                if (game && state.completedGames && !state.completedGames.includes(game.id)) {
+                    state.completedGames.push(game.id);
+                }
+            }
+
+            const overlay = document.createElement('div');
+            overlay.className = 'modal-overlay';
+            overlay.innerHTML = `
+                <div class="modal-content">
+                    <h2 style="font-size: 28px; margin-bottom: 15px;">🎉 ${title}</h2>
+                    <p style="font-size: 16px; margin-bottom: 25px; opacity: 0.8;">${message}</p>
+                    <button class="btn btn-primary-0" style="width: 100%;" onclick="this.closest('.modal-overlay').remove(); goToScreen('gameHubScreen');">
+                        Back to Games
+                    </button>
+                </div>
+            `;
+            overlay.onclick = (e) => {
+                if (e.target === overlay) {
+                    overlay.remove();
+                    goToScreen('gameHubScreen');
+                }
+            };
+            document.body.appendChild(overlay);
+            vibrate([200, 100, 200]);
+            createConfetti();
+        }
+
+        // ============================================================
+        // QUIZ MODE
+        // ============================================================
+        const QUIZ_BANK = [
+            // PERSONAL (0-5)
+            { id: 0, cat: 'personal', q: "My zodiac sign?", opts: ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"] },
+            { id: 1, cat: 'personal', q: "Morning person or night owl?", opts: ["Early bird", "Night owl", "Depends", "Always tired"] },
+            { id: 2, cat: 'personal', q: "My birth month?", opts: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] },
+            { id: 3, cat: 'personal', q: "My phone wallpaper is...", opts: ["Family/friends", "Nature", "My sport", "Motivational quote", "Pet", "Selfie", "Abstract/aesthetic"] },
+            { id: 4, cat: 'personal', q: "My love language?", opts: ["Words of affirmation", "Quality time", "Acts of service", "Receiving gifts", "Physical touch"] },
+            { id: 5, cat: 'personal', q: "I can't leave home without...", opts: ["Headphones", "Water bottle", "Lucky charm", "Snacks", "Phone charger", "Sunglasses", "Chapstick"] },
+            // LIFESTYLE (6-11)
+            { id: 6, cat: 'lifestyle', q: "How I relax after a long day?", opts: ["Watch shows", "Read/journal", "Cook", "Hang with friends", "Nap", "Video games", "Listen to music", "Exercise"] },
+            { id: 7, cat: 'lifestyle', q: "My guilty pleasure?", opts: ["Reality TV", "Junk food", "Online shopping", "Sleeping in", "Video games", "Gossip", "Napping all day"] },
+            { id: 8, cat: 'lifestyle', q: "Favorite season?", opts: ["Summer", "Fall", "Winter", "Spring"] },
+            { id: 9, cat: 'lifestyle', q: "My favorite social media?", opts: ["Instagram", "TikTok", "YouTube", "Twitter/X", "Snapchat", "Pinterest", "BeReal"] },
+            { id: 10, cat: 'lifestyle', q: "My Netflix style?", opts: ["Binge entire series", "One episode at a time", "Fall asleep watching", "Only watch with friends"] },
+            { id: 11, cat: 'lifestyle', q: "My morning starts with...", opts: ["Alarm + snooze", "Up before alarm", "Scrolling phone", "Straight to food"] },
+            // SPORT (12-17)
+            { id: 12, cat: 'sport', q: "My pre-game ritual?", opts: ["Listen to music", "Meditate/pray", "Specific warmup", "Talk to teammates", "Eat specific food", "Cold shower", "Journal/visualize"] },
+            { id: 13, cat: 'sport', q: "What motivates me most?", opts: ["Winning", "Self-improvement", "Making people proud", "Proving doubters wrong", "Love for the game", "Teammates counting on me"] },
+            { id: 14, cat: 'sport', q: "My biggest game-day fear?", opts: ["Making mistakes", "Letting team down", "Getting injured", "Losing focus"] },
+            { id: 15, cat: 'sport', q: "After a tough loss I usually...", opts: ["Watch film", "Call someone close", "Go quiet", "Train harder next day", "Journal about it", "Eat comfort food"] },
+            { id: 16, cat: 'sport', q: "My most embarrassing sports moment?", opts: ["Tripped on field", "Wrong jersey/gear", "Missed easy play", "Celebrated too early", "Waved at wrong person", "Fell during warmup"] },
+            { id: 17, cat: 'sport', q: "In the locker room I'm the one who...", opts: ["Plays the music", "Gives the speeches", "Stays quiet & focused", "Makes everyone laugh"] },
+            // CAREER & FUTURE (18-23)
+            { id: 18, cat: 'career', q: "If not an athlete, I'd be a...", opts: ["Doctor/nurse", "Business owner", "Artist/creator", "Teacher/coach", "Lawyer", "Engineer", "Chef", "Influencer/content creator"] },
+            { id: 19, cat: 'career', q: "My dream after sports?", opts: ["Coach/mentor", "Start a business", "Media/broadcast", "Something totally different", "Stay in sports management", "Go back to school"] },
+            { id: 20, cat: 'career', q: "My major/area of study?", opts: ["Business/Econ", "Science/Pre-med", "Communications/Media", "Engineering/Tech", "Psychology", "Kinesiology/Sport Science", "Education", "Arts/Design", "Undecided"] },
+            { id: 21, cat: 'career', q: "Where do I see myself in 10 years?", opts: ["Pro athlete", "Family life", "Running a company", "Traveling the world", "Coaching next generation", "Working in tech"] },
+            { id: 22, cat: 'career', q: "My leadership style?", opts: ["Lead by example", "Vocal motivator", "Quiet but steady", "Strategic planner"] },
+            { id: 23, cat: 'career', q: "What success means to me?", opts: ["Championships", "Personal growth", "Making impact", "Being happy"] },
+            // PERSONALITY (24-31)
+            { id: 24, cat: 'personality', q: "Under pressure I tend to...", opts: ["Get hyper-focused", "Stay calm", "Get nervous", "Rise to the occasion", "Overthink everything", "Get extra competitive"] },
+            { id: 25, cat: 'personality', q: "My biggest pet peeve?", opts: ["Being late", "Negativity", "Laziness", "Excuses", "Dishonesty", "Disrespect", "Loud chewing"] },
+            { id: 26, cat: 'personality', q: "One word my coach uses for me?", opts: ["Determined", "Coachable", "Intense", "Reliable", "Passionate", "Disciplined", "Fearless", "Versatile"] },
+            { id: 27, cat: 'personality', q: "One word my friends use for me?", opts: ["Funny", "Loyal", "Competitive", "Caring", "Wild", "Chill", "Smart", "Generous"] },
+            { id: 28, cat: 'personality', q: "What I value most in a teammate?", opts: ["Loyalty", "Work ethic", "Humor", "Communication", "Honesty", "Toughness"] },
+            { id: 29, cat: 'personality', q: "My biggest strength?", opts: ["Mental toughness", "Speed/power", "Teamwork", "Creativity", "Leadership", "Discipline", "Adaptability", "Endurance"] },
+            { id: 30, cat: 'personality', q: "How I handle conflict?", opts: ["Talk it out", "Give space first", "Avoid it", "Address directly"] },
+            { id: 31, cat: 'personality', q: "Introvert or extrovert?", opts: ["Total extrovert", "Mostly introvert", "Ambivert", "Depends on the day"] },
+            // FUN (32-38)
+            { id: 32, cat: 'fun', q: "Favorite movie genre?", opts: ["Action", "Comedy", "Drama/romance", "Horror/thriller", "Sci-fi", "Documentary", "Animation"] },
+            { id: 33, cat: 'fun', q: "My worst habit?", opts: ["Procrastinating", "Overthinking", "Being messy", "Snacking too much", "Biting nails", "Staying up late", "Being too competitive"] },
+            { id: 34, cat: 'fun', q: "If I won the lottery...", opts: ["Invest it all", "Travel everywhere", "Buy a mansion", "Help family first"] },
+            { id: 35, cat: 'fun', q: "My ideal weekend?", opts: ["Adventure outdoors", "Netflix & chill", "Party with friends", "Quality family time", "Sleep all day", "Road trip"] },
+            { id: 36, cat: 'fun', q: "The thing that makes me laugh most?", opts: ["Memes", "Friends being dumb", "Stand-up comedy", "Animals", "TikToks", "Inside jokes"] },
+            { id: 37, cat: 'fun', q: "My most used emoji?", opts: ["😂", "❤️", "🔥", "💀", "😭", "🙏", "💪", "😍"] },
+            { id: 38, cat: 'fun', q: "Pineapple on pizza?", opts: ["Absolutely yes", "Never ever", "Depends on mood", "Don't care"] }
+        ];
+
+        let quizState = {
+            athleteName: '',
+            sport: '',
+            selectedQs: [],
+            answers: {},
+            fanAnswers: [],
+            fanScore: 0,
+            fanRole: '',
+            currentQ: 0
+        };
+
+        function selectQuizSport(el, sport) {
+            document.querySelectorAll('#quizSportSelector .sport-button').forEach(b => b.classList.remove('selected'));
+            el.classList.add('selected');
+            quizState.sport = sport;
+        }
+
+        function goToQuizQuestions() {
+            const name = document.getElementById('quizAthleteName').value.trim();
+            if (!name) { alert('Please enter your name'); return; }
+            quizState.athleteName = name;
+            quizState.selectedQs = [];
+
+            const list = document.getElementById('quizQuestionList');
+            list.innerHTML = '';
+
+            const categories = [
+                { key: 'personal', label: '🧑 Personal', color: '#FF69B4' },
+                { key: 'lifestyle', label: '🍕 Lifestyle', color: '#42A5F5' },
+                { key: 'sport', label: '🏆 Sport', color: '#4CAF50' },
+                { key: 'career', label: '💼 Career & Future', color: '#FF9800' },
+                { key: 'personality', label: '🧠 Personality', color: '#9C27B0' },
+                { key: 'fun', label: '🎉 Fun', color: '#FFD700' }
+            ];
+
+            categories.forEach(cat => {
+                const header = document.createElement('div');
+                header.style.cssText = `font-weight: 700; font-size: 14px; margin: 12px 0 6px; color: ${cat.color}; display: flex; align-items: center; gap: 6px;`;
+                header.textContent = cat.label;
+                list.appendChild(header);
+
+                const catQs = QUIZ_BANK.filter(q => q.cat === cat.key);
+                catQs.forEach(q => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.style.cssText = 'padding: 12px 14px; cursor: pointer; font-size: 13px; border: 2px solid transparent; margin: 0;';
+                    card.dataset.qid = q.id;
+                    card.textContent = q.q;
+                    card.onclick = () => toggleQuizQuestion(q.id, card);
+                    list.appendChild(card);
+                });
+            });
+            updateQuizPickCount();
+            goToScreen('quizQuestionsScreen');
+        }
+
+        // swapAnswerQuestion is defined above in goToQuizAnswers section
+
+        function toggleQuizQuestion(qid, card) {
+            if (quizState.selectedQs.includes(qid)) {
+                quizState.selectedQs = quizState.selectedQs.filter(id => id !== qid);
+                card.style.borderColor = 'transparent';
+                card.style.background = 'rgba(255,255,255,0.95)';
+            } else {
+                if (quizState.selectedQs.length >= 8) {
+                    alert('Maximum 8 questions! Deselect one first.');
+                    return;
+                }
+                quizState.selectedQs.push(qid);
+                card.style.borderColor = '#FF69B4';
+                card.style.background = 'rgba(255,105,180,0.08)';
+            }
+            updateQuizPickCount();
+        }
+
+        function updateQuizPickCount() {
+            document.getElementById('quizPickCount').textContent = `${quizState.selectedQs.length}/8 selected`;
+        }
+
+        function goToQuizAnswers() {
+            if (quizState.selectedQs.length < 8) {
+                alert('Please select exactly 8 questions');
+                return;
+            }
+            quizState.answers = {};
+            renderQuizAnswerList();
+            goToScreen('quizAnswersScreen');
+        }
+
+        function renderQuizAnswerList() {
+            const list = document.getElementById('quizAnswerList');
+            list.innerHTML = '';
+            quizState.selectedQs.forEach((qid, idx) => {
+                const q = QUIZ_BANK[qid];
+                const div = document.createElement('div');
+                div.dataset.answerIdx = idx;
+                div.style.cssText = 'background: rgba(255,255,255,0.9); border-radius: 14px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);';
+
+                const header = document.createElement('div');
+                header.style.cssText = 'display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;';
+
+                const title = document.createElement('p');
+                title.style.cssText = 'font-weight: 700; font-size: 14px; margin: 0; flex: 1;';
+                title.textContent = q.q;
+
+                const swapBtn = document.createElement('button');
+                swapBtn.textContent = '🔄 Swap';
+                swapBtn.style.cssText = 'background: none; border: 1px solid #ccc; border-radius: 20px; font-size: 12px; cursor: pointer; padding: 4px 10px; opacity: 0.7; flex-shrink: 0; margin-left: 8px;';
+                swapBtn.onclick = () => swapAnswerQuestion(idx);
+
+                header.appendChild(title);
+                header.appendChild(swapBtn);
+                div.appendChild(header);
+
+                // Use 2-col grid for <=4 options, 3-col for 5-9, 4-col for 10+
+                const cols = q.opts.length <= 4 ? 2 : q.opts.length <= 9 ? 3 : 4;
+                const grid = document.createElement('div');
+                grid.style.cssText = `display: grid; grid-template-columns: repeat(${cols}, 1fr); gap: 8px;`;
+                q.opts.forEach((opt, i) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'pill';
+                    btn.style.cssText = 'font-size: 12px; padding: 8px 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;';
+                    if (quizState.answers[qid] === i) {
+                        btn.classList.add('active');
+                    }
+                    btn.textContent = opt;
+                    btn.onclick = () => setQuizAnswer(qid, i, btn);
+                    grid.appendChild(btn);
+                });
+                div.appendChild(grid);
+                list.appendChild(div);
+            });
+        }
+
+        function swapAnswerQuestion(idx) {
+            const currentQid = quizState.selectedQs[idx];
+            const currentQ = QUIZ_BANK[currentQid];
+            const cat = currentQ.cat;
+
+            // Find questions in same category not currently selected
+            const catQs = QUIZ_BANK.filter(q => q.cat === cat);
+            const available = catQs.filter(q => !quizState.selectedQs.includes(q.id));
+
+            if (available.length === 0) {
+                // No more questions in this category, wiggle
+                const cards = document.querySelectorAll('#quizAnswerList > div');
+                if (cards[idx]) {
+                    cards[idx].style.animation = 'wiggle 0.3s ease';
+                    setTimeout(() => cards[idx].style.animation = '', 300);
+                }
+                return;
+            }
+
+            const newQ = available[Math.floor(Math.random() * available.length)];
+            // Replace in selectedQs
+            quizState.selectedQs[idx] = newQ.id;
+            // Clear old answer
+            delete quizState.answers[currentQid];
+            // Re-render answer list
+            renderQuizAnswerList();
+        }
+
+        function setQuizAnswer(qid, optIdx, el) {
+            quizState.answers[qid] = optIdx;
+            // Highlight selected
+            el.parentElement.querySelectorAll('.pill').forEach(p => {
+                p.classList.remove('active');
+                p.style.background = '';
+            });
+            el.classList.add('active');
+        }
+
+        function generateQuizLink() {
+            // Check all answered
+            const unanswered = quizState.selectedQs.filter(qid => quizState.answers[qid] === undefined);
+            if (unanswered.length > 0) {
+                alert(`Please answer all questions! ${unanswered.length} remaining.`);
+                return;
+            }
+
+            // Compact encoding: "name|sport|q0a0|q1a1|..."
+            const parts = [quizState.athleteName, quizState.sport];
+            quizState.selectedQs.forEach(qid => {
+                parts.push(`${qid}.${quizState.answers[qid]}`);
+            });
+            const encoded = btoa(unescape(encodeURIComponent(parts.join('|'))));
+            const baseUrl = window.location.href.split('#')[0].split('?')[0];
+            const url = baseUrl + '#quiz=' + encoded;
+
+            document.getElementById('quizLink').value = url;
+            goToScreen('quizShareScreen');
+        }
+
+        function copyQuizLink() {
+            const input = document.getElementById('quizLink');
+            input.select();
+            document.execCommand('copy');
+            event.target.textContent = '✓ Copied!';
+            setTimeout(() => { event.target.textContent = '📋 Copy'; }, 2000);
+        }
+
+        function shareQuizLink() {
+            const url = document.getElementById('quizLink').value;
+            if (navigator.share) {
+                navigator.share({ title: `How well do you know ${quizState.athleteName}?`, url: url }).catch(() => {});
+            } else {
+                copyQuizLink();
+            }
+        }
+
+        // --- FAN TAKING THE QUIZ ---
+        function loadQuizFromUrl() {
+            const hash = window.location.hash;
+            if (!hash.includes('quiz=')) return false;
+
+            try {
+                const encoded = hash.split('quiz=')[1];
+                const decoded = decodeURIComponent(escape(atob(encoded)));
+                const parts = decoded.split('|');
+                quizState.athleteName = parts[0];
+                quizState.sport = parts[1] || '';
+                quizState.selectedQs = [];
+                quizState.answers = {};
+
+                for (let i = 2; i < parts.length; i++) {
+                    const [qid, ans] = parts[i].split('.');
+                    quizState.selectedQs.push(parseInt(qid));
+                    quizState.answers[parseInt(qid)] = parseInt(ans);
+                }
+
+                quizState.currentQ = 0;
+                quizState.fanAnswers = [];
+                quizState.fanScore = 0;
+                quizState.fanRole = '';
+
+                startQuizTaking();
+                return true;
+            } catch(e) {
+                console.error('Quiz load error:', e);
+                return false;
+            }
+        }
+
+        function startQuizTaking() {
+            document.getElementById('quizTakeTitle').innerHTML = `How well do you know <strong>${quizState.athleteName}</strong>? ${quizState.sport}`;
+            showQuizQuestion();
+            goToScreen('quizTakeScreen');
+        }
+
+        function showQuizQuestion() {
+            const idx = quizState.currentQ;
+            if (idx >= quizState.selectedQs.length) {
+                showQuizResults();
+                return;
+            }
+
+            const qid = quizState.selectedQs[idx];
+            const q = QUIZ_BANK[qid];
+            const correctIdx = quizState.answers[qid];
+            const correctText = q.opts[correctIdx];
+
+            // Build 4 display options: correct + 3 random decoys
+            let decoyPool = q.opts.filter((_, i) => i !== correctIdx);
+            // Shuffle decoy pool and pick 3
+            for (let i = decoyPool.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [decoyPool[i], decoyPool[j]] = [decoyPool[j], decoyPool[i]];
+            }
+            const decoys = decoyPool.slice(0, 3);
+
+            // Combine and shuffle
+            const displayOpts = [correctText, ...decoys];
+            for (let i = displayOpts.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [displayOpts[i], displayOpts[j]] = [displayOpts[j], displayOpts[i]];
+            }
+
+            // Store correct answer text for this question
+            quizState._currentCorrectText = correctText;
+
+            document.getElementById('quizProgress').textContent = `Question ${idx + 1} of ${quizState.selectedQs.length}`;
+            document.getElementById('quizCurrentQ').textContent = q.q;
+
+            const opts = document.getElementById('quizOptions');
+            opts.innerHTML = '';
+            displayOpts.forEach((optText) => {
+                const btn = document.createElement('button');
+                btn.className = 'btn btn-secondary';
+                btn.style.width = '100%';
+                btn.style.textAlign = 'left';
+                btn.style.padding = '14px 18px';
+                btn.textContent = optText;
+                btn.dataset.optText = optText;
+                btn.onclick = () => answerQuizQuestion(optText, btn);
+                opts.appendChild(btn);
+            });
+        }
+
+        function answerQuizQuestion(selectedText, btn) {
+            const correctText = quizState._currentCorrectText;
+            const isCorrect = selectedText === correctText;
+            quizState.fanAnswers.push(selectedText);
+
+            // Disable all buttons
+            const allBtns = document.getElementById('quizOptions').querySelectorAll('button');
+            allBtns.forEach(b => { b.disabled = true; b.style.opacity = '0.6'; });
+
+            if (isCorrect) {
+                quizState.fanScore++;
+                btn.style.background = '#4CAF50';
+                btn.style.color = 'white';
+                btn.style.opacity = '1';
+                playSound('coin');
+            } else {
+                btn.style.background = '#EF5350';
+                btn.style.color = 'white';
+                btn.style.opacity = '1';
+                // Show correct answer
+                allBtns.forEach(b => {
+                    if (b.dataset.optText === correctText) {
+                        b.style.background = '#4CAF50';
+                        b.style.color = 'white';
+                        b.style.opacity = '1';
+                    }
+                });
+                playSound('hit');
+            }
+
+            quizState.currentQ++;
+            setTimeout(() => showQuizQuestion(), 1000);
+        }
+
+        function showQuizResults() {
+            const score = quizState.fanScore;
+            const total = quizState.selectedQs.length;
+            const pct = score / total;
+
+            let emoji, title;
+            if (pct === 1) { emoji = '👑'; title = 'Soulmate'; }
+            else if (pct >= 0.875) { emoji = '🌟'; title = 'Super Fan'; }
+            else if (pct >= 0.625) { emoji = '😎'; title = 'Good Friend'; }
+            else if (pct >= 0.375) { emoji = '🤔'; title = 'Acquaintance'; }
+            else { emoji = '👋'; title = 'Just Met'; }
+
+            document.getElementById('quizResultEmoji').textContent = emoji;
+            document.getElementById('quizResultTitle').textContent = title;
+            document.getElementById('quizResultSubtitle').textContent = `You got ${score}/${total} about ${quizState.athleteName}!`;
+            document.getElementById('quizResultScore').textContent = `${score}/${total}`;
+
+            createConfetti();
+            playSound('victory');
+            goToScreen('quizResultScreen');
+        }
+
+        function selectQuizRole(el, role) {
+            document.querySelectorAll('#quizResultScreen .pill').forEach(p => p.classList.remove('active'));
+            el.classList.add('active');
+            quizState.fanRole = role;
+        }
+
+        function generateQuizShareImage() {
+            const canvas = document.getElementById('shareCanvas');
+            canvas.width = 1080;
+            canvas.height = 1920;
+            const ctx = canvas.getContext('2d');
+            const w = 1080, h = 1920;
+
+            // Background gradient
+            const bg = ctx.createLinearGradient(0, 0, w, h);
+            bg.addColorStop(0, '#FFF6E5');
+            bg.addColorStop(0.5, '#FFF0F5');
+            bg.addColorStop(1, '#FCE4EC');
+            ctx.fillStyle = bg;
+            ctx.fillRect(0, 0, w, h);
+
+            // Decorative circles
+            ctx.globalAlpha = 0.08;
+            ctx.fillStyle = '#FF69B4';
+            ctx.beginPath(); ctx.arc(100, 200, 200, 0, Math.PI * 2); ctx.fill();
+            ctx.beginPath(); ctx.arc(980, 1700, 250, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = '#FFD700';
+            ctx.beginPath(); ctx.arc(900, 300, 150, 0, Math.PI * 2); ctx.fill();
+            ctx.beginPath(); ctx.arc(200, 1500, 180, 0, Math.PI * 2); ctx.fill();
+            ctx.globalAlpha = 1;
+
+            // Small header
+            ctx.textAlign = 'center';
+            ctx.fillStyle = '#aaa';
+            ctx.font = '32px Nunito, sans-serif';
+            ctx.fillText('HOW WELL DO YOU KNOW', w / 2, 350);
+
+            // Athlete name
+            ctx.fillStyle = '#333';
+            ctx.font = 'bold 72px Nunito, sans-serif';
+            const nameText = quizState.athleteName.toUpperCase() + '?';
+            ctx.fillText(nameText, w / 2, 450);
+
+            // Sport emoji
+            if (quizState.sport) {
+                ctx.font = '80px Arial';
+                ctx.fillText(quizState.sport, w / 2, 560);
+            }
+
+            // Score circle
+            ctx.strokeStyle = '#FF69B4';
+            ctx.lineWidth = 8;
+            ctx.beginPath(); ctx.arc(w / 2, 800, 160, 0, Math.PI * 2); ctx.stroke();
+            ctx.fillStyle = 'rgba(255, 105, 180, 0.06)';
+            ctx.fill();
+
+            // Score text
+            ctx.fillStyle = '#FF69B4';
+            ctx.font = 'bold 96px Nunito, sans-serif';
+            ctx.fillText(`${quizState.fanScore}/${quizState.selectedQs.length}`, w / 2, 830);
+
+            // Badge title
+            const pct = quizState.fanScore / quizState.selectedQs.length;
+            let badge, badgeEmoji;
+            if (pct === 1) { badge = 'Soulmate'; badgeEmoji = '👑'; }
+            else if (pct >= 0.875) { badge = 'Super Fan'; badgeEmoji = '🌟'; }
+            else if (pct >= 0.625) { badge = 'Good Friend'; badgeEmoji = '😎'; }
+            else if (pct >= 0.375) { badge = 'Acquaintance'; badgeEmoji = '🤔'; }
+            else { badge = 'Just Met'; badgeEmoji = '👋'; }
+
+            ctx.font = '80px Arial';
+            ctx.fillText(badgeEmoji, w / 2, 1080);
+            ctx.fillStyle = '#333';
+            ctx.font = 'bold 56px Nunito, sans-serif';
+            ctx.fillText(badge, w / 2, 1160);
+
+            // Fan info
+            const fanName = document.getElementById('quizFanName').value.trim() || 'Someone';
+            const role = quizState.fanRole || 'Fan';
+            ctx.fillStyle = '#999';
+            ctx.font = '36px Nunito, sans-serif';
+            ctx.fillText(`— ${fanName} (${role})`, w / 2, 1260);
+
+            // Divider
+            ctx.strokeStyle = 'rgba(255, 105, 180, 0.2)';
+            ctx.lineWidth = 2;
+            ctx.beginPath(); ctx.moveTo(w * 0.2, 1360); ctx.lineTo(w * 0.8, 1360); ctx.stroke();
+
+            // CTA
+            ctx.fillStyle = '#bbb';
+            ctx.font = '28px Nunito, sans-serif';
+            ctx.fillText('Take the quiz yourself!', w / 2, 1430);
+
+            // Generate QR code for the quiz URL
+            const quizUrl = document.getElementById('quizLink')?.value || window.location.href;
+            try {
+                const qrDiv = document.getElementById('qrTemp');
+                qrDiv.innerHTML = '';
+                new QRCode(qrDiv, {
+                    text: quizUrl,
+                    width: 200,
+                    height: 200,
+                    colorDark: '#333',
+                    colorLight: '#ffffff',
+                    correctLevel: QRCode.CorrectLevel.M
+                });
+                // Wait for QR to render
+                setTimeout(() => {
+                    const qrCanvas = qrDiv.querySelector('canvas');
+                    if (qrCanvas) {
+                        // White background for QR
+                        ctx.fillStyle = '#fff';
+                        ctx.fillRect(w / 2 - 120, 1470, 240, 240);
+                        ctx.drawImage(qrCanvas, w / 2 - 100, 1490, 200, 200);
+
+                        // Border
+                        ctx.strokeStyle = 'rgba(0,0,0,0.1)';
+                        ctx.lineWidth = 2;
+                        ctx.strokeRect(w / 2 - 120, 1470, 240, 240);
+                    }
+
+                    // Footer branding
+                    ctx.fillStyle = '#ccc';
+                    ctx.font = '24px Nunito, sans-serif';
+                    ctx.fillText('Made with Match Day Buddy', w / 2, 1800);
+                    ctx.font = 'bold 28px Nunito, sans-serif';
+                    ctx.fillStyle = '#FF69B4';
+                    ctx.fillText('matchdaybuddy.com', w / 2, 1840);
+
+                    // Download
+                    const link = document.createElement('a');
+                    link.download = `quiz-${quizState.athleteName}-result.png`;
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                }, 500);
+            } catch(e) {
+                // If QR fails, just download without it
+                ctx.fillStyle = '#ccc';
+                ctx.font = '24px Nunito, sans-serif';
+                ctx.fillText('Made with Match Day Buddy', w / 2, 1800);
+                const link = document.createElement('a');
+                link.download = `quiz-${quizState.athleteName}-result.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            }
+        }
+
+        function generateAthleteStoryImage() {
+            const canvas = document.getElementById('shareCanvas') || document.createElement('canvas');
+            canvas.width = 1080;
+            canvas.height = 1920;
+            const ctx = canvas.getContext('2d');
+            const w = 1080, h = 1920;
+
+            // Background gradient (purple theme for athlete)
+            const bg = ctx.createLinearGradient(0, 0, w, h);
+            bg.addColorStop(0, '#1a1a2e');
+            bg.addColorStop(0.5, '#16213e');
+            bg.addColorStop(1, '#0f3460');
+            ctx.fillStyle = bg;
+            ctx.fillRect(0, 0, w, h);
+
+            // Decorative glow circles
+            ctx.globalAlpha = 0.1;
+            ctx.fillStyle = '#e94560';
+            ctx.beginPath(); ctx.arc(200, 300, 250, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = '#533483';
+            ctx.beginPath(); ctx.arc(880, 1600, 300, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = '#FFD700';
+            ctx.beginPath(); ctx.arc(800, 500, 150, 0, Math.PI * 2); ctx.fill();
+            ctx.globalAlpha = 1;
+
+            // Header
+            ctx.textAlign = 'center';
+            ctx.fillStyle = 'rgba(255,255,255,0.5)';
+            ctx.font = '32px Nunito, sans-serif';
+            ctx.fillText('THINK YOU KNOW ME?', w / 2, 350);
+
+            // Emoji sport
+            if (quizState.sport) {
+                ctx.font = '120px Arial';
+                ctx.fillText(quizState.sport, w / 2, 550);
+            }
+
+            // Athlete name
+            ctx.fillStyle = '#fff';
+            ctx.font = 'bold 80px Nunito, sans-serif';
+            ctx.fillText(quizState.athleteName.toUpperCase(), w / 2, 720);
+
+            // Subtitle
+            ctx.fillStyle = 'rgba(255,255,255,0.6)';
+            ctx.font = '36px Nunito, sans-serif';
+            ctx.fillText('How well do you really know me?', w / 2, 800);
+            ctx.fillText('8 questions. Let\'s find out.', w / 2, 850);
+
+            // QR Code
+            const quizUrl = document.getElementById('quizLink').value;
+            try {
+                const qrDiv = document.getElementById('qrTemp');
+                qrDiv.innerHTML = '';
+                new QRCode(qrDiv, {
+                    text: quizUrl,
+                    width: 280,
+                    height: 280,
+                    colorDark: '#1a1a2e',
+                    colorLight: '#ffffff',
+                    correctLevel: QRCode.CorrectLevel.M
+                });
+
+                setTimeout(() => {
+                    const qrCanvas = qrDiv.querySelector('canvas');
+                    if (qrCanvas) {
+                        // White rounded container for QR
+                        const qrSize = 320;
+                        const qrX = w / 2 - qrSize / 2;
+                        const qrY = 980;
+                        ctx.fillStyle = '#fff';
+                        // Rounded rect for QR background
+                        const r = 20;
+                        ctx.beginPath();
+                        ctx.moveTo(qrX + r, qrY);
+                        ctx.lineTo(qrX + qrSize - r, qrY);
+                        ctx.quadraticCurveTo(qrX + qrSize, qrY, qrX + qrSize, qrY + r);
+                        ctx.lineTo(qrX + qrSize, qrY + qrSize - r);
+                        ctx.quadraticCurveTo(qrX + qrSize, qrY + qrSize, qrX + qrSize - r, qrY + qrSize);
+                        ctx.lineTo(qrX + r, qrY + qrSize);
+                        ctx.quadraticCurveTo(qrX, qrY + qrSize, qrX, qrY + qrSize - r);
+                        ctx.lineTo(qrX, qrY + r);
+                        ctx.quadraticCurveTo(qrX, qrY, qrX + r, qrY);
+                        ctx.closePath();
+                        ctx.fill();
+                        ctx.drawImage(qrCanvas, qrX + 20, qrY + 20, qrSize - 40, qrSize - 40);
+                    }
+
+                    // Scan prompt
+                    ctx.fillStyle = '#fff';
+                    ctx.font = 'bold 40px Nunito, sans-serif';
+                    ctx.fillText('Scan to play!', w / 2, 1420);
+
+                    // Arrow pointing up
+                    ctx.font = '50px Arial';
+                    ctx.fillText('👆', w / 2, 1380);
+
+                    // Divider
+                    ctx.strokeStyle = 'rgba(255,255,255,0.15)';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath(); ctx.moveTo(w * 0.2, 1500); ctx.lineTo(w * 0.8, 1500); ctx.stroke();
+
+                    // Badges preview
+                    ctx.fillStyle = 'rgba(255,255,255,0.4)';
+                    ctx.font = '28px Nunito, sans-serif';
+                    ctx.fillText('Score badges:', w / 2, 1570);
+                    ctx.font = '32px Nunito, sans-serif';
+                    ctx.fillStyle = 'rgba(255,255,255,0.7)';
+                    ctx.fillText('👑 Soulmate  ·  🌟 Super Fan  ·  😎 Good Friend', w / 2, 1620);
+                    ctx.fillText('🤔 Acquaintance  ·  👋 Just Met', w / 2, 1670);
+
+                    // Footer
+                    ctx.fillStyle = 'rgba(255,255,255,0.3)';
+                    ctx.font = '24px Nunito, sans-serif';
+                    ctx.fillText('Made with Match Day Buddy', w / 2, 1800);
+                    ctx.font = 'bold 28px Nunito, sans-serif';
+                    ctx.fillStyle = '#e94560';
+                    ctx.fillText('matchdaybuddy.com', w / 2, 1840);
+
+                    // Download
+                    const link = document.createElement('a');
+                    link.download = `quiz-${quizState.athleteName}-challenge.png`;
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                }, 500);
+            } catch(e) {
+                // Fallback without QR
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 36px Nunito, sans-serif';
+                ctx.fillText('matchdaybuddy.com', w / 2, 1100);
+                const link = document.createElement('a');
+                link.download = `quiz-${quizState.athleteName}-challenge.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            }
+        }
+
+        // ============================================================
+        // INITIALIZATION
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Populate detailed game selector
+            const detailedContainer = document.getElementById('detailedGameSelector');
+            GAMES.forEach(game => {
+                const card = document.createElement('div');
+                card.className = 'card game-card';
+                card.onclick = () => toggleGameSelection(game.id, card);
+                card.innerHTML = `
+                    <div class="game-emoji">${game.emoji}</div>
+                    <div class="game-name">${game.name}</div>
+                    <div class="game-desc">${game.desc}</div>
+                    <button class="preview-btn" onclick="event.stopPropagation(); previewGame(${game.id}, 'detailedGamesScreen')">👁 Preview</button>
+                    <div style="margin-top: 6px; opacity: 0.5;">✓</div>
+                `;
+                card.dataset.gameId = game.id;
+                detailedContainer.appendChild(card);
+            });
+
+            // Check for gift in URL
+            loadGiftFromUrl();
+        });
+
+        // Game initialization hooks
+        const gameInitHooks = {
+            cloudsGameScreen: initCloudsGame,
+            starGameScreen: initStarGame,
+            starCatcherScreen: initStarCatcher,
+            runnerGameScreen: initRunnerGame,
+            rhythmGameScreen: initRhythmGame,
+            balloonGameScreen: initBalloonGame
+        };
+
+        const originalGoToScreen = goToScreen;
+        goToScreen = function(screenId) {
+            originalGoToScreen(screenId);
+            if (gameInitHooks[screenId]) {
+                setTimeout(() => gameInitHooks[screenId](), 100);
+            }
+        };
+    </script>
+</body>
+</html>
