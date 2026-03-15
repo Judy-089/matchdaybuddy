@@ -374,14 +374,15 @@
             position: absolute;
             width: 50px;
             height: 90px;
-            border-radius: 50%;
-            opacity: 0.7;
+            border-radius: 50% 50% 50% 50%;
+            opacity: 0.65;
             transform-origin: 50% 100%;
             left: 50%;
             top: 50%;
             margin-left: -25px;
             margin-top: -90px;
-            transition: transform 1.5s ease-in-out, opacity 0.5s;
+            transform: rotate(var(--petal-rotation)) translateY(10px);
+            transition: transform var(--breath-duration, 4s) ease-in-out, opacity var(--breath-duration, 4s) ease-in-out;
         }
 
         .flower-center {
@@ -398,20 +399,20 @@
             z-index: 2;
             position: relative;
             box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
-            transition: transform 1.5s ease-in-out;
+            transition: transform var(--breath-duration, 4s) ease-in-out;
         }
 
         .flower-inhale .flower-petal {
-            transform: rotate(var(--petal-rotation)) scaleY(1.2) scaleX(1.1);
+            transform: rotate(var(--petal-rotation)) translateY(-18px);
             opacity: 0.9;
         }
 
         .flower-inhale .flower-center {
-            transform: scale(1.2);
+            transform: scale(1.15);
         }
 
         .flower-exhale .flower-petal {
-            transform: rotate(var(--petal-rotation)) scaleY(0.7) scaleX(0.8);
+            transform: rotate(var(--petal-rotation)) translateY(15px);
             opacity: 0.45;
         }
 
@@ -420,12 +421,12 @@
         }
 
         .flower-hold .flower-petal {
-            transform: rotate(var(--petal-rotation)) scaleY(1.2) scaleX(1.1);
-            opacity: 0.8;
+            transform: rotate(var(--petal-rotation)) translateY(-18px);
+            opacity: 0.85;
         }
 
         .flower-hold .flower-center {
-            transform: scale(1.2);
+            transform: scale(1.15);
         }
 
         .theme-2 .flower-center {
@@ -840,99 +841,120 @@
             margin: 15px 0;
         }
 
-        /* RHYTHM TAP GAME */
-        .rhythm-container {
+        /* MEMORY FLASH (SIMON SAYS) GAME */
+        .memory-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 20px;
-            margin: 20px 0;
+            gap: 15px;
+            margin: 15px 0;
         }
 
-        .rhythm-circles {
+        .memory-grid {
             display: grid;
-            grid-template-columns: repeat(4, 60px);
-            gap: 12px;
-            margin: 15px 0;
-            position: relative;
+            grid-template-columns: repeat(4, 65px);
+            gap: 10px;
+            margin: 10px 0;
         }
 
         @media (max-width: 450px) {
-            .rhythm-circles {
-                grid-template-columns: repeat(4, 55px);
-                gap: 10px;
+            .memory-grid {
+                grid-template-columns: repeat(4, 58px);
+                gap: 8px;
             }
         }
 
-        .rhythm-circle {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.8);
-            border: 3px solid #ccc;
+        .memory-cell {
+            width: 65px;
+            height: 65px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.85);
+            border: 3px solid #ddd;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.15s;
-            position: relative;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            font-size: 22px;
+            user-select: none;
         }
 
         @media (max-width: 450px) {
-            .rhythm-circle {
-                width: 55px;
-                height: 55px;
+            .memory-cell {
+                width: 58px;
+                height: 58px;
             }
         }
 
-        .rhythm-ring {
-            position: absolute;
-            border-radius: 50%;
-            border: 3px solid #FF69B4;
+        .memory-cell.flash {
+            background: linear-gradient(135deg, #FF69B4, #FF1493);
+            border-color: #FF69B4;
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.6);
+        }
+
+        .memory-cell.correct-tap {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            border-color: #4CAF50;
+            transform: scale(1.05);
+        }
+
+        .memory-cell.wrong-tap {
+            background: linear-gradient(135deg, #ff6b6b, #ff5252);
+            border-color: #ff5252;
+            animation: shake 0.4s ease;
+        }
+
+        .memory-cell.locked {
             pointer-events: none;
-            animation: rhythmShrink 1.2s linear forwards;
+            opacity: 0.6;
         }
 
-        @keyframes rhythmShrink {
-            0% { width: 120px; height: 120px; opacity: 1; }
-            80% { opacity: 1; }
-            100% { width: 30px; height: 30px; opacity: 0.3; }
-        }
-
-        .theme-2 .rhythm-circle {
+        .theme-2 .memory-cell {
             background: #1e2a47;
             border-color: rgba(0, 255, 136, 0.3);
         }
 
-        .rhythm-circle.perfect {
-            background: #4CAF50;
-            border-color: #45a049;
+        .theme-2 .memory-cell.flash {
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            border-color: #00ff88;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.6);
         }
 
-        .rhythm-circle.good {
-            background: #FFD700;
-            border-color: #FFC700;
-        }
-
-        .rhythm-circle.miss {
-            background: #ff6b6b;
-            border-color: #ff5252;
-        }
-
-        .combo-display {
-            font-size: 36px;
+        .memory-round-display {
+            font-size: 32px;
             font-weight: 800;
             text-align: center;
-            min-height: 45px;
-            animation: bounce 0.5s ease;
+            min-height: 40px;
         }
 
-        .rhythm-message {
-            font-size: 14px;
-            opacity: 0.7;
+        .memory-status {
+            font-size: 15px;
+            font-weight: 600;
             text-align: center;
+            min-height: 22px;
+            opacity: 0.8;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
+
+        .memory-firework {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: fireworkBurst 0.8s ease-out forwards;
+        }
+
+        @keyframes fireworkBurst {
+            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--fw-x), var(--fw-y)) scale(0); opacity: 0; }
         }
 
         /* BALLOON GAME */
@@ -1278,6 +1300,7 @@
 
         .theme-2 .share-box {
             background: #1e2a47;
+            color: #f5f5f5;
         }
 
         .share-input {
@@ -1391,47 +1414,57 @@
     <button id="soundToggle" onclick="toggleSound()" style="position:fixed;top:12px;right:12px;z-index:9999;background:rgba(255,255,255,0.2);border:none;border-radius:50%;width:40px;height:40px;font-size:20px;cursor:pointer;backdrop-filter:blur(10px);">🔊</button>
     <!-- HOME SCREEN -->
     <div id="homeScreen" class="screen active theme-0">
-        <div class="container-sm text-center" style="display: flex; flex-direction: column; min-height: 100vh; justify-content: space-between; padding: 40px 20px 30px;">
-            <div>
-                <div class="home-title">Match Day Buddy</div>
-                <div class="home-subtitle">Create a personalized game-day gift for your athlete</div>
-                <div class="button-grid">
-                    <button class="btn btn-primary-0" onclick="createGift('quick')">
-                        ⚡ Quick Gift (3 steps)
-                    </button>
-                    <button class="btn btn-primary-0" onclick="createGift('detailed')">
-                        🎨 Custom Gift (choose everything)
-                    </button>
-                    <button class="btn btn-secondary" onclick="goToScreen('quizCreateScreen')" style="grid-column: 1 / -1;">
-                        🏆 I'm the Athlete — Quiz My Friends
-                    </button>
-                </div>
+        <div class="container-sm text-center" style="display: flex; flex-direction: column; min-height: 100vh; justify-content: center; padding: 40px 20px 30px; gap: 0;">
+            <div class="home-title">Match Day Buddy</div>
+            <div class="home-subtitle" style="margin-bottom: 36px;">The game-day companion for athletes & their people</div>
+            <div style="display: flex; flex-direction: column; gap: 14px; max-width: 340px; margin: 0 auto; width: 100%;">
+                <button class="btn btn-primary-0" onclick="goToScreen('giftModeScreen')" style="padding: 18px; font-size: 16px;">
+                    🎁 I Wanna Send a Gift
+                </button>
+                <button class="btn btn-secondary" onclick="goToScreen('quizCreateScreen')" style="padding: 18px; font-size: 16px;">
+                    🏆 I'm the Athlete — Make My Quiz
+                </button>
             </div>
-            <div style="margin-top: 40px;">
+            <p style="margin-top: 16px; font-size: 12px; opacity: 0.4;">No account needed · Share via link · 100% free</p>
+            <!-- Bottom section -->
+            <div style="margin-top: 50px;">
                 <!-- Tian's Edition Gift Box -->
-                <div onclick="showOriginStory()" style="cursor: pointer; display: inline-block; margin-bottom: 20px; transition: transform 0.2s;" onmouseenter="this.style.transform='scale(1.08)'" onmouseleave="this.style.transform='scale(1)'" ontouchstart="this.style.transform='scale(1.08)'" ontouchend="this.style.transform='scale(1)'">
+                <div onclick="showOriginStory()" style="cursor: pointer; display: inline-block; margin-bottom: 16px; transition: transform 0.2s;" onmouseenter="this.style.transform='scale(1.08)'" onmouseleave="this.style.transform='scale(1)'" ontouchstart="this.style.transform='scale(1.08)'" ontouchend="this.style.transform='scale(1)'">
                     <div style="position: relative; width: 50px; height: 50px; margin: 0 auto;">
-                        <!-- Box body -->
                         <div style="position: absolute; bottom: 0; width: 50px; height: 32px; background: linear-gradient(135deg, #FFD700, #FF69B4); border-radius: 4px;"></div>
-                        <!-- Box lid -->
                         <div style="position: absolute; bottom: 30px; width: 54px; left: -2px; height: 14px; background: linear-gradient(135deg, #FFE44D, #FF85A8); border-radius: 4px 4px 0 0;"></div>
-                        <!-- Vertical ribbon -->
                         <div style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 8px; height: 44px; background: rgba(255,255,255,0.4); border-radius: 2px;"></div>
-                        <!-- Bow left -->
                         <div style="position: absolute; bottom: 40px; left: 8px; width: 14px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.5); transform: rotate(-20deg);"></div>
-                        <!-- Bow right -->
                         <div style="position: absolute; bottom: 40px; right: 8px; width: 14px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.5); transform: rotate(20deg);"></div>
                     </div>
                 </div>
-                <!-- Thanks List -->
                 <p style="font-size: 12px; opacity: 0.5; margin: 0; line-height: 1.6;">Built with love for the athletes who inspired it all</p>
                 <p style="font-size: 11px; opacity: 0.35; margin: 4px 0 0;">Tian Fangran · Maggie Li · Yingzhi (Jenny) Zhu</p>
-                <!-- Early Access + IG -->
-                <div style="margin-top: 16px; display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 11px; opacity: 0.4;">
+                <div style="margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 11px; opacity: 0.4;">
                     <a href="https://docs.google.com/forms/d/e/1FAIpQLSceWBy8bndeal3pZMnjcySJOfhhHBfD1tZQIrTDJTBz6cLA2g/viewform" target="_blank" style="color: inherit; text-decoration: underline;">App coming soon — get early access</a>
                     <span>·</span>
                     <a href="https://instagram.com/matchdaybuddy" target="_blank" style="color: inherit; text-decoration: none;">Follow us on IG</a>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GIFT MODE SELECTOR -->
+    <div id="giftModeScreen" class="screen theme-0">
+        <div class="container-sm text-center" style="display: flex; flex-direction: column; justify-content: center; min-height: 100vh; padding: 40px 20px;">
+            <div style="font-size: 50px; margin-bottom: 20px;">🎁</div>
+            <h2 style="font-size: 24px; font-weight: 800; margin: 0 0 8px;">Send a Gift</h2>
+            <p style="font-size: 14px; opacity: 0.6; margin: 0 0 36px;">Pick your style</p>
+            <div style="display: flex; flex-direction: column; gap: 14px; max-width: 340px; margin: 0 auto; width: 100%;">
+                <button class="btn btn-primary-0" onclick="createGift('quick')" style="padding: 18px; font-size: 15px;">
+                    ⚡ Quick Gift — 3 steps, done
+                </button>
+                <button class="btn btn-primary-0" onclick="createGift('detailed')" style="padding: 18px; font-size: 15px;">
+                    🎨 Custom Gift — choose everything
+                </button>
+                <button class="btn btn-secondary" onclick="goToScreen('homeScreen')" style="margin-top: 10px;">
+                    ← Back
+                </button>
             </div>
         </div>
     </div>
@@ -1508,6 +1541,18 @@
                     <button class="sport-button" onclick="selectSport(this, 'beach volleyball')" data-sport="beach volleyball">🏖️<div class="sport-label">Beach VB</div></button>
                     <button class="sport-button" onclick="selectSport(this, 'bowling')" data-sport="bowling">🎳<div class="sport-label">Bowling</div></button>
                     <button class="sport-button" onclick="selectSport(this, 'badminton')" data-sport="badminton">🏸<div class="sport-label">Badminton</div></button>
+                    <button class="sport-button" onclick="selectSport(this, 'rugby')" data-sport="rugby">🏉<div class="sport-label">Rugby</div></button>
+                    <button class="sport-button" onclick="selectSport(this, 'equestrian')" data-sport="equestrian">🏇<div class="sport-label">Equestrian</div></button>
+                    <button class="sport-button" onclick="selectSport(this, 'rifle')" data-sport="rifle">🎯<div class="sport-label">Rifle</div></button>
+                    <button class="sport-button" onclick="selectSport(this, 'triathlon')" data-sport="triathlon">🏅<div class="sport-label">Triathlon</div></button>
+                    <button class="sport-button" onclick="selectSport(this, 'archery')" data-sport="archery">🏹<div class="sport-label">Archery</div></button>
+                    <button class="sport-button" onclick="selectSport(this, 'sailing')" data-sport="sailing">⛵<div class="sport-label">Sailing</div></button>
+                    <button class="sport-button" onclick="selectSport(this, 'squash')" data-sport="squash">🥏<div class="sport-label">Squash</div></button>
+                    <button class="sport-button" onclick="selectSport(this, 'table tennis')" data-sport="table tennis">🏓<div class="sport-label">Table Tennis</div></button>
+                    <button class="sport-button" onclick="selectSport(this, 'climbing')" data-sport="climbing">🧗<div class="sport-label">Climbing</div></button>
+                    <button class="sport-button" onclick="selectSport(this, 'cheer')" data-sport="cheer">📣<div class="sport-label">Cheer</div></button>
+                    <button class="sport-button" onclick="selectSport(this, 'dance')" data-sport="dance">💃<div class="sport-label">Dance</div></button>
+                    <button class="sport-button" onclick="selectSport(this, 'figure skating')" data-sport="figure skating">⛸️<div class="sport-label">Skating</div></button>
                 </div>
             </div>
             <div style="display: flex; gap: 10px; margin-top: 20px;">
@@ -1597,11 +1642,12 @@
 
     <!-- RECEIVER: GIFT REVEAL (new two-step) -->
     <div id="giftRevealScreen" class="screen theme-0">
-        <div class="container-sm text-center">
-            <div style="font-size: 60px; margin-bottom: 20px; animation: bounce 1.5s ease-in-out infinite;">🎊</div>
-            <h2 style="font-size: 24px; font-weight: 800; margin-bottom: 15px;" id="revealTitle">A gift for you!</h2>
-            <div id="revealMessage" style="background: rgba(255,255,255,0.9); border-radius: 16px; padding: 24px; margin: 20px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.08); font-size: 16px; line-height: 1.7; min-height: 80px; display: flex; align-items: center; justify-content: center;"></div>
-            <button class="btn btn-primary-0" style="width: 100%; margin-top: 20px; font-size: 18px; padding: 18px;" onclick="loadGameHub()">
+        <div class="container-sm text-center" style="display: flex; flex-direction: column; justify-content: center; min-height: 80vh;">
+            <div style="font-size: 56px; margin-bottom: 12px; animation: bounce 1.5s ease-in-out infinite;">🎊</div>
+            <h2 style="font-size: 26px; font-weight: 800; margin-bottom: 4px;" id="revealReceiverName"></h2>
+            <p style="font-size: 15px; opacity: 0.7; margin-bottom: 20px;" id="revealTitle">A gift for you!</p>
+            <div id="revealMessage" style="background: rgba(255,255,255,0.95); color: #333; border-radius: 20px; padding: 28px 24px; margin: 0 0 24px 0; box-shadow: 0 8px 30px rgba(0,0,0,0.12); font-size: 16px; line-height: 1.8;"></div>
+            <button class="btn btn-primary-0" style="width: 100%; font-size: 18px; padding: 18px; border-radius: 16px;" onclick="loadGameHub()">
                 Let's Go! 🚀
             </button>
         </div>
@@ -1751,26 +1797,25 @@
         <div class="container text-center">
             <h2 class="section-title">🏃 Mental Run</h2>
             <canvas id="runnerCanvas" style="border-radius: 16px; display: block; margin: 10px auto; background: #87CEEB; box-shadow: 0 8px 25px rgba(0,0,0,0.2); width: 100%; max-width: 500px; touch-action: none;"></canvas>
-            <div class="run-score" id="runScore">🏆 0/8 Doubts Smashed</div>
-            <p class="section-subtitle" id="runInstruction">Tap or Space to JUMP! Smash through doubts, collect trophies!</p>
+            <div class="run-score" id="runScore">💪 0/8 Smashed &nbsp; ❤️❤️❤️</div>
+            <p class="section-subtitle" id="runInstruction">JUMP to smash doubts! Stay on the ground = take damage!</p>
             <button class="btn btn-secondary" style="width: 100%; margin-top: 15px;" onclick="stopRunner(); goToScreen('gameHubScreen')">Back</button>
         </div>
     </div>
 
-    <!-- GAMES: RHYTHM TAP -->
-    <div id="rhythmGameScreen" class="screen theme-0">
+    <!-- GAMES: MEMORY FLASH -->
+    <div id="memoryGameScreen" class="screen theme-0">
         <div class="container text-center">
-            <h2 class="section-title">🎵 Rhythm Tap</h2>
-            <p class="section-subtitle">Tap each circle when the ring shrinks to fit!</p>
-            <div class="rhythm-container">
-                <div class="combo-display" id="comboDisplay">Ready...</div>
-                <div class="rhythm-circles" id="rhythmCircles">
+            <h2 class="section-title">🧠 Memory Flash</h2>
+            <p class="section-subtitle">Watch the sequence, then tap them in order!</p>
+            <div class="memory-container">
+                <div class="memory-round-display" id="memoryRoundDisplay">Round 1</div>
+                <div class="memory-grid" id="memoryGrid" style="position: relative;">
                     <!-- Generated by JS -->
                 </div>
-                <div class="rhythm-message" id="rhythmMessage" style="font-size: 16px; font-weight: 700; min-height: 25px;"></div>
-                <div class="rhythm-message" id="sentenceDisplay" style="font-size: 15px; font-weight: 600; min-height: 25px; margin-top: 5px;"></div>
+                <div class="memory-status" id="memoryStatus">Get ready...</div>
             </div>
-            <button class="btn btn-secondary" style="width: 100%; margin-top: 20px;" onclick="goToScreen('gameHubScreen')">Back</button>
+            <button class="btn btn-secondary" style="width: 100%; margin-top: 20px;" onclick="loadGameHub()">Back</button>
         </div>
     </div>
 
@@ -1827,6 +1872,18 @@
                     <button class="sport-button" onclick="selectQuizSport(this, '🏖️')" data-sport="🏖️">🏖️<div class="sport-label">Beach VB</div></button>
                     <button class="sport-button" onclick="selectQuizSport(this, '🎳')" data-sport="🎳">🎳<div class="sport-label">Bowling</div></button>
                     <button class="sport-button" onclick="selectQuizSport(this, '🏸')" data-sport="🏸">🏸<div class="sport-label">Badminton</div></button>
+                    <button class="sport-button" onclick="selectQuizSport(this, '🏉')" data-sport="🏉">🏉<div class="sport-label">Rugby</div></button>
+                    <button class="sport-button" onclick="selectQuizSport(this, '🏇')" data-sport="🏇">🏇<div class="sport-label">Equestrian</div></button>
+                    <button class="sport-button" onclick="selectQuizSport(this, '🎯')" data-sport="🎯">🎯<div class="sport-label">Rifle</div></button>
+                    <button class="sport-button" onclick="selectQuizSport(this, '🏅')" data-sport="🏅">🏅<div class="sport-label">Triathlon</div></button>
+                    <button class="sport-button" onclick="selectQuizSport(this, '🏹')" data-sport="🏹">🏹<div class="sport-label">Archery</div></button>
+                    <button class="sport-button" onclick="selectQuizSport(this, '⛵')" data-sport="⛵">⛵<div class="sport-label">Sailing</div></button>
+                    <button class="sport-button" onclick="selectQuizSport(this, '🥏')" data-sport="🥏">🥏<div class="sport-label">Squash</div></button>
+                    <button class="sport-button" onclick="selectQuizSport(this, '🏓')" data-sport="🏓">🏓<div class="sport-label">Table Tennis</div></button>
+                    <button class="sport-button" onclick="selectQuizSport(this, '🧗')" data-sport="🧗">🧗<div class="sport-label">Climbing</div></button>
+                    <button class="sport-button" onclick="selectQuizSport(this, '📣')" data-sport="📣">📣<div class="sport-label">Cheer</div></button>
+                    <button class="sport-button" onclick="selectQuizSport(this, '💃')" data-sport="💃">💃<div class="sport-label">Dance</div></button>
+                    <button class="sport-button" onclick="selectQuizSport(this, '⛸️')" data-sport="⛸️">⛸️<div class="sport-label">Skating</div></button>
                 </div>
             </div>
             <div style="display: flex; gap: 10px; margin-top: 20px;">
@@ -1849,16 +1906,16 @@
         </div>
     </div>
 
-    <!-- QUIZ: SET ANSWERS -->
+    <!-- QUIZ: SET ANSWERS (one question per page) -->
     <div id="quizAnswersScreen" class="screen theme-0">
-        <div class="container">
-            <h2 class="section-title text-center">✅ Set Your Answers</h2>
-            <p class="section-subtitle text-center">Tap the correct answer for each question</p>
-            <div id="quizAnswerList" style="display: flex; flex-direction: column; gap: 20px; margin: 15px 0;"></div>
-            <div style="display: flex; gap: 10px; margin-top: 20px;">
-                <button class="btn btn-secondary flex-1" onclick="goToScreen('quizQuestionsScreen')">Back</button>
-                <button class="btn btn-primary-0 flex-1" onclick="generateQuizLink()">Generate Quiz Link 🔗</button>
+        <div class="container text-center">
+            <div id="athleteAnswerProgress" style="font-size: 13px; opacity: 0.6; margin-bottom: 15px;"></div>
+            <div style="background: rgba(255,255,255,0.9); color: #333; border-radius: 16px; padding: 24px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
+                <p id="athleteAnswerQ" style="font-size: 18px; font-weight: 700; margin-bottom: 20px;"></p>
+                <div id="athleteAnswerOpts" style="display: flex; flex-direction: column; gap: 10px;"></div>
             </div>
+            <button id="athleteSwapBtn" class="btn btn-secondary" style="width: 100%; margin-bottom: 10px;" onclick="swapCurrentAthleteQuestion()">🔄 Swap Question</button>
+            <button id="athleteNextBtn" class="btn btn-primary-0" style="width: 100%; display: none;" onclick="nextAthleteAnswer()">Next →</button>
         </div>
     </div>
 
@@ -1895,7 +1952,7 @@
         <div class="container text-center">
             <h2 class="section-title" id="quizTakeTitle">How well do you know...?</h2>
             <div id="quizProgress" style="font-size: 13px; opacity: 0.6; margin-bottom: 15px;"></div>
-            <div id="quizQuestionDisplay" style="background: rgba(255,255,255,0.9); border-radius: 16px; padding: 24px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
+            <div id="quizQuestionDisplay" style="background: rgba(255,255,255,0.9); color: #333; border-radius: 16px; padding: 24px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
                 <p id="quizCurrentQ" style="font-size: 18px; font-weight: 700; margin-bottom: 20px;"></p>
                 <div id="quizOptions" style="display: flex; flex-direction: column; gap: 10px;"></div>
             </div>
@@ -1943,8 +2000,8 @@
             { id: 2, emoji: '⭐', name: 'Lucky Star', desc: 'Tap for motivational quotes from the sender', screen: 'starGameScreen' },
             { id: 3, emoji: '✨', name: 'Star Catcher', desc: 'Catch falling stars with your paddle', screen: 'starCatcherScreen' },
             { id: 4, emoji: '💝', name: 'Recharge Heart', desc: 'Hold to charge energy — ride the confidence wave', screen: 'heartGameScreen' },
-            { id: 5, emoji: '🏃', name: 'Mental Run', desc: 'Side-scrolling runner — smash doubts, collect trophies', screen: 'runnerGameScreen' },
-            { id: 6, emoji: '🎵', name: 'Rhythm Tap', desc: 'Tap circles to the beat — test your timing', screen: 'rhythmGameScreen' },
+            { id: 5, emoji: '🏃', name: 'Mental Run', desc: 'Jump to smash doubts — dodge what you can\'t break', screen: 'runnerGameScreen' },
+            { id: 6, emoji: '🧠', name: 'Memory Flash', desc: 'Watch the sequence, then tap them in order', screen: 'memoryGameScreen' },
             { id: 7, emoji: '🎈', name: 'Pressure Control', desc: 'Pump a balloon without popping it — test your nerve', screen: 'balloonGameScreen' },
         ];
 
@@ -1970,13 +2027,37 @@
 
         // QUOTES FOR STAR GAME (default)
         const defaultQuotes = [
-            "You are capable of amazing things",
-            "Believe in yourself",
-            "Champions are made in moments like this",
-            "You've trained hard for this",
-            "Trust your instincts",
-            "Stay present, stay focused",
-            "You belong here"
+            "Lucky looks good on you.",
+            "Good things are near.",
+            "Stay golden.",
+            "Shine first, worry later.",
+            "This star picked you.",
+            "Trust the timing.",
+            "You are more ready than you feel.",
+            "Your energy is magnetic today.",
+            "Trust your training.",
+            "The pressure means this moment matters.",
+            "You belong here.",
+            "Your body knows what to do.",
+            "A little luck, a lot of you.",
+            "You don't need perfect to be powerful.",
+            "Your focus is your superpower today.",
+            "Breathe in confidence, breathe out noise.",
+            "The moment is big, but so are you.",
+            "Play free.",
+            "Your hard work is about to speak.",
+            "Luck follows courage.",
+            "You are built for this moment.",
+            "Good energy in, doubt out.",
+            "Stay soft inside, strong outside.",
+            "Even your nerves mean you care.",
+            "You don't need to chase magic. You bring it.",
+            "The stars like your chances today.",
+            "Fortune favors the focused.",
+            "Your next great play might be very close.",
+            "Keep your heart light and your mind clear.",
+            "Something good is waiting in this match.",
+            "Let confidence find you."
         ];
 
         // ============================================================
@@ -2030,13 +2111,14 @@
                         osc.start(); osc.stop(ctx.currentTime + 0.6);
                         break;
 
-                    case 'whoosh': // Cloud burn / drag
-                        osc.type = 'sawtooth';
-                        osc.frequency.setValueAtTime(400, ctx.currentTime);
-                        osc.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + 0.3);
+                    case 'whoosh': // Cloud dissolve — soft airy sweep
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(600, ctx.currentTime);
+                        osc.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.35);
                         gain.gain.setValueAtTime(0.06, ctx.currentTime);
-                        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
-                        osc.start(); osc.stop(ctx.currentTime + 0.3);
+                        gain.gain.linearRampToValueAtTime(0.03, ctx.currentTime + 0.1);
+                        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+                        osc.start(); osc.stop(ctx.currentTime + 0.4);
                         break;
 
                     case 'pop': // Balloon pop
@@ -2256,7 +2338,6 @@
                     <div class="game-name">${game.name}</div>
                     <div class="game-desc">${game.desc}</div>
                     <button class="preview-btn" onclick="event.stopPropagation(); previewGame(${game.id}, 'quickGamesScreen')">👁 Preview</button>
-                    <div style="margin-top: 6px; opacity: 0.5;">✓</div>
                 `;
                 card.dataset.gameId = game.id;
                 container.appendChild(card);
@@ -2482,12 +2563,13 @@
             createConfetti();
             setTimeout(() => {
                 // Show reveal screen with sender info
+                document.getElementById('revealReceiverName').textContent = `Hey ${state.receiverName}! 🌟`;
                 document.getElementById('revealTitle').innerHTML = `From <strong>${state.senderName}</strong> with love 💕`;
                 const msgEl = document.getElementById('revealMessage');
                 if (state.personalMessage) {
-                    msgEl.innerHTML = `<div><p style="font-style: italic; font-size: 18px; margin-bottom: 10px;">"${state.personalMessage}"</p><p style="opacity: 0.6; font-size: 13px;">— ${state.senderName}</p></div>`;
+                    msgEl.innerHTML = `<div style="text-align: center;"><p style="font-style: italic; font-size: 18px; margin-bottom: 12px; line-height: 1.6;">"${state.personalMessage}"</p><p style="opacity: 0.5; font-size: 14px; font-weight: 600;">— ${state.senderName}</p></div>`;
                 } else {
-                    msgEl.innerHTML = `<p style="font-size: 18px;">${state.senderName} made this Match Day Buddy just for you! 🌟</p>`;
+                    msgEl.innerHTML = `<p style="font-size: 18px; text-align: center;">${state.senderName} made this Match Day Buddy just for you!</p>`;
                 }
                 applyTheme(state.theme);
                 goToScreen('giftRevealScreen');
@@ -2501,7 +2583,7 @@
             // Show sender message if exists
             let subtitleHtml = `${state.senderName} picked these for you 🎁`;
             if (state.personalMessage) {
-                subtitleHtml = `<div style="background: rgba(255,255,255,0.8); border-radius: 12px; padding: 12px 16px; margin-bottom: 10px; font-style: italic; font-size: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">"${state.personalMessage}" — ${state.senderName}</div>`;
+                subtitleHtml = `<div style="background: rgba(255,255,255,0.8); color: #333; border-radius: 12px; padding: 12px 16px; margin-bottom: 10px; font-style: italic; font-size: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">"${state.personalMessage}" — ${state.senderName}</div>`;
             }
             document.getElementById('hubSubtitle').innerHTML = subtitleHtml;
 
@@ -2638,18 +2720,22 @@
             const phaseEl = document.getElementById('breathingPhase');
             phaseEl.textContent = phase;
 
-            // Flower animation
+            // Flower animation — set transition duration to match phase
             const flower = document.getElementById('flowerContainer');
+            flower.style.setProperty('--breath-duration', (modeConfig.durations[phaseIdx] * 0.85) + 's');
             flower.className = 'breathing-flower-container';
-            if (phase === 'Inhale') {
-                flower.classList.add('flower-inhale');
-                playSound('breathIn');
-            } else if (phase === 'Exhale') {
-                flower.classList.add('flower-exhale');
-                playSound('breathOut');
-            } else {
-                flower.classList.add('flower-hold');
-            }
+            // Small delay so class removal + re-add triggers transition
+            requestAnimationFrame(() => {
+                if (phase === 'Inhale') {
+                    flower.classList.add('flower-inhale');
+                    playSound('breathIn');
+                } else if (phase === 'Exhale') {
+                    flower.classList.add('flower-exhale');
+                    playSound('breathOut');
+                } else {
+                    flower.classList.add('flower-hold');
+                }
+            });
 
             const quoteEl = document.getElementById('breathingQuote');
             const quotes = [
@@ -3142,27 +3228,18 @@
         // GAME 5: MENTAL RUN (Doubt Smasher)
         // ============================================================
         let runnerState = {
-            y: 0,
-            vy: 0,
-            isJumping: false,
-            scrollX: 0,
-            obstacles: [],
-            collectibles: [],
-            smashed: 0,
-            trophies: 0,
-            gameRunning: false,
-            speed: 3,
-            groundY: 0,
-            canvasW: 0,
-            canvasH: 0,
-            animId: null,
-            jumpHandler: null,
-            keyHandler: null
+            y: 0, vy: 0, isJumping: false, scrollX: 0,
+            obstacles: [], collectibles: [], smashed: 0, trophies: 0,
+            gameRunning: false, speed: 5, groundY: 0,
+            canvasW: 0, canvasH: 0, animId: null,
+            jumpHandler: null, keyHandler: null,
+            lives: 3, hurtFlash: 0
         };
 
         const doubtWords = ['Doubt', 'Fear', 'Worry', 'Pressure', 'Fatigue', 'Nerves', 'Panic', 'Stress'];
-        const smashReplies = ['Believe!', 'Strong!', 'Brave!', 'Focused!', 'Calm!', 'Ready!', 'Power!', 'Yes!'];
+        const smashReplies = ['I BELIEVE!', 'STRONG!', 'BRAVE!', 'FOCUSED!', 'CALM!', 'READY!', 'POWER!', 'LET\'S GO!'];
         let smashParticles = [];
+        let centerFlash = null;
 
         function stopRunner() {
             runnerState.gameRunning = false;
@@ -3179,9 +3256,8 @@
             const canvas = document.getElementById('runnerCanvas');
             const ctx = canvas.getContext('2d');
 
-            // Responsive canvas
             canvas.width = Math.min(500, window.innerWidth - 40);
-            canvas.height = 280;
+            canvas.height = 300;
             runnerState.canvasW = canvas.width;
             runnerState.canvasH = canvas.height;
             runnerState.groundY = canvas.height - 50;
@@ -3194,54 +3270,109 @@
             runnerState.smashed = 0;
             runnerState.trophies = 0;
             runnerState.gameRunning = true;
-            runnerState.speed = 3;
+            runnerState.speed = 5;
+            runnerState.lives = 3;
+            runnerState.hurtFlash = 0;
             smashParticles = [];
+            centerFlash = null;
+
+            document.getElementById('runScore').textContent = '💪 0/8 Smashed  ❤️❤️❤️';
+            const playerName = state.receiverName || 'You';
 
             function doJump() {
                 if (runnerState.gameRunning && !runnerState.isJumping) {
-                    runnerState.vy = -11;
+                    runnerState.vy = -12;
                     runnerState.isJumping = true;
                     playSound('jump');
                 }
             }
 
-            runnerState.jumpHandler = function(e) {
-                e.preventDefault();
-                doJump();
-            };
-            runnerState.keyHandler = function(e) {
-                if (e.code === 'Space') { e.preventDefault(); doJump(); }
-            };
+            runnerState.jumpHandler = function(e) { e.preventDefault(); doJump(); };
+            runnerState.keyHandler = function(e) { if (e.code === 'Space') { e.preventDefault(); doJump(); } };
 
             canvas.addEventListener('click', runnerState.jumpHandler);
             canvas.addEventListener('touchstart', runnerState.jumpHandler, { passive: false });
             document.addEventListener('keydown', runnerState.keyHandler);
 
             let frameCount = 0;
-            let nextObstacle = 120;
-            let nextCollectible = 200;
+            let nextObstacle = 60;
+            let nextCollectible = 140;
+
+            // Background clouds (decorative)
+            const bgClouds = [];
+            for (let i = 0; i < 4; i++) {
+                bgClouds.push({ x: Math.random() * canvas.width, y: 20 + Math.random() * 60, w: 40 + Math.random() * 30, speed: 0.3 + Math.random() * 0.3 });
+            }
 
             function gameLoop() {
                 if (!runnerState.gameRunning) return;
-
                 frameCount++;
-                runnerState.speed = 3 + Math.floor(runnerState.smashed / 3); // Speed up
 
-                // Sky gradient
+                // Speed increases with progress
+                runnerState.speed = 5 + Math.floor(runnerState.smashed / 2) * 0.8;
+
+                // Sky: transitions from dark/gloomy to bright/sunny as doubts are smashed
+                const progress = runnerState.smashed / 8;
                 const sky = ctx.createLinearGradient(0, 0, 0, canvas.height);
-                sky.addColorStop(0, '#87CEEB');
-                sky.addColorStop(1, '#E0F7FA');
+                const r1 = Math.round(80 + progress * 55);   // 80 → 135
+                const g1 = Math.round(90 + progress * 116);  // 90 → 206
+                const b1 = Math.round(120 + progress * 115); // 120 → 235
+                const r2 = Math.round(150 + progress * 74);  // 150 → 224
+                const g2 = Math.round(160 + progress * 87);  // 160 → 247
+                const b2 = Math.round(180 + progress * 70);  // 180 → 250
+                sky.addColorStop(0, `rgb(${r1},${g1},${b1})`);
+                sky.addColorStop(1, `rgb(${r2},${g2},${b2})`);
                 ctx.fillStyle = sky;
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-                // Ground
-                ctx.fillStyle = '#4CAF50';
-                ctx.fillRect(0, runnerState.groundY + 20, canvas.width, canvas.height - runnerState.groundY);
-                ctx.fillStyle = '#66BB6A';
-                ctx.fillRect(0, runnerState.groundY + 18, canvas.width, 6);
+                // Sun (appears as you progress)
+                if (progress > 0.25) {
+                    const sunAlpha = Math.min((progress - 0.25) * 2, 1);
+                    ctx.globalAlpha = sunAlpha * 0.8;
+                    ctx.fillStyle = '#FFD700';
+                    ctx.beginPath();
+                    ctx.arc(canvas.width - 50, 40, 22, 0, Math.PI * 2);
+                    ctx.fill();
+                    // Glow
+                    ctx.globalAlpha = sunAlpha * 0.2;
+                    ctx.beginPath();
+                    ctx.arc(canvas.width - 50, 40, 40, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.globalAlpha = 1;
+                }
+
+                // Background clouds
+                ctx.globalAlpha = 0.3 * (1 - progress * 0.5);
+                ctx.fillStyle = '#fff';
+                bgClouds.forEach(c => {
+                    c.x -= c.speed;
+                    if (c.x < -60) c.x = canvas.width + 20;
+                    ctx.beginPath();
+                    ctx.arc(c.x, c.y, c.w / 3, 0, Math.PI * 2);
+                    ctx.arc(c.x + c.w / 3, c.y - 5, c.w / 4, 0, Math.PI * 2);
+                    ctx.arc(c.x + c.w / 2, c.y, c.w / 3.5, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+                ctx.globalAlpha = 1;
+
+                // Ground with gradient
+                const groundGrad = ctx.createLinearGradient(0, runnerState.groundY + 18, 0, canvas.height);
+                groundGrad.addColorStop(0, progress > 0.5 ? '#66BB6A' : '#558B2F');
+                groundGrad.addColorStop(1, progress > 0.5 ? '#4CAF50' : '#33691E');
+                ctx.fillStyle = groundGrad;
+                ctx.fillRect(0, runnerState.groundY + 18, canvas.width, canvas.height - runnerState.groundY);
+                // Ground line
+                ctx.fillStyle = progress > 0.5 ? '#81C784' : '#689F38';
+                ctx.fillRect(0, runnerState.groundY + 16, canvas.width, 4);
+
+                // Moving ground hash marks for speed feel
+                ctx.fillStyle = 'rgba(255,255,255,0.15)';
+                for (let gx = -(runnerState.scrollX % 40); gx < canvas.width; gx += 40) {
+                    ctx.fillRect(gx, runnerState.groundY + 22, 15, 2);
+                }
 
                 // Physics
-                runnerState.vy += 0.65;
+                runnerState.vy += 0.7;
                 runnerState.y += runnerState.vy;
                 if (runnerState.y >= runnerState.groundY) {
                     runnerState.y = runnerState.groundY;
@@ -3251,16 +3382,12 @@
 
                 runnerState.scrollX += runnerState.speed;
 
-                // Spawn obstacles
+                // Spawn obstacles (faster)
                 nextObstacle--;
                 if (nextObstacle <= 0) {
                     const word = doubtWords[runnerState.obstacles.length % doubtWords.length];
-                    runnerState.obstacles.push({
-                        x: canvas.width + 20,
-                        word: word,
-                        smashed: false
-                    });
-                    nextObstacle = 80 + Math.floor(Math.random() * 80);
+                    runnerState.obstacles.push({ x: canvas.width + 20, word: word, smashed: false });
+                    nextObstacle = 55 + Math.floor(Math.random() * 50);
                 }
 
                 // Spawn collectibles
@@ -3268,105 +3395,171 @@
                 if (nextCollectible <= 0) {
                     runnerState.collectibles.push({
                         x: canvas.width + 20,
-                        y: runnerState.groundY - 50 - Math.random() * 40,
+                        y: runnerState.groundY - 55 - Math.random() * 35,
                         collected: false
                     });
-                    nextCollectible = 100 + Math.floor(Math.random() * 100);
+                    nextCollectible = 80 + Math.floor(Math.random() * 80);
                 }
 
-                // Draw & update obstacles
+                // Draw obstacles — dark shadow blocks
                 for (let i = runnerState.obstacles.length - 1; i >= 0; i--) {
                     const obs = runnerState.obstacles[i];
                     obs.x -= runnerState.speed;
 
                     if (!obs.smashed) {
-                        // Red block with text
-                        ctx.fillStyle = '#EF5350';
-                        ctx.fillRect(obs.x, runnerState.groundY - 20, 50, 40);
+                        // Dark shadowy block
+                        const obsGrad = ctx.createLinearGradient(obs.x, runnerState.groundY - 30, obs.x + 55, runnerState.groundY + 20);
+                        obsGrad.addColorStop(0, '#4A148C');
+                        obsGrad.addColorStop(1, '#880E4F');
+                        ctx.fillStyle = obsGrad;
+                        // Rounded obstacle shape
+                        const ox = obs.x, oy = runnerState.groundY - 25, ow = 55, oh = 45;
+                        ctx.beginPath();
+                        ctx.moveTo(ox + 8, oy);
+                        ctx.lineTo(ox + ow - 8, oy);
+                        ctx.quadraticCurveTo(ox + ow, oy, ox + ow, oy + 8);
+                        ctx.lineTo(ox + ow, oy + oh);
+                        ctx.lineTo(ox, oy + oh);
+                        ctx.lineTo(ox, oy + 8);
+                        ctx.quadraticCurveTo(ox, oy, ox + 8, oy);
+                        ctx.fill();
+
+                        // Glow effect
+                        ctx.shadowColor = '#880E4F';
+                        ctx.shadowBlur = 10;
+                        ctx.fill();
+                        ctx.shadowBlur = 0;
+
+                        // Doubt text
                         ctx.fillStyle = '#fff';
-                        ctx.font = 'bold 10px Nunito';
+                        ctx.font = 'bold 11px Nunito';
                         ctx.textAlign = 'center';
-                        ctx.fillText(obs.word, obs.x + 25, runnerState.groundY + 5);
+                        ctx.fillText(obs.word, obs.x + 27, runnerState.groundY + 2);
 
-                        // Collision
-                        const charX = 60;
-                        if (charX + 10 > obs.x && charX - 10 < obs.x + 50 && runnerState.y > runnerState.groundY - 35) {
-                            obs.smashed = true;
-                            runnerState.smashed++;
-                            playSound('hit');
+                        // Collision detection
+                        const charX = 65;
+                        if (charX + 12 > obs.x && charX - 12 < obs.x + 55 && runnerState.y > runnerState.groundY - 50) {
+                            const isJumping = runnerState.y < runnerState.groundY - 10;
 
-                            // Spawn smash particles
-                            const reply = smashReplies[runnerState.smashed % smashReplies.length];
-                            for (let p = 0; p < 6; p++) {
-                                smashParticles.push({
-                                    x: obs.x + 25, y: runnerState.groundY - 10,
-                                    vx: (Math.random() - 0.5) * 6,
-                                    vy: -Math.random() * 5 - 2,
-                                    text: p === 0 ? reply : '✦',
-                                    life: 40,
-                                    color: p === 0 ? '#4CAF50' : '#FFD700'
-                                });
-                            }
+                            if (isJumping) {
+                                // JUMPING → SMASH the doubt!
+                                obs.smashed = true;
+                                runnerState.smashed++;
+                                playSound('hit');
+                                vibrate([50, 30, 50]);
 
-                            document.getElementById('runScore').textContent = `🏆 ${runnerState.smashed}/8 Doubts Smashed`;
+                                centerFlash = { text: smashReplies[(runnerState.smashed - 1) % smashReplies.length], life: 50 };
 
-                            if (runnerState.smashed >= 8) {
-                                runnerState.gameRunning = false;
-                                playSound('victory');
-                                showGameCompletion('Mental Run Complete!', `You smashed ${runnerState.smashed} doubts and collected ${runnerState.trophies} trophies! 🏃‍♂️`);
-                                return;
+                                for (let p = 0; p < 10; p++) {
+                                    smashParticles.push({
+                                        x: obs.x + 27, y: runnerState.groundY - 5,
+                                        vx: (Math.random() - 0.5) * 8,
+                                        vy: -Math.random() * 7 - 2,
+                                        text: p < 2 ? '💥' : '✦',
+                                        life: 45,
+                                        color: ['#FFD700', '#FF69B4', '#4CAF50', '#FF5722'][p % 4]
+                                    });
+                                }
+
+                                const hearts = '❤️'.repeat(runnerState.lives) + '🖤'.repeat(3 - runnerState.lives);
+                                document.getElementById('runScore').textContent = `💪 ${runnerState.smashed}/8 Smashed  ${hearts}`;
+
+                                if (runnerState.smashed >= 8) {
+                                    runnerState.gameRunning = false;
+                                    playSound('victory');
+                                    showGameCompletion('Mental Run Complete!', `${playerName} smashed all the doubts! Nothing can stop you now! 🏃‍♂️🔥`);
+                                    return;
+                                }
+                            } else {
+                                // ON GROUND → TAKE DAMAGE
+                                obs.smashed = true; // remove it so it doesn't double-hit
+                                runnerState.lives--;
+                                runnerState.hurtFlash = 30;
+                                playSound('hit');
+                                vibrate([100]);
+
+                                centerFlash = { text: 'OUCH!', life: 35, isHurt: true };
+
+                                const hearts = '❤️'.repeat(runnerState.lives) + '🖤'.repeat(3 - runnerState.lives);
+                                document.getElementById('runScore').textContent = `💪 ${runnerState.smashed}/8 Smashed  ${hearts}`;
+
+                                if (runnerState.lives <= 0) {
+                                    runnerState.gameRunning = false;
+                                    playSound('hit');
+                                    showGameCompletion('Mental Run', `Smashed ${runnerState.smashed}/8 doubts before running out of energy. Try again — you've got this! 💪`);
+                                    return;
+                                }
                             }
                         }
                     }
-
-                    if (obs.x < -60) runnerState.obstacles.splice(i, 1);
+                    if (obs.x < -70) runnerState.obstacles.splice(i, 1);
                 }
 
-                // Draw & update collectibles
+                // Draw collectibles (⭐ floating with bob)
                 for (let i = runnerState.collectibles.length - 1; i >= 0; i--) {
                     const col = runnerState.collectibles[i];
                     col.x -= runnerState.speed;
-
                     if (!col.collected) {
-                        ctx.font = '22px Arial';
+                        const bobY = col.y + Math.sin(frameCount * 0.08 + i) * 4;
+                        ctx.font = '20px Arial';
                         ctx.textAlign = 'center';
-                        ctx.fillText('🏆', col.x, col.y);
+                        ctx.fillText('⭐', col.x, bobY);
 
-                        const charX = 60;
-                        if (Math.abs(charX - col.x) < 25 && Math.abs(runnerState.y - col.y) < 30) {
+                        const charX = 65;
+                        if (Math.abs(charX - col.x) < 25 && Math.abs(runnerState.y - bobY) < 30) {
                             col.collected = true;
-                            runnerState.trophies++;
                             playSound('coin');
+                            // Heal: restore a life (max 3)
+                            if (runnerState.lives < 3) {
+                                runnerState.lives++;
+                                centerFlash = { text: '+1 ❤️', life: 30 };
+                                const hearts = '❤️'.repeat(runnerState.lives) + '🖤'.repeat(3 - runnerState.lives);
+                                document.getElementById('runScore').textContent = `💪 ${runnerState.smashed}/8 Smashed  ${hearts}`;
+                            }
                         }
                     }
-
                     if (col.x < -30) runnerState.collectibles.splice(i, 1);
                 }
 
-                // Draw smash particles
+                // Smash particles
                 for (let i = smashParticles.length - 1; i >= 0; i--) {
                     const p = smashParticles[i];
-                    p.x += p.vx;
-                    p.y += p.vy;
-                    p.vy += 0.15;
-                    p.life--;
-
-                    ctx.globalAlpha = p.life / 40;
+                    p.x += p.vx; p.y += p.vy; p.vy += 0.18; p.life--;
+                    ctx.globalAlpha = p.life / 45;
                     ctx.fillStyle = p.color;
-                    ctx.font = p.text.length > 2 ? 'bold 14px Nunito' : '12px Arial';
+                    ctx.font = p.text.length > 2 ? '16px Arial' : 'bold 14px Nunito';
                     ctx.textAlign = 'center';
                     ctx.fillText(p.text, p.x, p.y);
                     ctx.globalAlpha = 1;
-
                     if (p.life <= 0) smashParticles.splice(i, 1);
                 }
 
-                // Draw character (stick figure)
-                const cx = 60;
-                const cy = runnerState.y;
-                const legPhase = Math.sin(frameCount * 0.3) * 8;
+                // Center flash text (big motivational word)
+                if (centerFlash && centerFlash.life > 0) {
+                    const fl = centerFlash;
+                    ctx.globalAlpha = Math.min(fl.life / 20, 1);
+                    ctx.fillStyle = fl.isHurt ? '#EF5350' : '#4CAF50';
+                    ctx.font = `bold ${28 + (50 - fl.life) * 0.3}px Nunito`;
+                    ctx.textAlign = 'center';
+                    ctx.fillText(fl.text, canvas.width / 2, canvas.height / 2 - 20 - (50 - fl.life) * 0.5);
+                    ctx.globalAlpha = 1;
+                    fl.life--;
+                }
 
-                // Body
+                // Hurt flash (red overlay)
+                if (runnerState.hurtFlash > 0) {
+                    ctx.globalAlpha = runnerState.hurtFlash / 60;
+                    ctx.fillStyle = '#EF5350';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.globalAlpha = 1;
+                    runnerState.hurtFlash--;
+                }
+
+                // Draw character
+                const cx = 65;
+                const cy = runnerState.y;
+                const legPhase = Math.sin(frameCount * 0.35) * 10;
+
                 ctx.strokeStyle = '#333';
                 ctx.lineWidth = 3;
                 ctx.lineCap = 'round';
@@ -3380,29 +3573,35 @@
                 // Head
                 ctx.fillStyle = '#FFD54F';
                 ctx.beginPath();
-                ctx.arc(cx, cy - 12, 8, 0, Math.PI * 2);
+                ctx.arc(cx, cy - 12, 9, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.stroke();
 
-                // Arms
+                // Arms (more dynamic pumping motion)
                 ctx.beginPath();
                 ctx.moveTo(cx, cy + 2);
-                ctx.lineTo(cx - 10 + legPhase, cy - 5);
+                ctx.lineTo(cx - 12 + legPhase, cy - 8);
                 ctx.stroke();
                 ctx.beginPath();
                 ctx.moveTo(cx, cy + 2);
-                ctx.lineTo(cx + 10 - legPhase, cy - 5);
+                ctx.lineTo(cx + 12 - legPhase, cy - 8);
                 ctx.stroke();
 
                 // Legs
                 ctx.beginPath();
                 ctx.moveTo(cx, cy + 15);
-                ctx.lineTo(cx - 6 + legPhase, cy + 28);
+                ctx.lineTo(cx - 8 + legPhase, cy + 30);
                 ctx.stroke();
                 ctx.beginPath();
                 ctx.moveTo(cx, cy + 15);
-                ctx.lineTo(cx + 6 - legPhase, cy + 28);
+                ctx.lineTo(cx + 8 - legPhase, cy + 30);
                 ctx.stroke();
+
+                // Player name above character
+                ctx.fillStyle = '#333';
+                ctx.font = 'bold 11px Nunito';
+                ctx.textAlign = 'center';
+                ctx.fillText(playerName, cx, cy - 26);
 
                 ctx.textAlign = 'start';
                 ctx.resetTransform();
@@ -3414,157 +3613,219 @@
         }
 
         // ============================================================
-        // GAME 6: RHYTHM TAP
+        // GAME 6: MEMORY FLASH (SIMON SAYS)
         // ============================================================
-        let rhythmState = {
-            combo: 0,
-            maxCombo: 0,
-            currentIdx: 0,
-            sequence: [],
-            totalCircles: 16,
-            activeCircle: -1,
-            canTap: false,
-            ringStartTime: 0,
-            score: 0,
-            perfectWindow: 200
+        let memoryState = {
+            round: 1,
+            sequence: [],       // indices of cells to flash
+            userIdx: 0,         // which step user is on in recall
+            phase: 'idle',      // 'showing', 'recalling', 'idle', 'gameover'
+            totalCells: 16,
+            bestRound: 0,
+            flashSpeed: 500     // ms per flash
         };
 
-        const rhythmAffirmations = [
-            'I am focused and ready to compete today',
-            'My mind is clear and my body is strong',
-            'I trust my training and believe in myself',
-            'I am calm under pressure and play with joy'
+        const memoryColors = [
+            '#FF69B4', '#FF6B6B', '#FFD700', '#4CAF50',
+            '#42A5F5', '#AB47BC', '#FF7043', '#26C6DA',
+            '#EC407A', '#7E57C2', '#66BB6A', '#FFA726',
+            '#5C6BC0', '#EF5350', '#29B6F6', '#8D6E63'
         ];
 
-        function initRhythmGame() {
-            rhythmState.combo = 0;
-            rhythmState.currentIdx = 0;
-            rhythmState.score = 0;
-            rhythmState.canTap = false;
+        const memoryEmojis = [
+            '⭐', '🌸', '💎', '🔥',
+            '🌊', '🦋', '🍀', '❄️',
+            '🌙', '💜', '🌿', '🌞',
+            '💫', '❤️', '🎯', '🎵'
+        ];
 
-            // Generate random sequence of 8 taps from 16 circles
-            const allIndices = [...Array(rhythmState.totalCircles).keys()];
-            rhythmState.sequence = [];
-            const shuffled = allIndices.sort(() => Math.random() - 0.5);
-            rhythmState.sequence = shuffled.slice(0, 8);
+        const memoryAffirmations = [
+            'Sharp mind, strong athlete!',
+            'Focus is your superpower!',
+            'Your memory is elite!',
+            'Mental strength unlocked!'
+        ];
 
-            const container = document.getElementById('rhythmCircles');
-            container.innerHTML = '';
+        function initMemoryGame() {
+            memoryState.round = 1;
+            memoryState.sequence = [];
+            memoryState.userIdx = 0;
+            memoryState.phase = 'idle';
+            memoryState.bestRound = 0;
+            memoryState.flashSpeed = 500;
 
-            for (let i = 0; i < rhythmState.totalCircles; i++) {
-                const circle = document.createElement('div');
-                circle.className = 'rhythm-circle';
-                circle.id = `circle-${i}`;
-                circle.onclick = () => tapRhythm(i);
-                container.appendChild(circle);
+            const grid = document.getElementById('memoryGrid');
+            grid.innerHTML = '';
+
+            for (let i = 0; i < memoryState.totalCells; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'memory-cell';
+                cell.id = `mem-${i}`;
+                cell.textContent = memoryEmojis[i];
+                cell.style.color = 'rgba(0,0,0,0.15)';
+                cell.onclick = () => memoryTap(i);
+                grid.appendChild(cell);
             }
 
-            document.getElementById('comboDisplay').textContent = 'Watch...';
-            document.getElementById('rhythmMessage').textContent = '';
-            document.getElementById('sentenceDisplay').textContent = '';
+            document.getElementById('memoryRoundDisplay').textContent = 'Round 1';
+            document.getElementById('memoryStatus').textContent = 'Watch carefully...';
 
-            setTimeout(() => startRhythmSequence(), 800);
+            // Start first round after brief delay
+            setTimeout(() => startMemoryRound(), 1000);
         }
 
-        function startRhythmSequence() {
-            activateNextCircle();
+        function startMemoryRound() {
+            memoryState.phase = 'showing';
+            memoryState.userIdx = 0;
+
+            // Add one new random cell to the sequence
+            const available = [...Array(memoryState.totalCells).keys()];
+            const newCell = available[Math.floor(Math.random() * available.length)];
+            memoryState.sequence.push(newCell);
+
+            // Lock all cells during showing
+            document.querySelectorAll('.memory-cell').forEach(c => c.classList.add('locked'));
+
+            document.getElementById('memoryRoundDisplay').textContent = `Round ${memoryState.round}`;
+            document.getElementById('memoryStatus').textContent = `Watch ${memoryState.sequence.length} flash${memoryState.sequence.length > 1 ? 'es' : ''}...`;
+
+            // Flash the sequence
+            flashSequence(0);
         }
 
-        function activateNextCircle() {
-            if (rhythmState.currentIdx >= rhythmState.sequence.length) {
-                // All done
-                const affirmation = rhythmAffirmations[Math.floor(Math.random() * rhythmAffirmations.length)];
-                document.getElementById('sentenceDisplay').innerHTML = `<strong>"${affirmation}"</strong>`;
-                playSound('victory');
+        function flashSequence(idx) {
+            if (idx >= memoryState.sequence.length) {
+                // Done showing — mini fireworks then let user recall
                 setTimeout(() => {
-                    showGameCompletion('Rhythm Complete!', `Score: ${rhythmState.score}/8 | Max combo: ${rhythmState.combo}x 🎵`);
-                }, 600);
+                    spawnMemoryFireworks();
+                    playSound('pop');
+                    setTimeout(() => {
+                        memoryState.phase = 'recalling';
+                        document.querySelectorAll('.memory-cell').forEach(c => c.classList.remove('locked'));
+                        document.getElementById('memoryStatus').textContent = `Your turn! Tap ${memoryState.sequence.length} in order`;
+                    }, 400);
+                }, 300);
                 return;
             }
 
-            const circleIdx = rhythmState.sequence[rhythmState.currentIdx];
-            const circle = document.getElementById(`circle-${circleIdx}`);
-            circle.style.background = 'rgba(255, 105, 180, 0.3)';
+            const cellIdx = memoryState.sequence[idx];
+            const cell = document.getElementById(`mem-${cellIdx}`);
 
-            // Add shrinking ring
-            const ring = document.createElement('div');
-            ring.className = 'rhythm-ring';
-            circle.appendChild(ring);
+            // Flash on
+            cell.classList.add('flash');
+            cell.style.color = '#fff';
+            playSound('rhythmHit');
 
-            rhythmState.activeCircle = circleIdx;
-            rhythmState.canTap = true;
-            rhythmState.ringStartTime = Date.now();
-
-            // Auto-miss after ring animation ends
+            // Flash off after delay
+            const speed = Math.max(250, memoryState.flashSpeed - (memoryState.round * 20));
             setTimeout(() => {
-                if (rhythmState.canTap && rhythmState.activeCircle === circleIdx) {
-                    missRhythm(circleIdx);
-                }
-            }, 1300);
+                cell.classList.remove('flash');
+                cell.style.color = 'rgba(0,0,0,0.15)';
+
+                // Next flash after gap
+                setTimeout(() => flashSequence(idx + 1), speed * 0.4);
+            }, speed);
         }
 
-        function tapRhythm(circleIdx) {
-            if (!rhythmState.canTap) return;
-            if (circleIdx !== rhythmState.activeCircle) return;
+        function memoryTap(cellIdx) {
+            if (memoryState.phase !== 'recalling') return;
 
-            rhythmState.canTap = false;
-            const circle = document.getElementById(`circle-${circleIdx}`);
+            const cell = document.getElementById(`mem-${cellIdx}`);
+            const expected = memoryState.sequence[memoryState.userIdx];
 
-            // Remove ring
-            const ring = circle.querySelector('.rhythm-ring');
-            if (ring) ring.remove();
-
-            // Timing judgment
-            const elapsed = Date.now() - rhythmState.ringStartTime;
-            const idealTime = 1000; // ring shrinks over 1.2s, ideal tap around 1s
-            const diff = Math.abs(elapsed - idealTime);
-
-            if (diff < rhythmState.perfectWindow) {
-                circle.classList.add('perfect');
-                circle.textContent = '✓';
-                rhythmState.combo++;
-                rhythmState.score++;
+            if (cellIdx === expected) {
+                // Correct!
+                cell.classList.add('correct-tap');
+                cell.style.color = '#fff';
                 playSound('rhythmPerfect');
-                document.getElementById('rhythmMessage').textContent = '✨ Perfect!';
-                document.getElementById('comboDisplay').textContent = `${rhythmState.combo}x Combo!`;
-            } else if (diff < 400) {
-                circle.classList.add('good');
-                circle.textContent = '~';
-                rhythmState.combo++;
-                rhythmState.score++;
-                playSound('rhythmHit');
-                document.getElementById('rhythmMessage').textContent = 'Good!';
-                document.getElementById('comboDisplay').textContent = `${rhythmState.combo}x Combo!`;
+
+                setTimeout(() => {
+                    cell.classList.remove('correct-tap');
+                    cell.style.color = 'rgba(0,0,0,0.15)';
+                }, 300);
+
+                memoryState.userIdx++;
+
+                const remaining = memoryState.sequence.length - memoryState.userIdx;
+                if (remaining > 0) {
+                    document.getElementById('memoryStatus').textContent = `${remaining} more to go...`;
+                }
+
+                // Check if round complete
+                if (memoryState.userIdx >= memoryState.sequence.length) {
+                    memoryState.phase = 'idle';
+                    memoryState.bestRound = memoryState.round;
+                    memoryState.round++;
+
+                    // Celebrate round completion
+                    document.getElementById('memoryStatus').textContent = '🎉 Perfect!';
+                    document.getElementById('memoryRoundDisplay').textContent = `Round ${memoryState.round - 1} Complete!`;
+                    playSound('victory');
+                    spawnMemoryFireworks();
+
+                    if (memoryState.round > 8) {
+                        // Max rounds reached — win!
+                        setTimeout(() => {
+                            const affirmation = memoryAffirmations[Math.floor(Math.random() * memoryAffirmations.length)];
+                            showGameCompletion('Memory Master! 🧠', `Cleared all 8 rounds! ${affirmation}`);
+                        }, 1200);
+                    } else {
+                        // Next round
+                        setTimeout(() => startMemoryRound(), 1500);
+                    }
+                }
             } else {
-                circle.classList.add('miss');
-                circle.textContent = '✗';
-                rhythmState.combo = 0;
+                // Wrong!
+                cell.classList.add('wrong-tap');
                 playSound('hit');
-                document.getElementById('rhythmMessage').textContent = 'Too early!';
-                document.getElementById('comboDisplay').textContent = 'Combo broken';
+                memoryState.phase = 'gameover';
+
+                // Show the correct cell
+                const correctCell = document.getElementById(`mem-${expected}`);
+                setTimeout(() => {
+                    correctCell.classList.add('flash');
+                    correctCell.style.color = '#fff';
+                }, 300);
+
+                document.getElementById('memoryStatus').textContent = 'Wrong order!';
+
+                // Vibrate feedback
+                if (navigator.vibrate) navigator.vibrate(100);
+
+                setTimeout(() => {
+                    const roundsCleared = memoryState.bestRound;
+                    const affirmation = memoryAffirmations[Math.floor(Math.random() * memoryAffirmations.length)];
+                    if (roundsCleared === 0) {
+                        showGameCompletion('Memory Flash', `Made it to Round 1. Keep training! 🧠`);
+                    } else {
+                        showGameCompletion('Memory Flash', `Cleared ${roundsCleared} round${roundsCleared > 1 ? 's' : ''}! ${affirmation}`);
+                    }
+                }, 1200);
             }
-
-            rhythmState.maxCombo = Math.max(rhythmState.maxCombo, rhythmState.combo);
-            rhythmState.currentIdx++;
-
-            setTimeout(() => activateNextCircle(), 600);
         }
 
-        function missRhythm(circleIdx) {
-            rhythmState.canTap = false;
-            const circle = document.getElementById(`circle-${circleIdx}`);
-            const ring = circle.querySelector('.rhythm-ring');
-            if (ring) ring.remove();
+        function spawnMemoryFireworks() {
+            const grid = document.getElementById('memoryGrid');
+            const rect = grid.getBoundingClientRect();
+            const colors = ['#FF69B4', '#FFD700', '#4CAF50', '#42A5F5', '#FF6B6B', '#AB47BC'];
 
-            circle.classList.add('miss');
-            circle.textContent = '✗';
-            rhythmState.combo = 0;
-            playSound('hit');
-            document.getElementById('rhythmMessage').textContent = 'Miss!';
-            document.getElementById('comboDisplay').textContent = 'Combo broken';
-
-            rhythmState.currentIdx++;
-            setTimeout(() => activateNextCircle(), 600);
+            for (let i = 0; i < 12; i++) {
+                const spark = document.createElement('div');
+                spark.className = 'memory-firework';
+                const angle = (Math.PI * 2 * i) / 12;
+                const dist = 40 + Math.random() * 60;
+                spark.style.cssText = `
+                    position: absolute;
+                    left: 50%; top: 50%;
+                    background: ${colors[i % colors.length]};
+                    --fw-x: ${Math.cos(angle) * dist}px;
+                    --fw-y: ${Math.sin(angle) * dist}px;
+                    width: ${4 + Math.random() * 4}px;
+                    height: ${4 + Math.random() * 4}px;
+                `;
+                grid.appendChild(spark);
+                setTimeout(() => spark.remove(), 800);
+            }
         }
 
         // ============================================================
@@ -3715,7 +3976,7 @@
 
         function showGameCompletion(title, message) {
             // Track which game was completed
-            const currentScreen = document.querySelector('.screen[style*="display: flex"]');
+            const currentScreen = document.querySelector('.screen.active');
             if (currentScreen) {
                 const screenId = currentScreen.id;
                 const game = GAMES.find(g => g.screen === screenId);
@@ -3730,7 +3991,7 @@
                 <div class="modal-content">
                     <h2 style="font-size: 28px; margin-bottom: 15px;">🎉 ${title}</h2>
                     <p style="font-size: 16px; margin-bottom: 25px; opacity: 0.8;">${message}</p>
-                    <button class="btn btn-primary-0" style="width: 100%;" onclick="this.closest('.modal-overlay').remove(); goToScreen('gameHubScreen');">
+                    <button class="btn btn-primary-0" style="width: 100%;" onclick="this.closest('.modal-overlay').remove(); loadGameHub();">
                         Back to Games
                     </button>
                 </div>
@@ -3738,7 +3999,7 @@
             overlay.onclick = (e) => {
                 if (e.target === overlay) {
                     overlay.remove();
-                    goToScreen('gameHubScreen');
+                    loadGameHub();
                 }
             };
             document.body.appendChild(overlay);
@@ -3860,6 +4121,7 @@
                 quizState.selectedQs = quizState.selectedQs.filter(id => id !== qid);
                 card.style.borderColor = 'transparent';
                 card.style.background = 'rgba(255,255,255,0.95)';
+                card.style.color = '#333';
             } else {
                 if (quizState.selectedQs.length >= 8) {
                     alert('Maximum 8 questions! Deselect one first.');
@@ -3882,91 +4144,82 @@
                 return;
             }
             quizState.answers = {};
-            renderQuizAnswerList();
+            quizState._athleteAnswerIdx = 0;
+            showAthleteAnswerQuestion();
             goToScreen('quizAnswersScreen');
         }
 
-        function renderQuizAnswerList() {
-            const list = document.getElementById('quizAnswerList');
-            list.innerHTML = '';
-            quizState.selectedQs.forEach((qid, idx) => {
-                const q = QUIZ_BANK[qid];
-                const div = document.createElement('div');
-                div.dataset.answerIdx = idx;
-                div.style.cssText = 'background: rgba(255,255,255,0.9); border-radius: 14px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);';
+        function showAthleteAnswerQuestion() {
+            const idx = quizState._athleteAnswerIdx;
+            const total = quizState.selectedQs.length;
+            const qid = quizState.selectedQs[idx];
+            const q = QUIZ_BANK[qid];
 
-                const header = document.createElement('div');
-                header.style.cssText = 'display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;';
+            document.getElementById('athleteAnswerProgress').textContent = `Question ${idx + 1} of ${total} — Set your answer`;
+            document.getElementById('athleteAnswerQ').textContent = q.q;
 
-                const title = document.createElement('p');
-                title.style.cssText = 'font-weight: 700; font-size: 14px; margin: 0; flex: 1;';
-                title.textContent = q.q;
-
-                const swapBtn = document.createElement('button');
-                swapBtn.textContent = '🔄 Swap';
-                swapBtn.style.cssText = 'background: none; border: 1px solid #ccc; border-radius: 20px; font-size: 12px; cursor: pointer; padding: 4px 10px; opacity: 0.7; flex-shrink: 0; margin-left: 8px;';
-                swapBtn.onclick = () => swapAnswerQuestion(idx);
-
-                header.appendChild(title);
-                header.appendChild(swapBtn);
-                div.appendChild(header);
-
-                // Use 2-col grid for <=4 options, 3-col for 5-9, 4-col for 10+
-                const cols = q.opts.length <= 4 ? 2 : q.opts.length <= 9 ? 3 : 4;
-                const grid = document.createElement('div');
-                grid.style.cssText = `display: grid; grid-template-columns: repeat(${cols}, 1fr); gap: 8px;`;
-                q.opts.forEach((opt, i) => {
-                    const btn = document.createElement('button');
-                    btn.className = 'pill';
-                    btn.style.cssText = 'font-size: 12px; padding: 8px 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;';
-                    if (quizState.answers[qid] === i) {
-                        btn.classList.add('active');
-                    }
-                    btn.textContent = opt;
-                    btn.onclick = () => setQuizAnswer(qid, i, btn);
-                    grid.appendChild(btn);
-                });
-                div.appendChild(grid);
-                list.appendChild(div);
+            const opts = document.getElementById('athleteAnswerOpts');
+            opts.innerHTML = '';
+            q.opts.forEach((opt, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'btn btn-secondary';
+                btn.style.cssText = 'width: 100%; text-align: left; padding: 14px 18px;';
+                if (quizState.answers[qid] === i) {
+                    btn.style.background = '#FF69B4';
+                    btn.style.color = 'white';
+                    btn.style.borderColor = '#FF69B4';
+                }
+                btn.textContent = opt;
+                btn.onclick = () => selectAthleteAnswer(qid, i);
+                opts.appendChild(btn);
             });
+
+            // Show/hide next button based on whether already answered
+            const nextBtn = document.getElementById('athleteNextBtn');
+            nextBtn.style.display = quizState.answers[qid] !== undefined ? 'block' : 'none';
+            nextBtn.textContent = idx === total - 1 ? 'Generate Quiz Link 🔗' : 'Next →';
         }
 
-        function swapAnswerQuestion(idx) {
+        function selectAthleteAnswer(qid, optIdx) {
+            quizState.answers[qid] = optIdx;
+            // Re-render to show highlight
+            showAthleteAnswerQuestion();
+        }
+
+        function nextAthleteAnswer() {
+            const idx = quizState._athleteAnswerIdx;
+            const total = quizState.selectedQs.length;
+
+            if (idx >= total - 1) {
+                // All answered, generate link
+                generateQuizLink();
+                return;
+            }
+            quizState._athleteAnswerIdx++;
+            showAthleteAnswerQuestion();
+        }
+
+        function swapCurrentAthleteQuestion() {
+            const idx = quizState._athleteAnswerIdx;
             const currentQid = quizState.selectedQs[idx];
             const currentQ = QUIZ_BANK[currentQid];
             const cat = currentQ.cat;
 
-            // Find questions in same category not currently selected
             const catQs = QUIZ_BANK.filter(q => q.cat === cat);
             const available = catQs.filter(q => !quizState.selectedQs.includes(q.id));
 
             if (available.length === 0) {
-                // No more questions in this category, wiggle
-                const cards = document.querySelectorAll('#quizAnswerList > div');
-                if (cards[idx]) {
-                    cards[idx].style.animation = 'wiggle 0.3s ease';
-                    setTimeout(() => cards[idx].style.animation = '', 300);
-                }
+                // Wiggle the question card
+                const card = document.getElementById('athleteAnswerQ').parentElement;
+                card.style.animation = 'wiggle 0.3s ease';
+                setTimeout(() => card.style.animation = '', 300);
                 return;
             }
 
             const newQ = available[Math.floor(Math.random() * available.length)];
-            // Replace in selectedQs
             quizState.selectedQs[idx] = newQ.id;
-            // Clear old answer
             delete quizState.answers[currentQid];
-            // Re-render answer list
-            renderQuizAnswerList();
-        }
-
-        function setQuizAnswer(qid, optIdx, el) {
-            quizState.answers[qid] = optIdx;
-            // Highlight selected
-            el.parentElement.querySelectorAll('.pill').forEach(p => {
-                p.classList.remove('active');
-                p.style.background = '';
-            });
-            el.classList.add('active');
+            showAthleteAnswerQuestion();
         }
 
         function generateQuizLink() {
@@ -4449,7 +4702,6 @@
                     <div class="game-name">${game.name}</div>
                     <div class="game-desc">${game.desc}</div>
                     <button class="preview-btn" onclick="event.stopPropagation(); previewGame(${game.id}, 'detailedGamesScreen')">👁 Preview</button>
-                    <div style="margin-top: 6px; opacity: 0.5;">✓</div>
                 `;
                 card.dataset.gameId = game.id;
                 detailedContainer.appendChild(card);
@@ -4465,7 +4717,7 @@
             starGameScreen: initStarGame,
             starCatcherScreen: initStarCatcher,
             runnerGameScreen: initRunnerGame,
-            rhythmGameScreen: initRhythmGame,
+            memoryGameScreen: initMemoryGame,
             balloonGameScreen: initBalloonGame
         };
 
